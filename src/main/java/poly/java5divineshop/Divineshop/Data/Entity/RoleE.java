@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "roles")
-public class Role {
+public class RoleE {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "username", referencedColumnName = "username")
@@ -28,5 +28,4 @@ public class Role {
     @Column(name = "role", nullable = false)
     private String role;
 
-    // Getters and setters
 }

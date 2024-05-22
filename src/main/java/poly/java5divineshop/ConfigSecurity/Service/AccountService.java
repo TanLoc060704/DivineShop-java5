@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface AccountService {
     List<AccountM> getAllAccount();
-
-    AccountE findByUsername(String username);
+    AccountM findByUsername(String username);
+    AccountE findByUsernameSecurity(String username);
 }

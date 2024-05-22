@@ -20,14 +20,67 @@ import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 import javax.sql.DataSource;
+import java.sql.SQLException;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-    /*
+
+    @Autowired
+    CustomUserDetailsService customUserDetailsService;
+
+    /**
+     * <h1>
+     * muốn Call api trong postman thì phải comment method SecurityFilterChain
+     * </h1>
+     */
     @Bean
-    public InMemoryUserDetailsManager userDetailsManager(){
+    public SecurityFilterChain filterChain(HttpSecurity http) throws  Exception{
+        http
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(configurer -> configurer
+//                .requestMatchers("/").permitAll()
+//                .requestMatchers("/cart").authenticated()
+//                .requestMatchers("/userinfo").hasRole("EMPLOYEE")
+//                .requestMatchers("/leaders").hasRole("MANAGER")
+//                .requestMatchers("/systems/**").hasRole("ADMIN")
+//                .anyRequest().authenticated()
+                    .anyRequest().permitAll()
+            )
+            .formLogin(form ->
+                form
+                    .loginPage("/showMyLoginPage")
+                    .loginProcessingUrl("/authenticateTheUser")
+                    .usernameParameter("username")
+                    .passwordParameter("password")
+                    .permitAll()
+            )
+            .logout(logout -> logout.permitAll()
+            )
+            .exceptionHandling(configurer ->
+                    configurer.accessDeniedPage("/access-denied")
+            );
+
+        return http.build();
+    }
+    @Bean
+    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
+        var builder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        builder
+            .userDetailsService(customUserDetailsService)
+            .passwordEncoder(passwordEncoder());
+        return builder.build();
+    }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+
+/*
+    @Bean
+    public InMemoryUserDetailsManager userDetailsManager() {
         UserDetails john = User.builder()
                 .username("john")
                 .password("{noop}test123")
@@ -37,19 +90,20 @@ public class SecurityConfig {
         UserDetails mery = User.builder()
                 .username("mery")
                 .password("{noop}test123")
-                .roles("EMPLOYEE","MANAGER")
+                .roles("EMPLOYEE", "MANAGER")
                 .build();
         UserDetails susan = User.builder()
                 .username("susan")
                 .password("{noop}test123")
-                .roles("EMPLOYEE","MANAGER","ADMIN")
+                .roles("EMPLOYEE", "MANAGER", "ADMIN")
                 .build();
 
-        return  new InMemoryUserDetailsManager(john,mery,susan);
-    }*/
-
+        return new InMemoryUserDetailsManager(john, mery, susan);
+        }
+    }
+*/
     // add support for JDBC ... no more hardcoded users :=>
-
+/*
     @Bean
     public UserDetailsManager userDetailsManager (DataSource dataSource){
 
@@ -64,59 +118,6 @@ public class SecurityConfig {
         );
         return jdbcUserDetailsManager;
     }
-
-
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws  Exception{
-        http
-                .csrf(csrf -> csrf.disable())
-                .authorizeHttpRequests(configurer -> configurer
-                        .requestMatchers("/").permitAll()
-//                        .requestMatchers("/systems/**").hasAuthority("/ADMIN")
-//                        .anyRequest().authenticated()
-                        .requestMatchers("/cart").authenticated()
-                        .requestMatchers("/userinfo").hasRole("EMPLOYEE")
-                        .requestMatchers("/leaders").hasRole("MANAGER")
-                        .requestMatchers("/systems/**").hasRole("ADMIN")
-                        .anyRequest().authenticated()
-                )
-                .formLogin(form ->
-                        form
-                                .loginPage("/showMyLoginPage")
-                                .loginProcessingUrl("/authenticateTheUser")
-                                .usernameParameter("username")
-                                .passwordParameter("password")
-//                                .defaultSuccessUrl("/systems",true)
-                                .permitAll()
-                )
-                .logout(logout -> logout.permitAll()
-                )
-                .exceptionHandling(configurer ->
-                        configurer.accessDeniedPage("/access-denied")
-                );
-
-        return http.build();
-    }
-
-//    @Bean
-//    AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
-//            throws Exception {
-//        return authenticationConfiguration.getAuthenticationManager();
-//    }
-
-//    @Autowired
-//    CustomUserDetailsService customUserDetailsService;
-//    @Bean
-//    public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
-//        var builder = http.getSharedObject(AuthenticationManagerBuilder.class);
-//        builder
-//                .userDetailsService(customUserDetailsService)
-//                .passwordEncoder(passwordEncoder());
-//        return builder.build();
-//    }
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
+*/
 
 }

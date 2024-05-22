@@ -37,7 +37,7 @@ CREATE TABLE account
     is_enabled			bit DEFAULT 1
 );
 go
-CREATE TABLE roles
+CREATE TABLE roleES
 (
     username varchar(50) NOT NULL,
     role varchar(50) NOT NULL,
@@ -48,12 +48,15 @@ CREATE TABLE roles
 -- Chèn dữ liệu vào bảng users
 INSERT INTO account (username, email, hash_password, is_enabled)
 VALUES
-('john', 'john@gmail.com', '{bcrypt}$2y$10$sjnOuHMt7OQTXTODsPj6beOkyuNIVcI82kKosANwxXG.e9NuhgXlW', 1),
-('mery', 'mery@gmail.com', '{bcrypt}$2y$10$sjnOuHMt7OQTXTODsPj6beOkyuNIVcI82kKosANwxXG.e9NuhgXlW', 1),
-('susan', 'susan@gmail.com','{bcrypt}$2y$10$sjnOuHMt7OQTXTODsPj6beOkyuNIVcI82kKosANwxXG.e9NuhgXlW', 1);
+('john', 'john@gmail.com', '$2y$10$sjnOuHMt7OQTXTODsPj6beOkyuNIVcI82kKosANwxXG.e9NuhgXlW', 1),
+('mery', 'mery@gmail.com', '$2y$10$sjnOuHMt7OQTXTODsPj6beOkyuNIVcI82kKosANwxXG.e9NuhgXlW', 1),
+('susan', 'susan@gmail.com','$2y$10$sjnOuHMt7OQTXTODsPj6beOkyuNIVcI82kKosANwxXG.e9NuhgXlW', 1);
+-- ('john', 'john@gmail.com', '{bcrypt}$2y$10$sjnOuHMt7OQTXTODsPj6beOkyuNIVcI82kKosANwxXG.e9NuhgXlW', 1),
+-- ('mery', 'mery@gmail.com', '{bcrypt}$2y$10$sjnOuHMt7OQTXTODsPj6beOkyuNIVcI82kKosANwxXG.e9NuhgXlW', 1),
+-- ('susan', 'susan@gmail.com','{bcrypt}$2y$10$sjnOuHMt7OQTXTODsPj6beOkyuNIVcI82kKosANwxXG.e9NuhgXlW', 1);
 
 -- Chèn dữ liệu vào bảng authorities
-INSERT INTO roles (username, role)
+INSERT INTO roleES (username, role)
 VALUES 
 ('john', 'ROLE_EMPLOYEE'),
 ('mery', 'ROLE_EMPLOYEE'),
@@ -63,4 +66,4 @@ VALUES
 ('susan', 'ROLE_ADMIN');
 
 select * from account where username = 'susan'
-select username,role from roles where username = 'susan'
+select username,role from roleES where username = 'susan'

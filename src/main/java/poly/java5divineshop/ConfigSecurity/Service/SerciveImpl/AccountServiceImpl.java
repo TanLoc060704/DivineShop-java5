@@ -9,7 +9,7 @@ import poly.java5divineshop.Divineshop.Repo.AccountRepo;
 
 import java.util.List;
 @Service
-public class AccountImpl implements AccountService {
+public class AccountServiceImpl implements AccountService {
     @Autowired
     AccountRepo repo;
     @Override
@@ -17,11 +17,13 @@ public class AccountImpl implements AccountService {
         List<AccountE> accountES = repo.findAll();
         return AccountM.convertListAccountEToListAccountM(accountES);
     }
-
     @Override
-    public AccountE findByUsername(String username) {
-//        AccountE accountE = repo.findByUsername(username);
-//        return AccountM.convertAccountEToAccountM(accountE);
-        return repo.findByUsername(username);
+    public AccountM findByUsername(String username) {
+        AccountE accountE = repo.findByUsername(username);
+        return AccountM.convertAccountEToAccountM(accountE);
+    }
+    @Override
+    public AccountE findByUsernameSecurity(String username) {
+        return repo.findByUsernameQuerySecurity(username);
     }
 }

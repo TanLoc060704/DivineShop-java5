@@ -1,16 +1,12 @@
 package poly.java5divineshop.Divineshop.Data.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import poly.java5divineshop.Divineshop.Data.Dto.AccountDTO;
 
 import java.util.List;
-import java.util.Set;
 
 
 @Data
@@ -38,8 +34,7 @@ public class AccountE {
     @Column(name = "is_enabled", columnDefinition = "bit default true")
     private boolean isEnabled = true;
 
-    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Role> roles;
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<RoleE> roles;
 
-    // Getters and setters
 }
