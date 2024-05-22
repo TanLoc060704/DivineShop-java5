@@ -1,0 +1,81 @@
+<section>
+    <div class="container my-4">
+        <div class="row">
+            <div class="col-3">
+                <div class="list-group">
+                    <a th:href="@{/user-info}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-user"></i> Tài khoản</a>
+                    <a th:href="@{/order-history}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-cart-shopping"></i> Lịch sử đơn hàng</a>
+                    <a th:href="@{/transaction}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-credit-card"></i> Lịch sử giao dịch</a>
+                    <a th:href="@{/security}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid me-2 fa-user-lock"></i> Mật khẩu và bảo mật</a>
+                    <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-comment"></i> Bình luận của tôi</a>
+                    <a th:href="@{/favorite}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-heart"></i> Sản phẩm yêu thích</a>
+                    <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-link"></i> Giới thiệu bạn bè</a>
+                </div>
+            </div>
+            <div class="col-9 bg-white rounded border">
+                <div class="px-3 py-4">
+                    <h4>Mật khẩu & Bảo mật</h4>
+                    <p>Vì sự an toàn, Divine Shop khuyến khích khách hàng sử dụng mật khẩu mạnh và bảo mật hai lớp</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-5">
+                            <h6 class="fw-bold">Đổi mật khẩu</h6>
+                            <form action="">
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" placeholder="Mật khẩu mới">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="tel" class="form-control" placeholder="Nhập lại mật khẩu mới">
+                                </div>
+                                <button class="btn btn-primary" type="">Lưu thay đổi</button>
+                            </form>
+                        </div>
+                        <div class="vr p-0 mx-3"></div>
+                        <div class="col-6">
+                            <div class="d-flex align-items-center h-100">
+                                <div>
+                                    <h6 class="fw-bold">Mật khẩu của bạn</h6>
+                                    <p style="font-size: 0.87rem;">Phải từ 8 ký tự trở lên</p>
+                                    <p style="font-size: 0.87rem;">Nên có ít nhất 1 số hoặc 1 ký tự đặc biệt</p>
+                                    <p class="m-0" style="font-size: 0.87rem;">Không nên giống với mật khẩu được sử dụng gần đây</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <h6 class="fw-bold">Bảo mật hai lớp</h6>
+                        <p style="font-size: 0.87rem;">Sử dụng xác thực hai lớp giúp tài khoản của bạn an toàn hơn, tránh được các giao dịch được thực hiện trái phép</p>
+                        <div class="col-5">
+                            <form action="">
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" style="font-size: 0.87rem;">Xác thực khi thanh toán</label>
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Không sử dụng OTP</option>
+                                        <option value="1">Áp dụng với mọi IP</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" style="font-size: 0.87rem;">Xác thực khi đăng nhập</label>
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Không sử dụng OTP</option>
+                                        <option value="1">Áp dụng với mọi IP</option>
+                                        <option value="2">Chỉ yêu cầu với IP lạ</option>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold" style="font-size: 0.87rem;">Phương thức xác thực</label>
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>Bảo mật bằng Email</option>
+                                        <option value="1">OBảo mật bằng Google Authenticatorne</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-primary" type="">Tiếp tục</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

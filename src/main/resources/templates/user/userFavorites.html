@@ -1,0 +1,49 @@
+<section>
+  <div class="container my-4">
+    <div class="row">
+      <div class="col-3">
+        <div class="list-group">
+          <a th:href="@{/user-info}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-user"></i> Tài khoản</a>
+          <a th:href="@{/order-history}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-cart-shopping"></i> Lịch sử đơn hàng</a>
+          <a th:href="@{/transaction}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-credit-card"></i> Lịch sử giao dịch</a>
+          <a th:href="@{/security}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-user-lock"></i> Mật khẩu và bảo mật</a>
+          <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-comment"></i> Bình luận của tôi</a>
+          <a th:href="@{/favorite}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid me-2 fa-heart"></i> Sản phẩm yêu thích</a>
+          <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-link"></i> Giới thiệu bạn bè</a>
+        </div>
+      </div>
+      <div class="col-9 bg-white rounded border">
+        <div class="px-3 py-4">
+          <h4>Sản phẩm yêu thích</h4>
+          <p>Danh sách các sản phẩm mà bạn đã đánh dấu "yêu thích"</p>
+          <hr>
+          <div class="row">
+            <div class="col-3">
+              <img class="img-fluid rounded" src="https://cdn.divineshop.vn/image/catalog/Anh-SP/Kh%C3%A1c/Divine-Shop-Elden-Ring-82335.jpg?hash=1658742026" alt="">
+            </div>
+            <div class="col-6">
+              <h6>Elden Ring (CD Key Steam)</h6>
+              <p style="font-size: 0.85rem;">Elden Ring (CD Key Steam)</p>
+              <div>
+                <button type="button" class="btn text-danger fs-4">
+                  <i class="fa-solid fa-heart"></i>
+                </button>
+                <button type="button" class="btn text-primary"><i class="fa-solid fa-cart-plus"></i> Thêm vào giỏ</button>
+              </div>
+            </div>
+            <div class="col-2 text-end">
+              <p style="font-size: 0.9rem;" class="m-0 fw-bold">249000đ</p>
+              <div class="d-flex gap-2 align-items-center justify-content-end">
+                <p style="font-size: 0.7rem;" class="m-0 text-bg-danger fw-bold rounded p-1">-81%</p>
+                <p style="font-size: 0.9rem;" class="m-0 text-decoration-line-through text-secondary">1299000đ</p>
+              </div>
+            </div>
+            <div class="col-1">
+              <button type="button" class="btn text-danger"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

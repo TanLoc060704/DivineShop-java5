@@ -1,0 +1,68 @@
+<section>
+  <div class="container my-4">
+    <div class="row">
+      <div class="col-3">
+        <div class="list-group">
+          <a th:href="@{/user-info}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-user"></i> Tài khoản</a>
+          <a th:href="@{/order-history}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid me-2 fa-cart-shopping"></i> Lịch sử đơn hàng</a>
+          <a th:href="@{/transaction}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-credit-card"></i> Lịch sử giao dịch</a>
+          <a th:href="@{/security}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-user-lock"></i> Mật khẩu và bảo mật</a>
+          <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-comment"></i> Bình luận của tôi</a>
+          <a th:href="@{/favorite}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-heart"></i> Sản phẩm yêu thích</a>
+          <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-link"></i> Giới thiệu bạn bè</a>
+        </div>
+      </div>
+      <div class="col-9 bg-white rounded border">
+        <div class="px-3 py-4">
+          <h4>Lịch sử đơn hàng</h4>
+          <p>Hiển thị thông tin các sản phẩm bạn đã mua tại Divine Shop</p>
+          <hr>
+          <div class="row">
+            <div class="col-3">
+              <input type="text" class="form-control" placeholder="Mã đơn hàng">
+            </div>
+            <div class="col-2 ps-0">
+              <input type="number" class="form-control" placeholder="Số tiền từ">
+            </div>
+            <div class="col-2 ps-0">
+              <input type="number" class="form-control" placeholder="Số tiền đến">
+            </div>
+            <div class="col-2 ps-0">
+              <input type="date" class="form-control" placeholder="Từ ngày">
+            </div>
+            <div class="col-2 ps-0">
+              <input type="date" class="form-control" placeholder="Đến ngày">
+            </div>
+            <div class="col ps-0">
+              <button style="font-size: 0.85rem;" type="button" class="btn btn-primary float-end w-100 h-100 p-0"><i class="fa-solid fa-filter"></i> Lọc</button>
+            </div>
+          </div>
+          <div class="mt-4">
+            <table class="table table-bordered rounded" style="font-size: 0.85rem;" >
+              <thead>
+              <tr>
+                <th scope="col">Thời gian	</th>
+                <th scope="col">Mã đơn hàng	</th>
+                <th scope="col">Sản phẩm	</th>
+                <th scope="col">Tổng tiền	</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col"></th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td>2022-08-16 22:09:01</td>
+                <td>5675166</td>
+                <td>Gói nâng cấp Office 365 1 năm (1TB)</td>
+                <td>249.000đ</td>
+                <td>Đã xử lý</td>
+                <td><a href="#" class="nav-link text-primary">Chi tiết</a></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
