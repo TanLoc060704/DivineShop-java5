@@ -11,6 +11,18 @@ public class LayoutController {
         model.addAttribute("view", "home");
         return "user/index";
     }
+    @GetMapping("/log-in")
+    public String logIn(Model model) {
+        return "user/logIn";
+    }
+    @GetMapping("/register")
+    public String register(Model model) {
+        return "user/register";
+    }
+    @GetMapping("/forgot-password")
+    public String forgotPW(Model model) {
+        return "user/forgotPW";
+    }
     @GetMapping("/all-products")
     public String allProducts(Model model) {
         model.addAttribute("view", "allProducts");

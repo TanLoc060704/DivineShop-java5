@@ -1,0 +1,38 @@
+<header>
+    <div style="background-color: #2679f2;">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <div class="d-flex align-items-center">
+                    <a class="navbar-brand text-white fw-bold" th:href="@{/}">
+                        <img src="https://cdn.divineshop.vn/static/b1402e84a947ed36cebe9799e47f61c2.svg" alt="" style="width: 49px; height: 49px;">
+                        Divine Shop
+                    </a>
+                    <div class="vr bg-white opacity-100" style="width: 2px;"></div>
+                    <p class="m-0 ms-3 text-white">Administrator</p>
+                </div>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white fw-bold" style="font-size: 0.85rem;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img src="https://cdn.divineshop.vn/image/catalog/icon/avatar-khach-hang-2-52544.png?hash=1649933269" class="rounded-circle" alt="" width="42px" height="42px">
+                                hieuchi1999
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="py-1 px-3"  style="font-size: 0.85rem;">Số dư tài khoản</li>
+                                <li><a class="dropdown-item fw-bold py-2" th:href="@{/add-funds}">4.000đ <i class="fa-solid fa-plus text-primary"></i></a></li>
+                                <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/admin/product-view}">Quản trị</a></li>
+                                <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/user-info}">Quản lý tài khoản</a></li>
+                                <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/order-history}">Lịch sử đơn hàng</a></li>
+                                <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/favorite}">Sản phẩm yêu thích</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+</header>

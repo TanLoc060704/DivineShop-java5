@@ -1,0 +1,125 @@
+<section>
+    <div class="bg-white border-bottom border-light-subtle">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center py-2">
+                <div class="d-flex justify-content-between align-items-center gap-4">
+                    <a th:href="@{/admin/account-view}" class="btn btn-dark fw-bold" style="font-size: 0.83rem;"><i class="fa-solid fa-users"></i> User Management</a>
+                    <a th:href="@{/admin/product-view}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-brands fa-product-hunt"></i> Product Management</a>
+                    <a th:href="@{/admin/category-view}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-list"></i> Category Management</a>
+                    <a th:href="@{/admin/discount-view}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-tags"></i> Discount Management</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-3">
+                <div class="list-group">
+                    <a th:href="@{/admin/account-view}" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid me-2 fa-user"></i> Account Detail</a>
+                    <a th:href="@{/admin/account-list}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid fa-users-gear"></i> List Account</a>
+                </div>
+            </div>
+            <div class="col-9 bg-white rounded border">
+                <div class="px-3 py-4">
+                    <h4>Overview</h4>
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Tên đăng nhập</p>
+                            <p style="font-size: 0.85rem;"  class="fw-bold">hieuchi1999</p>
+                        </div>
+                        <div class="col-3">
+                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Email</p>
+                            <p style="font-size: 0.85rem;"  class="fw-bold">nhoxcau1999@gmail.com</p>
+                        </div>
+                        <div class="col-3">
+                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Họ và tên</p>
+                            <p style="font-size: 0.85rem;"  class="fw-bold">Huy Phạm</p>
+                        </div>
+                        <div class="col-3">
+                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Nhóm khách hàng</p>
+                            <p style="font-size: 0.85rem;"  class="fw-bold"><i class="fa-solid fa-gem"></i> Vip Bạc</p>
+                        </div>
+                        <div class="col-3">
+                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Số dư</p>
+                            <p style="font-size: 0.85rem;"  class="fw-bold">4.910đ</p>
+                        </div>
+                        <div class="col-3">
+                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Đã tích lũy</p>
+                            <p style="font-size: 0.85rem;"  class="fw-bold">4.857.000đ</p>
+                        </div>
+                        <div class="col-3">
+                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Ngày tham gia</p>
+                            <p style="font-size: 0.85rem;"  class="fw-bold">2017-07-22 17:46:37</p>
+                        </div>
+                        <div class="col-3">
+                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Role</p>
+                            <p style="font-size: 0.85rem;"  class="fw-bold">Admin</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <form action="">
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="d-flex align-items-center gap-3">
+                                    <img src="https://cdn.divineshop.vn/image/catalog/icon/avatar-khach-hang-2-52544.png?hash=1649933269" width="154px" height="154px" alt="">
+                                    <button type="button" class="btn btn-outline-primary">Sửa ảnh đại diện</button>
+                                </div>
+                            </div>
+                            <div class="col-1"><div class="vr h-100"></div></div>
+                            <div class="col-6">
+                                <div class="d-flex align-items-center h-100">
+                                    <div>
+                                        <p style="font-size: 0.87rem;">Vui lòng chọn ảnh nhỏ hơn 5MB</p>
+                                        <p class="m-0" style="font-size: 0.87rem;">Chọn hình ảnh phù hợp, không phản cảm</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-5">
+                                <h4>Cá nhân</h4>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control"  placeholder="Full name">
+                                    <label>Full name</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control"  placeholder="Phone Number">
+                                    <label>Phone Number</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control"  placeholder="Email">
+                                    <label>Email</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" aria-label="Floating label select example">
+                                        <option selected>Open this select menu</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                    <label>Gender</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" aria-label="Floating label select example">
+                                        <option selected>Open this select menu</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                    <label>Role</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control"  placeholder="Address">
+                                    <label>Address</label>
+                                </div>
+                                <button class="btn btn-primary" type="">Save change</button>
+                                <button class="btn btn-outline-danger" type="">Delete</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
