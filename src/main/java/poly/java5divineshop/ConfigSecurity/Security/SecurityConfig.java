@@ -40,20 +40,21 @@ public class SecurityConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(configurer -> configurer
-//                .requestMatchers("/").permitAll()
-//                .requestMatchers("/cart").authenticated()
-//                .requestMatchers("/userinfo").hasRole("EMPLOYEE")
-//                .requestMatchers("/leaders").hasRole("MANAGER")
-//                .requestMatchers("/systems/**").hasRole("ADMIN")
+                .requestMatchers("/").permitAll()
+                .requestMatchers("/cart").authenticated()
+                .requestMatchers("/userinfo").hasRole("EMPLOYEE")
+                .requestMatchers("/leaders").hasRole("MANAGER")
+                .requestMatchers("/admin/**").hasRole("ADMIN")
 //                .anyRequest().authenticated()
-                    .anyRequest().permitAll()
+                .anyRequest().permitAll()
             )
             .formLogin(form ->
                 form
-                    .loginPage("/showMyLoginPage")
+                    .loginPage("/log-in")
                     .loginProcessingUrl("/authenticateTheUser")
                     .usernameParameter("username")
                     .passwordParameter("password")
+                    .defaultSuccessUrl("/",true)
                     .permitAll()
             )
             .logout(logout -> logout.permitAll()

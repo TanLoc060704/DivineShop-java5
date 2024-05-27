@@ -27,15 +27,31 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-6">
-                            <p style="font-size: 0.85rem;">Đăng nhập để theo dõi đơn hàng, lưu danh sách sản phẩm yêu thích và nhận nhiều ưu đãi hấp dẫn</p>
-                            <div class="mb-3">
-                                <input type="email" class="form-control" placeholder="Email hoặc tên đăng nhập">
-                            </div>
-                            <div class="mb-3">
-                                <input type="password" class="form-control" placeholder="Mật khẩu">
-                            </div>
-                            <a th:href="@{/forgot-password}" class="text-decoration-none">Bạn quên mật khẩu?</a>
-                            <button type="button" class="btn w-100 mt-3 btn-primary">Đăng nhập</button>
+                            <!-- TanLoc-Begin -->
+                            <form action="" th:action="@{/authenticateTheUser}" method="post">
+                                <p style="font-size: 0.85rem;">Đăng nhập để theo dõi đơn hàng, lưu danh sách sản phẩm yêu thích và nhận nhiều ưu đãi hấp dẫn</p>
+                                <div class="mb-3">
+                                    <input type="text" class="form-control" placeholder="Email hoặc tên đăng nhập" name="username">
+                                </div>
+                                <div class="mb-3">
+                                    <input type="password" class="form-control" placeholder="Mật khẩu" name="password">
+                                </div>
+                                <a th:href="@{/forgot-password}" class="text-decoration-none">Bạn quên mật khẩu?</a>
+                                <!-- check for login error  -->
+                                <div th:if="${param.error}" class="pb-1">
+                                    <div class="alert alert-danger col-xs-offset-1 col-sx-10">
+                                        Sorry! You entered invalid username or password.
+                                    </div>
+                                </div>
+                                <!-- check for logout   -->
+                                <div th:if="${param.logout}" class="pb-1">
+                                    <div class="alert alert-success col-xs-offset-1 col-sx-10">
+                                        You have been logged out.
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn w-100 mt-3 btn-primary mb-5" value="Login">Đăng nhập</button >
+                            </form>
+                            <!-- TanLoc-end-->
                             <div class="d-flex justify-content-between align-items-center mt-3">
                                 <hr class="w-25">
                                 <div><p class="m-0" style="font-size: 0.85rem;">Hoặc đăng nhập bằng</p> </div>
