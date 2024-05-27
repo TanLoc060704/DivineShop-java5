@@ -1,0 +1,15 @@
+.list-group-item.active{
+    background-color: white;
+    border-color: #dee2e6;
+    border-left: 5px solid black;
+    font-weight: bold;
+    color: black !important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: unset !important;
+}
+
+.accordion-button:focus {
+    border-color: unset !important;
+}

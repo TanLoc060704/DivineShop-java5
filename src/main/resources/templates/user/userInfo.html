@@ -1,4 +1,4 @@
-<section th:fragment="userInfo">
+<section th:fragment="userInfo" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div class="container my-4">
         <div class="row">
             <div class="col-3">
@@ -10,6 +10,10 @@
                     <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-comment"></i> Bình luận của tôi</a>
                     <a th:href="@{/favorite}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-heart"></i> Sản phẩm yêu thích</a>
                     <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-link"></i> Giới thiệu bạn bè</a>
+                    <div sec:authorize="hasRole('ADMIN')">
+                        <!--  add a link to point to / systems ... this iss for the admin-->
+                        <a th:href="@{/admin/account-view}" class="py-3 px-4 text-secondary list-group-item list-group-item-action">IT Systems Meeting</a>
+                    </div>
                 </div>
             </div>
             <div class="col-9 bg-white rounded border">

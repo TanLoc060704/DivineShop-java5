@@ -1,0 +1,254 @@
+<section>
+    <div class="bg-white border-bottom border-light-subtle">
+        <div class="container">
+            <div class="d-flex justify-content-between align-items-center py-2">
+                <div class="d-flex justify-content-between align-items-center gap-4">
+                    <a th:href="@{/admin/account-view}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-users"></i> User Management</a>
+                    <a th:href="@{/admin/product-view}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-brands fa-product-hunt"></i> Product Management</a>
+                    <a th:href="@{/admin/category-view}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-list"></i> Category Management</a>
+                    <a th:href="@{/admin/discount-view}" class="btn btn-dark fw-bold" style="font-size: 0.83rem;"><i class="fa-solid fa-tags"></i> Discount Management</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container my-3">
+        <div class="row">
+            <div class="col-3">
+                <div class="list-group">
+                    <a th:href="@{/admin/discount-view}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid fa-wrench"></i> Discount Detail</a>
+                    <a th:href="@{/admin/discount-list}" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid fa-table-list"></i> List Discounts</a>
+                </div>
+            </div>
+            <div class="col-9 bg-white rounded border">
+                <div class="px-3 py-4">
+                    <h4>Discounts List</h4>
+                    <hr>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <form action="">
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control"  placeholder="Search">
+                                    <label>Search</label>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6 pe-0">
+                                        <div class="form-floating">
+                                            <input type="date" class="form-control"  placeholder="Start Date">
+                                            <label>Start Date</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-floating">
+                                            <input type="date" class="form-control"  placeholder="End Date">
+                                            <label>End Date</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-outline-secondary p-3" type="button"><i class="fa-solid fa-filter"></i></button>
+                            </div>
+                        </form>
+
+                        <div>
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary p-3" data-bs-toggle="modal" data-bs-target="#addDiscount">
+                                <i class="fa-solid fa-circle-plus"></i> Create Discount
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="addDiscount" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Discount</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <form action="">
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <div class="form-floating mb-3">
+                                                            <input type="text" class="form-control"  placeholder="Discount Title">
+                                                            <label>Discount Title</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="form-floating mb-3">
+                                                            <input type="text" class="form-control"  placeholder="Discount Percent">
+                                                            <label>Discount Percent</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="form-floating mb-3">
+                                                            <input type="date" class="form-control"  placeholder="Start Date">
+                                                            <label>Start Date</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="form-floating mb-3">
+                                                            <input type="date" class="form-control"  placeholder="End Date">
+                                                            <label>End Date</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="form-floating mb-3">
+                                                            <textarea class="form-control" placeholder="Description" style="height: 100px"></textarea>
+                                                            <label>Description</label>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Create Discount</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="container">
+                        <table class="table align-middle">
+                            <thead class="table-light">
+                            <tr>
+                                <th scope="col">Discount ID</th>
+                                <th scope="col">Discount Name</th>
+                                <th scope="col">Discount Percent</th>
+                                <th scope="col">Start Date</th>
+                                <th scope="col">End Date</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Action</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th scope="row">1245620</th>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="">
+                                            <p class="m-0 fw-semibold">Elden Ring (CD Key Steam)</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="alert alert-light m-0 py-1 px-0 text-center" role="alert">
+                                        10%
+                                    </div>
+                                </td>
+                                <td>01 Jan, 2023</td>
+                                <td>01 Jan, 2023</td>
+                                <td>
+                                    <div class="alert alert-danger m-0 text-center p-1" role="alert">
+                                        Inactive
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
+                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash"></i> Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">1245620</th>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="">
+                                            <p class="m-0 fw-semibold">Elden Ring (CD Key Steam)</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="alert alert-light m-0 py-1 px-0 text-center" role="alert">
+                                        10%
+                                    </div>
+                                </td>
+                                <td>01 Jan, 2023</td>
+                                <td>01 Jan, 2023</td>
+                                <td>
+                                    <div class="alert alert-warning m-0 text-center p-1" role="alert">
+                                        Waiting
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
+                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash"></i> Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">1245620</th>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="">
+                                            <p class="m-0 fw-semibold">Elden Ring (CD Key Steam)</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="alert alert-light m-0 py-1 px-0 text-center" role="alert">
+                                        10%
+                                    </div>
+                                </td>
+                                <td>01 Jan, 2023</td>
+                                <td>01 Jan, 2023</td>
+                                <td>
+                                    <div class="alert alert-success m-0 text-center p-1" role="alert">
+                                        Ongoing
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </a>
+
+                                        <ul class="dropdown-menu">
+                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
+                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash"></i> Delete</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="d-flex align-items-center justify-content-between">
+                            <p>Showing <b>10</b> of <b>57</b> Results</p>
+                            <nav aria-label="...">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <span class="page-link"><span aria-hidden="true">&laquo;</span></span>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item active" aria-current="page">
+                                        <span class="page-link">2</span>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#"><span aria-hidden="true">&raquo;</span></a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

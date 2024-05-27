@@ -2,7 +2,6 @@ package poly.java5divineshop;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 @SpringBootApplication
 public class Java5DivineShopApplication {
 
