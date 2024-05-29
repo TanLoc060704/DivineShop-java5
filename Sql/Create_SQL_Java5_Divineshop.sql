@@ -48,6 +48,7 @@ Create table [Product](
     anh_san_pham nvarchar(max),
     slug nvarchar(max),
     danh_muc nvarchar(max),
+    mota nvarchar(max),
     active_san_pham bit default 1
 )
 
