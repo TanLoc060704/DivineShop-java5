@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import poly.java5divineshop.Divineshop.Data.Dto.ProductDTO;
 import poly.java5divineshop.Divineshop.Data.Entity.ProductE;
 
 import java.util.List;
@@ -45,10 +46,48 @@ public class ProductM {
                 .build();
     }
 
+    public static ProductM convertProductDTOToProductM(ProductDTO productDTO) {
+        return ProductM.builder()
+                .id(productDTO.getId())
+                .maSanPham(productDTO.getMaSanPham())
+                .tenSanPham(productDTO.getTenSanPham())
+                .tinhTrang(productDTO.isTinhTrang())
+                .theLoai(productDTO.getTheLoai())
+                .giaSanPham(productDTO.getGiaSanPham())
+                .percentGiamGia(productDTO.getPercentGiamGia())
+                .anhSanPham(productDTO.getAnhSanPham())
+                .slug(productDTO.getSlug())
+                .danhMuc(productDTO.getDanhMuc())
+                .mota(productDTO.getMota())
+                .activeSanPham(productDTO.isActiveSanPham())
+                .build();
+    }
+
+    public static ProductDTO convertProductMToProductDTO(ProductM productM) {
+        return ProductDTO.builder()
+                .id(productM.getId())
+                .maSanPham(productM.getMaSanPham())
+                .tenSanPham(productM.getTenSanPham())
+                .tinhTrang(productM.isTinhTrang())
+                .theLoai(productM.getTheLoai())
+                .giaSanPham(productM.getGiaSanPham())
+                .percentGiamGia(productM.getPercentGiamGia())
+                .anhSanPham(productM.getAnhSanPham())
+                .slug(productM.getSlug())
+                .danhMuc(productM.getDanhMuc())
+                .mota(productM.getMota())
+                .activeSanPham(productM.isActiveSanPham())
+                .build();
+    }
+
     public static List<ProductM> convertListProductEToListProductM(List<ProductE> productEList) {
         return productEList.stream()
                 .map(ProductM::convertProductEToProductM)
                 .collect(Collectors.toList());
+    }
+
+    public static List<ProductDTO> convertListProductMToListProductDTO(List<ProductM> productMList) {
+        return productMList.stream().map(ProductM::convertProductMToProductDTO).collect(Collectors.toList());
     }
 
 }

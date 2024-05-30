@@ -22,6 +22,7 @@ public class ProductImpl implements ProductService {
         return ProductM.convertListProductEToListProductM(productRepository.findAll());
     }
 
+    @Override
     public Optional<ProductM> getProductById(int id) {
         return productRepository.findById(id)
                 .map(ProductM::convertProductEToProductM);
