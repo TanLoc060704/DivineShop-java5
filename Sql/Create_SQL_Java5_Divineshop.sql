@@ -68,9 +68,9 @@ Create table [Product](
     danh_muc nvarchar(max),
     mota nvarchar(max),
     active_san_pham bit default 1,
-    Sys_id_category int,
+    -- Sys_id_category int,
     Sys_id_discount int,
-    FOREIGN KEY (Sys_id_category) REFERENCES [Category] (Sys_id_category),
+    -- FOREIGN KEY (Sys_id_category) REFERENCES [Category] (Sys_id_category),
     FOREIGN KEY (Sys_id_discount) REFERENCES [Discount] (Sys_id_discount)
 )
 
