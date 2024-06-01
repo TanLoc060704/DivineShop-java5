@@ -13,16 +13,16 @@ VALUES
 -- ('susan', 'susan@gmail.com','{bcrypt}$2y$10$sjnOuHMt7OQTXTODsPj6beOkyuNIVcI82kKosANwxXG.e9NuhgXlW', 1);
 go
 
-go
+
 -- Chèn dữ liệu vào bảng authorities
-INSERT INTO [Roles] (username, role)
+INSERT INTO [Roles] (username, role,username_user)
 VALUES
-('john', 'ROLE_EMPLOYEE'),
-('mery', 'ROLE_EMPLOYEE'),
-('mery', 'ROLE_MANAGER'),
-('susan', 'ROLE_EMPLOYEE'),
-('susan', 'ROLE_MANAGER'),
-('susan', 'ROLE_ADMIN');
+('john', 'ROLE_EMPLOYEE','john'),
+('mery', 'ROLE_EMPLOYEE','mery'),
+('mery', 'ROLE_MANAGER','mery'),
+('susan', 'ROLE_EMPLOYEE','susan'),
+('susan', 'ROLE_MANAGER','susan'),
+('susan', 'ROLE_ADMIN','susan');
 go
 
 go
@@ -165,3 +165,10 @@ go
 INSERT INTO [Discount] (ten_giam_gia, percent_giam_gia, ngay_bat_dau, ngay_ket_thuc, mota)
 VALUES
     ('4/4','50','2024-05-29','2024-05-31','')
+
+go
+insert into [Cart_payment] (ma_don_hang, ngay_lap_don, trang_thai_thanh_toan, tong_tien_san_pham, tien_thanh_toan, so_luong_mua, Sys_id_cart, Sys_id_product)
+values
+    ('dn-01', '2024-06-01', 0, '30000', '1', 1,1);
+go
+
