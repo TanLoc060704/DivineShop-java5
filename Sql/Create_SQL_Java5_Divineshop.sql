@@ -10,17 +10,6 @@ go
 use Java5_DivineShop
 go
 
-Create table [User](
-    Sys_id_user int IDENTITY (1,1) primary key,
-    ten_dang_nhap nvarchar(max),
-    email nvarchar(max),
-    ho_va_ten nvarchar(max),
-    so_du nvarchar(max),
-    ngay_tham_gia date,
-    anh_dai_dien nvarchar(max)
-)
-
-
 Create table [Account](
     id              int IDENTITY (1,1) PRIMARY KEY,
     username        varchar(50) NOT NULL UNIQUE,
@@ -29,50 +18,28 @@ Create table [Account](
     is_enabled			bit DEFAULT 1
 )
 
+Create table [User](
+    Sys_id_user int IDENTITY (1,1) primary key,
+    ten_dang_nhap nvarchar(255) NOT NULL UNIQUE,
+    email nvarchar(255) NOT NULL UNIQUE,
+    ho_va_ten nvarchar(255),
+    so_du nvarchar(255),
+    ngay_tham_gia date,
+    anh_dai_dien nvarchar(max)
+)
+
+
 
 Create table [Roles](
     username varchar(50) NOT NULL,
+    username_user nvarchar(255),
     role varchar(50) NOT NULL,
-    CONSTRAINT PK_authorities PRIMARY KEY (username, role),
-    FOREIGN KEY (username) REFERENCES account(username)
+    CONSTRAINT PK_authorities PRIMARY KEY (username, role, username_user),
+    FOREIGN KEY (username) REFERENCES account(username),
+    FOREIGN KEY (username_user) REFERENCES [User](ten_dang_nhap)
 )
 
-Create table [Product](
-    Sys_id_product int IDENTITY (1,1) primary key,
-    ma_san_pham nvarchar(max),
-    ten_san_pham nvarchar(max),
-    tinh_trang bit,
-    the_loai nvarchar(max),
-    gia_san_pham nvarchar(max),
-    percent_giam_gia nvarchar(max),
-    anh_san_pham nvarchar(max),
-    slug nvarchar(max),
-    danh_muc nvarchar(max),
-    mota nvarchar(max),
-    active_san_pham bit default 1
-)
 
-Create table [Cart](
-    Sys_id_cart int IDENTITY (1,1) primary key,
-    gia nvarchar(max),
-    anh_dai_dien nvarchar(max),
-    so_luong nvarchar(max),
-    tien_thanh_toan nvarchar(max),
-    percent_giam_gia nvarchar(max),
-    tinh_trang bit,
-    tong_tien_thanh_toan nvarchar(max)
-)
-
-Create table [Cart_payment](
-    Sys_id_cart_payment int IDENTITY (1,1) primary key,
-    ma_don_hang nvarchar(max),
-    ngay_lap_don date,
-    trang_thai_thanh_toan bit,
-    ten_nguoi_mua nvarchar(max),
-    tong_tien_san_pham nvarchar(max),
-    anh_san_pham nvarchar(max),
-    so_luong_mua nvarchar(max)
-)
 
 Create table [Category](
     Sys_id_category int IDENTITY (1,1) primary key,
@@ -87,3 +54,65 @@ Create table [Discount](
     ngay_ket_thuc date,
     mota nvarchar(max)
 )
+
+Create table [Product](
+    Sys_id_product int IDENTITY (1,1) primary key,
+    ma_san_pham nvarchar(max),
+    ten_san_pham nvarchar(max),
+    tinh_trang bit,
+    the_loai nvarchar(max),
+    gia_san_pham nvarchar(max),
+    percent_giam_gia nvarchar(max),
+    anh_san_pham nvarchar(max),
+    slug nvarchar(max),
+    danh_muc nvarchar(max),
+    mota nvarchar(max),
+    active_san_pham bit default 1,
+    Sys_id_category int,
+    Sys_id_discount int,
+    FOREIGN KEY (Sys_id_category) REFERENCES [Category] (Sys_id_category),
+    FOREIGN KEY (Sys_id_discount) REFERENCES [Discount] (Sys_id_discount)
+)
+
+Create table [Cart](
+    Sys_id_cart int IDENTITY (1,1) primary key,
+    Sys_id_user int UNIQUE,
+    FOREIGN KEY (Sys_id_user) REFERENCES [User] (Sys_id_user)
+)
+
+Create table [Cart_payment](
+    Sys_id_cart_payment int IDENTITY (1,1) primary key,
+    ma_don_hang nvarchar(max),
+    ngay_lap_don date,
+    trang_thai_thanh_toan bit,
+    tong_tien_san_pham nvarchar(max),
+    tien_thanh_toan nvarchar(max),
+    so_luong_mua nvarchar(max),
+    Sys_id_cart int,
+    Sys_id_product int,
+    FOREIGN KEY (Sys_id_cart) REFERENCES [Cart] (Sys_id_cart),
+    FOREIGN KEY (Sys_id_product) REFERENCES [Product] (Sys_id_product)
+)
+
+
+go
+CREATE TRIGGER trg_InsertUserAfterAccountInsert
+ON [Account]
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO [User] (ten_dang_nhap, email, ho_va_ten, so_du, ngay_tham_gia, anh_dai_dien)
+    SELECT
+        username AS ten_dang_nhap,
+        email,
+        NULL AS ho_va_ten,
+        NULL AS so_du,
+        GETDATE() AS ngay_tham_gia,
+        NULL AS anh_dai_dien
+    FROM
+        inserted;
+END;
+GO
+
+
+
