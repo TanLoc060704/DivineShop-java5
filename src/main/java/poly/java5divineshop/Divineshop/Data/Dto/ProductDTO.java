@@ -22,4 +22,8 @@ public class ProductDTO {
     private String danhMuc;
     private String mota;
     private boolean activeSanPham;
+    private Integer sysIdDiscount;
+    private Integer soLuong;
+    private Integer soLuongMua;
+    private Integer soLuotThich;
 }

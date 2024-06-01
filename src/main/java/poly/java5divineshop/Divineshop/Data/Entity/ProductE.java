@@ -50,4 +50,16 @@ public class ProductE {
 
     @Column(name = "active_san_pham")
     private boolean activeSanPham = true;
+
+    @Column(name = "Sys_id_discount")
+    private Integer sysIdDiscount;
+
+    @Column(name = "soluong")
+    private Integer soLuong;
+
+    @Column(name = "soluongmua")
+    private Integer soLuongMua;
+
+    @Column(name = "soluotthich")
+    private Integer soLuotThich;
 }

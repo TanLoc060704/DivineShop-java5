@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import poly.java5divineshop.Divineshop.Data.Dto.ProductDTO;
 import poly.java5divineshop.Divineshop.Data.Model.ProductM;
+import poly.java5divineshop.Divineshop.Service.ImageService;
 import poly.java5divineshop.Divineshop.Service.ProductService;
 
 import java.util.*;
@@ -17,6 +19,14 @@ import java.util.*;
 public class ProductAPI {
     @Autowired
     private ProductService productService;
+
+    @Autowired
+    private ImageService imageService;
+
+    @PostMapping("/imageTest")
+    public ResponseEntity<?> imageTest(@RequestParam("file") MultipartFile file) {
+        return ResponseEntity.ok().body(imageService.saveImage(file));
+    }
 
     @GetMapping
     public ResponseEntity<?> getAllProducts() {
@@ -56,7 +66,7 @@ public class ProductAPI {
     }
 
     @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO, @RequestParam MultipartFile image) {
         Map<String, Object> result = new HashMap<>();
         try {
             ProductM createdProduct = productService.addProduct(ProductM.convertProductDTOToProductM(productDTO));

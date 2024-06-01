@@ -25,7 +25,7 @@ $(document).ready(function() {
                                         </div>
                                     </td>
                                     <td>${product.giaSanPham}đ</td>
-                                    <td>12</td>
+                                    <td>${product.soLuong}</td>
                                     <td>
                                         <div class="alert alert-warning m-0 text-center p-1" role="alert">
                                             ${product.tinhTrang}
@@ -55,5 +55,40 @@ $(document).ready(function() {
     // Load products initially
     loadProducts();
 
+    // Create Product
+    $("#createProductForm").submit(function(e) {
+        e.preventDefault();
+        let newProduct = {
+            maSanPham: $("#createProductCode").val(),
+            slug: $("#createProductSlug").val(),
+            tenSanPham: $("#createProductName").val(),
+            soLuong: $("#createProductQuantity").val(),
+            giaSanPham: $("#createProductPrice").val(),
+            percentGiamGia: $("#createProductDiscounts").val(),
+            mota: $("#createProductDescription").val(),
+            tinhTrang: $("#createProductStatus").val(),
+            danhMuc: $("#createProductCategory").val(),
+            anhSanPham: $("#createProductImage").val(),
+            theLoai: $("#createProductGenres").val()
+        };
 
+        const formData = new FormData();
+        formData.append('image', file); // `file` là biến chứa tệp cần tải lên
+        formData.append('productDTO', JSON.stringify(newProduct));
+
+        console.log($("#createProductImage").val().split('\\').pop().split('/').pop())
+        console.log(newProduct)
+        axios.post("/api/products", formData, {
+          headers: {
+              'Content-Type': 'multipart/form-data'
+          }
+          })
+            .then(function(response) {
+                $("#addProduct").modal('hide');
+                loadProducts();
+            })
+            .catch(function(error) {
+                console.error("Error creating product:", error);
+            });
+    });
 });

@@ -1,5 +1,6 @@
 package poly.java5divineshop.Divineshop.Data.Model;
 
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,6 +29,10 @@ public class ProductM {
     private String danhMuc;
     private String mota;
     private boolean activeSanPham;
+    private Integer sysIdDiscount;
+    private Integer soLuong;
+    private Integer soLuongMua;
+    private Integer soLuotThich;
 
     public static ProductM convertProductEToProductM(ProductE productE) {
         return ProductM.builder()
@@ -43,6 +48,10 @@ public class ProductM {
                 .danhMuc(productE.getDanhMuc())
                 .mota(productE.getMota())
                 .activeSanPham(productE.isActiveSanPham())
+                .sysIdDiscount(productE.getSysIdDiscount())
+                .soLuong(productE.getSoLuong())
+                .soLuongMua(productE.getSoLuongMua())
+                .soLuotThich(productE.getSoLuotThich())
                 .build();
     }
 
@@ -60,6 +69,10 @@ public class ProductM {
                 .danhMuc(productDTO.getDanhMuc())
                 .mota(productDTO.getMota())
                 .activeSanPham(productDTO.isActiveSanPham())
+                .sysIdDiscount(productDTO.getSysIdDiscount())
+                .soLuong(productDTO.getSoLuong())
+                .soLuongMua(productDTO.getSoLuongMua())
+                .soLuotThich(productDTO.getSoLuotThich())
                 .build();
     }
 
@@ -77,6 +90,10 @@ public class ProductM {
                 .danhMuc(productM.getDanhMuc())
                 .mota(productM.getMota())
                 .activeSanPham(productM.isActiveSanPham())
+                .sysIdDiscount(productM.getSysIdDiscount())
+                .soLuong(productM.getSoLuong())
+                .soLuongMua(productM.getSoLuongMua())
+                .soLuotThich(productM.getSoLuotThich())
                 .build();
     }
 

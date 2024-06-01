@@ -42,6 +42,10 @@ public class ProductImpl implements ProductService {
                 .danhMuc(productM.getDanhMuc())
                 .mota(productM.getMota())
                 .activeSanPham(productM.isActiveSanPham())
+                .sysIdDiscount(productM.getSysIdDiscount())
+                .soLuong(productM.getSoLuong())
+                .soLuongMua(productM.getSoLuongMua())
+                .soLuotThich(productM.getSoLuotThich())
                 .build();
         productE = productRepository.save(productE);
         return ProductM.convertProductEToProductM(productE);
@@ -62,6 +66,10 @@ public class ProductImpl implements ProductService {
                     existingProduct.setDanhMuc(productM.getDanhMuc());
                     existingProduct.setMota(productM.getMota());
                     existingProduct.setActiveSanPham(productM.isActiveSanPham());
+                    existingProduct.setSysIdDiscount(productM.getSysIdDiscount());
+                    existingProduct.setSoLuong(productM.getSoLuong());
+                    existingProduct.setSoLuongMua(productM.getSoLuongMua());
+                    existingProduct.setSoLuotThich(productM.getSoLuotThich());
                     productRepository.save(existingProduct);
                     return ProductM.convertProductEToProductM(existingProduct);
                 });
