@@ -40,38 +40,43 @@ Create table [Roles](
 )
 
 
-
 Create table [Category](
     Sys_id_category int IDENTITY (1,1) primary key,
     ten_the_loai nvarchar(max)
 )
 
+
 Create table [Discount](
     Sys_id_discount int IDENTITY (1,1) primary key,
-    ten_giam_gia nvarchar(max),
-    percent_giam_gia nvarchar(max),
+    ten_giam_gia nvarchar(255),
+    percent_giam_gia float,
     ngay_bat_dau date,
     ngay_ket_thuc date,
-    mota nvarchar(max)
+    mota nvarchar(255)
 )
 
 Create table [Product](
     Sys_id_product int IDENTITY (1,1) primary key,
-    ma_san_pham nvarchar(max),
-    ten_san_pham nvarchar(max),
+    ma_san_pham nvarchar(255),
+    ten_san_pham nvarchar(255),
     tinh_trang bit,
-    the_loai nvarchar(max),
-    gia_san_pham nvarchar(max),
-    percent_giam_gia nvarchar(max),
-    anh_san_pham nvarchar(max),
-    slug nvarchar(max),
-    danh_muc nvarchar(max),
+    the_loai nvarchar(255),
+    gia_san_pham float,
+    percent_giam_gia float,
+    anh_san_pham nvarchar(255),
+    slug nvarchar(255),
+    danh_muc nvarchar(255),
     mota nvarchar(max),
     active_san_pham bit default 1,
-    -- Sys_id_category int,
     Sys_id_discount int,
-    -- FOREIGN KEY (Sys_id_category) REFERENCES [Category] (Sys_id_category),
     FOREIGN KEY (Sys_id_discount) REFERENCES [Discount] (Sys_id_discount)
+)
+
+CREATE table [CategoryDetail](
+    Sys_id_category int,
+    Sys_id_product int,
+    FOREIGN KEY (Sys_id_category) REFERENCES [Category] (Sys_id_category),
+    FOREIGN KEY (Sys_id_product) REFERENCES [Product] (Sys_id_product),
 )
 
 Create table [Cart](
@@ -82,17 +87,19 @@ Create table [Cart](
 
 Create table [Cart_payment](
     Sys_id_cart_payment int IDENTITY (1,1) primary key,
-    ma_don_hang nvarchar(max),
+    ma_don_hang nvarchar(255),
     ngay_lap_don date,
     trang_thai_thanh_toan bit,
-    tong_tien_san_pham nvarchar(max),
-    tien_thanh_toan nvarchar(max),
-    so_luong_mua nvarchar(max),
+    tong_tien_san_pham float,
+    tien_thanh_toan float,
+    so_luong_mua int,
     Sys_id_cart int,
     Sys_id_product int,
     FOREIGN KEY (Sys_id_cart) REFERENCES [Cart] (Sys_id_cart),
     FOREIGN KEY (Sys_id_product) REFERENCES [Product] (Sys_id_product)
 )
+
+
 
 
 go
@@ -113,6 +120,3 @@ BEGIN
         inserted;
 END;
 GO
-
-
-
