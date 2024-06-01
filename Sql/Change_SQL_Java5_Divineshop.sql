@@ -1,0 +1,1 @@
+select sys_id_user, ten_dang_nhap, email, ho_va_ten, so_du, ngay_tham_gia, anh_dai_dien, role from [User] u full join Roles r on u.ten_dang_nhap = r.username
