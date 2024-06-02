@@ -1,3 +1,3 @@
-ALTER TABLE Product ADD soluong varchar(max);
-ALTER TABLE Product ADD soluongmua varchar(max);
-ALTER TABLE Product ADD soluotthich varchar(max);
+ALTER TABLE Product ADD soluong int;
+ALTER TABLE Product ADD soluongmua int;
+ALTER TABLE Product ADD soluotthich int;
