@@ -64,7 +64,7 @@ Create table [Product](
     gia_san_pham float,
     percent_giam_gia float,
     anh_san_pham nvarchar(255),
-    slug nvarchar(255),
+    slug nvarchar(255) unique not null,
     danh_muc nvarchar(255),
     mota nvarchar(max),
     active_san_pham bit default 1,
@@ -73,19 +73,13 @@ Create table [Product](
 )
 
 CREATE table [CategoryDetail](
-    Sys_id_category int,
-    Sys_id_product int,
+    Sys_id_category int not null ,
+    Sys_id_product int not null ,
     FOREIGN KEY (Sys_id_category) REFERENCES [Category] (Sys_id_category),
-    FOREIGN KEY (Sys_id_product) REFERENCES [Product] (Sys_id_product),
+    FOREIGN KEY (Sys_id_product) REFERENCES [Product] (Sys_id_product)
 )
 
-Create table [Cart](
-    Sys_id_cart int IDENTITY (1,1) primary key,
-    Sys_id_user int UNIQUE,
-    FOREIGN KEY (Sys_id_user) REFERENCES [User] (Sys_id_user)
-)
-
-Create table [Cart_payment](
+Create table [Order](
     Sys_id_cart_payment int IDENTITY (1,1) primary key,
     ma_don_hang nvarchar(255),
     ngay_lap_don date,
@@ -93,10 +87,10 @@ Create table [Cart_payment](
     tong_tien_san_pham float,
     tien_thanh_toan float,
     so_luong_mua int,
-    Sys_id_cart int,
     Sys_id_product int,
-    FOREIGN KEY (Sys_id_cart) REFERENCES [Cart] (Sys_id_cart),
-    FOREIGN KEY (Sys_id_product) REFERENCES [Product] (Sys_id_product)
+    Sys_id_user int,
+    FOREIGN KEY (Sys_id_product) REFERENCES [Product] (Sys_id_product),
+    FOREIGN KEY (Sys_id_user) REFERENCES [User] (Sys_id_user)
 )
 
 
