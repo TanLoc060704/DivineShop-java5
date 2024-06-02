@@ -124,6 +124,7 @@ values
     (	'HdrPhotomatixPro-96',	N'HDR Photomatix Pro 6.3 - Key kích hoạt vĩnh viễn',	1,	'App, thiet ket, new',	2300000,	4,	'HdrPhotomatixPro-96.png',	'hdr-photomatix-pro-6.4-key-kich-hoat-vinh-vien',	'Edit',	N'Photomatix Pro là một phần mềm hình ảnh động High Dynamic Range (HDR) tiên tiến cho phép người dùng tạo ra các bức ảnh HDR hoàn hảo. Với Photomatix bạn có thể tạo các hình ảnh HDR cho thấy cả chi tiết nổi bật và bóng trong tất cả các khu vực . Một số công cụ và cài đặt được cung cấp để giúp điều chỉnh ánh sáng dễ dàng hơn, xóa bóng / bóng ma, giảm tiếng ồn, quang sai màu và hơn thế nữa. Điều này chắc chắn sẽ rất hữu ích cho các nhiếp ảnh gia để tạo ra những hình ảnh chất lượng tốt từ các kết quả tự nhiên đến hình ảnh có điều kiện ánh sáng yếu.',1, 126, 697, 304);
 go
 
+
 go
 INSERT INTO [Category] (ten_the_loai)
 VALUES
@@ -156,6 +157,23 @@ VALUES
     ('pts'),
     ('chplay');
 go
+
+-- Chèn dữ liệu mẫu vào bảng CategoryDetail
+INSERT INTO [CategoryDetail] (Sys_id_product, Sys_id_category)
+VALUES 
+(1, 1),
+(1, 2),
+(1, 3),
+(2, 1),
+(2, 2),
+(2, 4),
+(2, 5),
+(3, 1),
+(3, 2),
+(3, 6),
+(32, 12),
+(32, 13);
+GO
 
 go
 INSERT INTO [Discount] (ten_giam_gia, percent_giam_gia, ngay_bat_dau, ngay_ket_thuc, mota)
