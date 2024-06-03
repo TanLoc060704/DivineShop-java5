@@ -159,7 +159,7 @@ VALUES
 go
 
 -- Chèn dữ liệu mẫu vào bảng CategoryDetail
-INSERT INTO [CategoryDetail] (Sys_id_product, Sys_id_category)
+INSERT INTO [category_detail] (Sys_id_product, Sys_id_category)
 VALUES 
 (1, 1),
 (1, 2),
@@ -180,3 +180,31 @@ INSERT INTO [Discount] (ten_giam_gia, percent_giam_gia, ngay_bat_dau, ngay_ket_t
 VALUES
     ('4/4','50','2024-05-29','2024-05-31','')
 go
+
+
+-- -- Kiểm tra lại câu truy vấn SQL trong Hibernate
+-- SELECT 
+--     pe1_0.sys_id_product,
+--     pe1_0.active_san_pham,
+--     pe1_0.anh_san_pham,
+--     pe1_0.danh_muc,
+--     pe1_0.gia_san_pham,
+--     pe1_0.ma_san_pham,
+--     pe1_0.mota,
+--     pe1_0.percent_giam_gia,
+--     pe1_0.slug,
+--     pe1_0.soluong,
+--     pe1_0.soluongmua,
+--     pe1_0.soluotthich,
+--     pe1_0.sys_id_discount,
+--     pe1_0.ten_san_pham,
+--     pe1_0.the_loai,
+--     pe1_0.tinh_trang,
+--     c1_0.sys_id_product,
+--     c1_1.sys_id_category,
+--     c1_1.ten_the_loai 
+-- FROM product pe1_0 
+-- LEFT JOIN category_detail c1_0 ON pe1_0.sys_id_product=c1_0.sys_id_product 
+-- LEFT JOIN category c1_1 ON c1_1.sys_id_category=c1_0.sys_id_category 
+-- WHERE pe1_0.sys_id_product=1
+

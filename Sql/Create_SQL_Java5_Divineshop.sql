@@ -41,11 +41,6 @@ CREATE TABLE [Roles] (
     FOREIGN KEY (username_user) REFERENCES [User] (ten_dang_nhap)
 );
 
--- Tạo bảng Category
-CREATE TABLE [Category] (
-    Sys_id_category INT IDENTITY(1,1) PRIMARY KEY,
-    ten_the_loai NVARCHAR(MAX)
-);
 
 -- Tạo bảng Discount
 CREATE TABLE [Discount] (
@@ -55,6 +50,12 @@ CREATE TABLE [Discount] (
     ngay_bat_dau DATE,
     ngay_ket_thuc DATE,
     mota NVARCHAR(255)
+);
+
+-- Tạo bảng Category
+CREATE TABLE [Category] (
+    Sys_id_category INT IDENTITY(1,1) PRIMARY KEY,
+    ten_the_loai NVARCHAR(MAX)
 );
 
 -- Tạo bảng Product
@@ -79,7 +80,7 @@ CREATE TABLE [Product] (
 );
 
 -- Tạo bảng CategoryDetail
-CREATE TABLE [CategoryDetail] (
+CREATE TABLE [category_detail] (
     Sys_id_category INT NOT NULL,
     Sys_id_product INT NOT NULL,
     FOREIGN KEY (Sys_id_category) REFERENCES [Category] (Sys_id_category),

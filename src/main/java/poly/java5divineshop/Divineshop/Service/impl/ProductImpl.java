@@ -4,6 +4,7 @@ package poly.java5divineshop.Divineshop.Service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import poly.java5divineshop.Divineshop.Data.Entity.ProductE;
+import poly.java5divineshop.Divineshop.Data.Model.CategoryM;
 import poly.java5divineshop.Divineshop.Data.Model.ProductM;
 import poly.java5divineshop.Divineshop.Repo.ProductRepo;
 import poly.java5divineshop.Divineshop.Service.ProductService;
@@ -46,6 +47,7 @@ public class ProductImpl implements ProductService {
                 .soLuong(productM.getSoLuong())
                 .soLuongMua(productM.getSoLuongMua())
                 .soLuotThich(productM.getSoLuotThich())
+                .categories(CategoryM.convertListCategoryMToListCategoryE(productM.getCategories()))
                 .build();
         productE = productRepository.save(productE);
         return ProductM.convertProductEToProductM(productE);
@@ -70,6 +72,7 @@ public class ProductImpl implements ProductService {
                     existingProduct.setSoLuong(productM.getSoLuong());
                     existingProduct.setSoLuongMua(productM.getSoLuongMua());
                     existingProduct.setSoLuotThich(productM.getSoLuotThich());
+                    existingProduct.setCategories(CategoryM.convertListCategoryMToListCategoryE(productM.getCategories()));
                     productRepository.save(existingProduct);
                     return ProductM.convertProductEToProductM(existingProduct);
                 });
@@ -84,4 +87,11 @@ public class ProductImpl implements ProductService {
                     return true;
                 }).orElse(false);
     }
+
+    @Override
+    public Optional<ProductM> getProductBySlug(String slug) {
+        return productRepository.findProductBySlug(slug)
+                .map(ProductM::convertProductEToProductM);
+    }
+
 }

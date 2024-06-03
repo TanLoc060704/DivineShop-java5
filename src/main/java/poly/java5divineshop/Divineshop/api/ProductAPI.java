@@ -33,11 +33,11 @@ public class ProductAPI {
         return ResponseEntity.ok(ProductM.convertListProductMToListProductDTO(productService.getAllProducts()));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getProductById(@PathVariable int id) {
+    @GetMapping("/{slug}")
+    public ResponseEntity<?> getProductById(@PathVariable String slug) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Optional<ProductM> product = productService.getProductById(id);
+            Optional<ProductM> product = productService.getProductBySlug(slug);
             if (product.isPresent()) {
                 result.put("success", true);
                 result.put("message", "Call API thành công");
@@ -66,7 +66,7 @@ public class ProductAPI {
     }
 
     @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO, @RequestParam MultipartFile image) {
+    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO) {
         Map<String, Object> result = new HashMap<>();
         try {
             ProductM createdProduct = productService.addProduct(ProductM.convertProductDTOToProductM(productDTO));

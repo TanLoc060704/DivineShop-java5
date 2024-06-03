@@ -22,8 +22,8 @@ public class ProductM {
     private String tenSanPham;
     private boolean tinhTrang;
     private String theLoai;
-    private String giaSanPham;
-    private String percentGiamGia;
+    private Float giaSanPham;
+    private Float percentGiamGia;
     private String anhSanPham;
     private String slug;
     private String danhMuc;
@@ -33,6 +33,7 @@ public class ProductM {
     private Integer soLuong;
     private Integer soLuongMua;
     private Integer soLuotThich;
+    private List<CategoryM> categories;
 
     public static ProductM convertProductEToProductM(ProductE productE) {
         return ProductM.builder()
@@ -52,6 +53,7 @@ public class ProductM {
                 .soLuong(productE.getSoLuong())
                 .soLuongMua(productE.getSoLuongMua())
                 .soLuotThich(productE.getSoLuotThich())
+                .categories(CategoryM.convertListCategoryEToListCategoryM(productE.getCategories()))
                 .build();
     }
 
@@ -73,6 +75,7 @@ public class ProductM {
                 .soLuong(productDTO.getSoLuong())
                 .soLuongMua(productDTO.getSoLuongMua())
                 .soLuotThich(productDTO.getSoLuotThich())
+                .categories(CategoryM.convertListCategoryDTOToListCategoryM(productDTO.getCategories()))
                 .build();
     }
 
@@ -94,6 +97,29 @@ public class ProductM {
                 .soLuong(productM.getSoLuong())
                 .soLuongMua(productM.getSoLuongMua())
                 .soLuotThich(productM.getSoLuotThich())
+                .categories(CategoryM.convertListCategoryMToListCategoryDTO(productM.getCategories()))
+                .build();
+    }
+
+    public static ProductE convertProductMToProductE(ProductM productM) {
+        return ProductE.builder()
+                .id(productM.getId())
+                .maSanPham(productM.getMaSanPham())
+                .tenSanPham(productM.getTenSanPham())
+                .tinhTrang(productM.isTinhTrang())
+                .theLoai(productM.getTheLoai())
+                .giaSanPham(productM.getGiaSanPham())
+                .percentGiamGia(productM.getPercentGiamGia())
+                .anhSanPham(productM.getAnhSanPham())
+                .slug(productM.getSlug())
+                .danhMuc(productM.getDanhMuc())
+                .mota(productM.getMota())
+                .activeSanPham(productM.isActiveSanPham())
+                .sysIdDiscount(productM.getSysIdDiscount())
+                .soLuong(productM.getSoLuong())
+                .soLuongMua(productM.getSoLuongMua())
+                .soLuotThich(productM.getSoLuotThich())
+                .categories(CategoryM.convertListCategoryMToListCategoryE(productM.getCategories()))
                 .build();
     }
 
@@ -103,8 +129,22 @@ public class ProductM {
                 .collect(Collectors.toList());
     }
 
+    public static List<ProductM> convertListProductDTOToListProductM(List<ProductDTO> productDTOList) {
+        return productDTOList.stream()
+                .map(ProductM::convertProductDTOToProductM)
+                .collect(Collectors.toList());
+    }
+
     public static List<ProductDTO> convertListProductMToListProductDTO(List<ProductM> productMList) {
-        return productMList.stream().map(ProductM::convertProductMToProductDTO).collect(Collectors.toList());
+        return productMList.stream()
+                .map(ProductM::convertProductMToProductDTO)
+                .collect(Collectors.toList());
+    }
+
+    public static List<ProductE> convertListProductMToListProductE(List<ProductM> productMList) {
+        return productMList.stream()
+                .map(ProductM::convertProductMToProductE)
+                .collect(Collectors.toList());
     }
 
 }
