@@ -38,4 +38,9 @@ public class CategoryE {
 //        }
 //        products.add(productE);
 //    }
+
+
+    public CategoryE(String tenTheLoai) {
+        this.tenTheLoai = tenTheLoai;
+    }
 }

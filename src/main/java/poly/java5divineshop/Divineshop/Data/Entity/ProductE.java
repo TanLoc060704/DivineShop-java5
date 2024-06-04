@@ -66,7 +66,7 @@ public class ProductE {
     @Column(name = "soluotthich")
     private Integer soLuotThich;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
     @JoinTable(name = "CategoryDetail",
             joinColumns = @JoinColumn(name = "Sys_id_product"),
             inverseJoinColumns = @JoinColumn(name = "Sys_id_category"))
