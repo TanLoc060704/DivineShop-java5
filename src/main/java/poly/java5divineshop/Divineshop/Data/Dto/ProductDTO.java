@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import poly.java5divineshop.Divineshop.Data.Model.CategoryM;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -15,8 +18,8 @@ public class ProductDTO {
     private String tenSanPham;
     private boolean tinhTrang;
     private String theLoai;
-    private String giaSanPham;
-    private String percentGiamGia;
+    private Float giaSanPham;
+    private Float percentGiamGia;
     private String anhSanPham;
     private String slug;
     private String danhMuc;
@@ -26,4 +29,5 @@ public class ProductDTO {
     private Integer soLuong;
     private Integer soLuongMua;
     private Integer soLuotThich;
+    private List<CategoryDTO> categories;
 }

@@ -124,6 +124,7 @@ values
     (	'HdrPhotomatixPro-96',	N'HDR Photomatix Pro 6.3 - Key kích hoạt vĩnh viễn',	1,	'App, thiet ket, new',	2300000,	4,	'HdrPhotomatixPro-96.png',	'hdr-photomatix-pro-6.4-key-kich-hoat-vinh-vien',	'Edit',	N'Photomatix Pro là một phần mềm hình ảnh động High Dynamic Range (HDR) tiên tiến cho phép người dùng tạo ra các bức ảnh HDR hoàn hảo. Với Photomatix bạn có thể tạo các hình ảnh HDR cho thấy cả chi tiết nổi bật và bóng trong tất cả các khu vực . Một số công cụ và cài đặt được cung cấp để giúp điều chỉnh ánh sáng dễ dàng hơn, xóa bóng / bóng ma, giảm tiếng ồn, quang sai màu và hơn thế nữa. Điều này chắc chắn sẽ rất hữu ích cho các nhiếp ảnh gia để tạo ra những hình ảnh chất lượng tốt từ các kết quả tự nhiên đến hình ảnh có điều kiện ánh sáng yếu.',1, 126, 697, 304);
 go
 
+
 go
 INSERT INTO [Category] (ten_the_loai)
 VALUES
@@ -157,8 +158,53 @@ VALUES
     ('chplay');
 go
 
+-- Chèn dữ liệu mẫu vào bảng CategoryDetail
+INSERT INTO [category_detail] (Sys_id_product, Sys_id_category)
+VALUES 
+(1, 1),
+(1, 2),
+(1, 3),
+(2, 1),
+(2, 2),
+(2, 4),
+(2, 5),
+(3, 1),
+(3, 2),
+(3, 6),
+(32, 12),
+(32, 13);
+GO
+
 go
 INSERT INTO [Discount] (ten_giam_gia, percent_giam_gia, ngay_bat_dau, ngay_ket_thuc, mota)
 VALUES
     ('4/4','50','2024-05-29','2024-05-31','')
 go
+
+
+-- -- Kiểm tra lại câu truy vấn SQL trong Hibernate
+-- SELECT 
+--     pe1_0.sys_id_product,
+--     pe1_0.active_san_pham,
+--     pe1_0.anh_san_pham,
+--     pe1_0.danh_muc,
+--     pe1_0.gia_san_pham,
+--     pe1_0.ma_san_pham,
+--     pe1_0.mota,
+--     pe1_0.percent_giam_gia,
+--     pe1_0.slug,
+--     pe1_0.soluong,
+--     pe1_0.soluongmua,
+--     pe1_0.soluotthich,
+--     pe1_0.sys_id_discount,
+--     pe1_0.ten_san_pham,
+--     pe1_0.the_loai,
+--     pe1_0.tinh_trang,
+--     c1_0.sys_id_product,
+--     c1_1.sys_id_category,
+--     c1_1.ten_the_loai 
+-- FROM product pe1_0 
+-- LEFT JOIN category_detail c1_0 ON pe1_0.sys_id_product=c1_0.sys_id_product 
+-- LEFT JOIN category c1_1 ON c1_1.sys_id_category=c1_0.sys_id_category 
+-- WHERE pe1_0.sys_id_product=1
+
