@@ -28,7 +28,7 @@ public class LayoutController {
         model.addAttribute("view", "allProducts");
         return "user/index";
     }
-    @GetMapping("/detail")
+    @GetMapping("/detail/{}")
     public String detail(Model model) {
         model.addAttribute("view", "detailProduct");
         return "user/index";
