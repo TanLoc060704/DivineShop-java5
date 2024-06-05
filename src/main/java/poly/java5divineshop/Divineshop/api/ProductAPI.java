@@ -66,10 +66,10 @@ public class ProductAPI {
     }
 
     @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO, @RequestParam("file") MultipartFile file) {
         Map<String, Object> result = new HashMap<>();
         try {
-            ProductM createdProduct = productService.addProduct(ProductM.convertProductDTOToProductM(productDTO));
+            ProductM createdProduct = productService.addProduct(ProductM.convertProductDTOToProductM(productDTO), file);
             result.put("success", true);
             result.put("message", "Thêm sản phẩm thành công");
             result.put("data", createdProduct);

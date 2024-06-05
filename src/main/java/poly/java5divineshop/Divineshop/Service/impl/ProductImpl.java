@@ -3,10 +3,14 @@ package poly.java5divineshop.Divineshop.Service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import poly.java5divineshop.Divineshop.Data.Entity.CategoryE;
 import poly.java5divineshop.Divineshop.Data.Entity.ProductE;
 import poly.java5divineshop.Divineshop.Data.Model.CategoryM;
 import poly.java5divineshop.Divineshop.Data.Model.ProductM;
+import poly.java5divineshop.Divineshop.Repo.CategoryRepo;
 import poly.java5divineshop.Divineshop.Repo.ProductRepo;
+import poly.java5divineshop.Divineshop.Service.ImageService;
 import poly.java5divineshop.Divineshop.Service.ProductService;
 
 import java.util.List;
@@ -17,6 +21,11 @@ public class ProductImpl implements ProductService {
     @Autowired
     private ProductRepo productRepository;
 
+    @Autowired
+    private CategoryRepo categoryRepo;
+
+    @Autowired
+    private ImageService imageService;
 
     @Override
     public List<ProductM> getAllProducts() {
@@ -30,26 +39,25 @@ public class ProductImpl implements ProductService {
     }
 
     @Override
-    public ProductM addProduct(ProductM productM) {
-        ProductE productE = ProductE.builder()
-                .maSanPham(productM.getMaSanPham())
-                .tenSanPham(productM.getTenSanPham())
-                .tinhTrang(productM.isTinhTrang())
-                .theLoai(productM.getTheLoai())
-                .giaSanPham(productM.getGiaSanPham())
-                .percentGiamGia(productM.getPercentGiamGia())
-                .anhSanPham(productM.getAnhSanPham())
-                .slug(productM.getSlug())
-                .danhMuc(productM.getDanhMuc())
-                .mota(productM.getMota())
-                .activeSanPham(productM.isActiveSanPham())
-                .sysIdDiscount(productM.getSysIdDiscount())
-                .soLuong(productM.getSoLuong())
-                .soLuongMua(productM.getSoLuongMua())
-                .soLuotThich(productM.getSoLuotThich())
-                .categories(CategoryM.convertListCategoryMToListCategoryE(productM.getCategories()))
-                .build();
+    public ProductM addProduct(ProductM productM, MultipartFile file) {
+        // Chuyển đổi ProductM sang ProductE
+        ProductE productE = ProductM.convertProductMToProductE(productM);
+        productE.setCategories(null);
+
+        // Có thì thêm ko có thì tự tạo mới xong thêm phải để là 0 khi tìm category nếu không thấy trên js
+        for (CategoryM category : productM.getCategories()) {
+            CategoryE existingCategory = categoryRepo.findById(category.getId())
+                    .orElseGet(() -> {
+                        CategoryE newCategory = new CategoryE(category.getTenTheLoai());
+                        return categoryRepo.save(newCategory);
+                    });
+            productE.addCateList(existingCategory);
+            System.out.println(category.getTenTheLoai() + category.getId());
+        }
+        productE.setAnhSanPham(imageService.saveImage(file));
+        // Thực hiện thêm mới sản phẩm
         productE = productRepository.save(productE);
+        // Trả về sản phẩm đã thêm mới
         return ProductM.convertProductEToProductM(productE);
     }
 
