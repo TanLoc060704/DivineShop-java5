@@ -16,8 +16,8 @@ public class RoleServiceImpl implements RoleService {
     RoleRepo roleRepo;
 
     @Override
-    public int updateRoleByUsername(RoleDto roleDto) {
-        return roleRepo.updateRoleByUsername(roleDto.getRole(), roleDto.getUsername());
+    public int updateRoleByIdRole(RoleDto roleDto) {
+        return roleRepo.updateRoleByIdRole(roleDto.getRole(), roleDto.getIdRole());
     }
 
     @Override

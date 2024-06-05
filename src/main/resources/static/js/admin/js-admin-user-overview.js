@@ -1,7 +1,7 @@
 $(document).ready(function () {
     var path;
     var nameImg;
-
+    var nameUser;
     const getUserByUsernameAndRole = async () => {
         // Lấy giá trị từ session storage
         let username = sessionStorage.getItem('username');
@@ -18,6 +18,7 @@ $(document).ready(function () {
                 console.log(response.data)
                 let responseData = response.data.data;
                 let formattedDate = moment(responseData.ngayThamGia).format('DD-MM-YYYY');
+                nameUser = responseData.hoVaTen;
 
                 let html = `
                 <div class="px-3 py-4">
@@ -109,7 +110,6 @@ $(document).ready(function () {
                 userInfoContainer.append(html);
 
                 // sự kiện khi chọn hình ở input thì sẽ thay đổi img
-
                 document.getElementById('fileInput').addEventListener('change', function () {
                     var file = this.files[0];
                     nameImg = file.name;
@@ -132,12 +132,14 @@ $(document).ready(function () {
     getUserByUsernameAndRole();
     const updateUser = async () => {
         let hoVaTen = $('#inputHoVaTen').val();
+        console.log(nameUser)
         let avatar = null;
         if (nameImg && path) {
             avatar = nameImg + "," + path;
         }
         let role = $('#selectRole').val();
         let username = sessionStorage.getItem('username');
+        let idRole = sessionStorage.getItem('idRole');
         if (hoVaTen === '' || role === '') {
             Swal.fire({
                 icon: "error",
@@ -146,62 +148,68 @@ $(document).ready(function () {
             });
             return;
         }
-        await axios.post('/api/public/updateUserByTenDangNhap', {
-            hoVaTen: hoVaTen,
-            anhDaiDien: avatar,
-            tenDangNhap: username
-        })
-            .then(response => {
-                let responseData = response.data;
-                console.log(responseData);
-                if (responseData.message === 'Call Api Successfully') {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Update Success",
-                        showConfirmButton: false,
-                        timer: 1500
-                    });
-                }
+        if (hoVaTen !== nameUser) {
+            await axios.post('/api/public/updateUserByTenDangNhap', {
+                hoVaTen: hoVaTen,
+                anhDaiDien: avatar,
+                tenDangNhap: username
             })
-            .catch(error => {
-                console.log(error);
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Something went wrong!",
-                    timer: 1500
-                });
-            })
-        await axios.post('/api/public/updateRoleByUsername', {
-            role: role,
-            username: username
-        })
-            .then(response => {
-                let responseData = response.data;
-                console.log(responseData);
-                if (responseData.message === 'Username already has this role') {
+                .then(response => {
+                    let responseData = response.data;
+                    console.log(responseData);
+                    if (responseData.message === 'Call Api Successfully') {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Update Success",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
                     Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: "Username already has this role"
-                    });
-                } else if (responseData.message === 'Call Api Successfully') {
-                    Swal.fire({
-                        icon: "success",
-                        title: "Update Success",
-                        showConfirmButton: false,
+                        text: "Something went wrong!",
                         timer: 1500
                     });
-                }
+                })
+        }
+        let roleSession = sessionStorage.getItem('role');
+        if (role !== roleSession) {
+            await axios.post('/api/public/updateRoleByIdRole', {
+                username: username,
+                role: role,
+                idRole: idRole
             })
-            .catch(error => {
-                console.log(error);
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: "Something went wrong!"
-                });
-            })
+                .then(response => {
+                    let responseData = response.data;
+                    console.log(responseData);
+                    if (responseData.message === 'Username already has this role') {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Username already has this role"
+                        });
+                    } else if (responseData.message === 'Call Api Successfully') {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Update Success",
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                    Swal.fire({
+                        icon: "error",
+                        title: "Oops...",
+                        text: "Something went wrong!"
+                    });
+                })
+        }
     }
     $(document).on('click', '#updateUser', function () {
         updateUser();

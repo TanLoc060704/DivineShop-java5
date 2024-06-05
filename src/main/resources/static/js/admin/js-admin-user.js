@@ -17,6 +17,7 @@ $(document).ready(function () {
                 if (responseData.length > 0) {
                     sessionStorage.setItem('username', responseData[0].tenDangNhap);
                     sessionStorage.setItem('role', responseData[0].roles[0].role);
+                    sessionStorage.setItem('idRole', responseData[0].roles[0].idRole);
                 }
 
                 // Lọc dữ liệu theo vai trò và từ khóa tìm kiếm nếu có
@@ -65,7 +66,7 @@ $(document).ready(function () {
                                                 <i class="fa-solid fa-ellipsis"></i>
                                             </a>
                                             <ul class="dropdown-menu">
-                                                <li><a class="btn dropdown-item viewAndEdit" data-username="${user.tenDangNhap}" data-role="${role.role}"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
+                                                <li><a class="btn dropdown-item viewAndEdit" data-username="${user.tenDangNhap}" data-role="${role.role}" data-idRole="${role.idRole}"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
                                             </ul>
                                         </div>
                                     </td>
@@ -159,9 +160,11 @@ $(document).ready(function () {
     $(document).on('click', '.viewAndEdit', function () {
         let username = $(this).data('username');
         let role = $(this).data('role');
+        let idRole = $(this).data('idRole');
         console.log(username, role);
         sessionStorage.setItem('username', username);
         sessionStorage.setItem('role', role);
+        sessionStorage.setItem('idRole', idRole);
         window.location.href = '/admin/account-view';
     });
 

@@ -7,7 +7,7 @@ import poly.java5divineshop.Divineshop.Data.Model.RoleM;
 import java.sql.SQLException;
 
 public interface RoleService {
-    int updateRoleByUsername(RoleDto roleDto) throws SQLException;
+    int updateRoleByIdRole(RoleDto roleDto) throws SQLException;
 
     RoleM getRoleByUsernameAndRole(String username, String role) throws SQLException;
 }

@@ -18,7 +18,7 @@ public class RoleApi {
     @Autowired
     RoleService roleService;
 
-    @PostMapping("/updateRoleByUsername")
+    @PostMapping("/updateRoleByIdRole")
     public ResponseEntity<?> updateRoleByUsername(@RequestBody RoleDto roleDto) {
         Map<String, Object> result = new HashMap<>();
         try {
@@ -30,7 +30,7 @@ public class RoleApi {
             }
             result.put("status", true);
             result.put("message", "Call Api Successfully");
-            result.put("data", roleService.updateRoleByUsername(roleDto));
+            result.put("data", roleService.updateRoleByIdRole(roleDto));
         } catch (Exception e) {
             e.printStackTrace();
             result.put("status", false);

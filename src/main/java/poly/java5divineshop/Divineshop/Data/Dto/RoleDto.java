@@ -11,12 +11,14 @@ import poly.java5divineshop.Divineshop.Data.Entity.RoleE;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RoleDto {
+    private Integer idRole;
     private String username;
     private String usernameUser;
     private String role;
 
     public static RoleE convertRoleDTOToRoleE(RoleDto RoleDTO) {
         return RoleE.builder()
+                .idRole(RoleDTO.getIdRole())
                 .username(RoleDTO.getUsername())
                 .usernameUser(RoleDTO.getUsernameUser())
                 .role(RoleDTO.getRole())
