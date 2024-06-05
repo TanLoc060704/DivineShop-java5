@@ -10,17 +10,6 @@ go
 use Java5_DivineShop
 go
 
-Create table [User](
-    Sys_id_user int IDENTITY (1,1) primary key,
-    ten_dang_nhap nvarchar(max),
-    email nvarchar(max),
-    ho_va_ten nvarchar(max),
-    so_du nvarchar(max),
-    ngay_tham_gia date,
-    anh_dai_dien nvarchar(max)
-)
-
-
 Create table [Account](
     id              int IDENTITY (1,1) PRIMARY KEY,
     username        varchar(50) NOT NULL UNIQUE,
@@ -29,61 +18,99 @@ Create table [Account](
     is_enabled			bit DEFAULT 1
 )
 
+Create table [User](
+    Sys_id_user int IDENTITY (1,1) primary key,
+    ten_dang_nhap nvarchar(255) NOT NULL UNIQUE,
+    email nvarchar(255) NOT NULL UNIQUE,
+    ho_va_ten nvarchar(255),
+    so_du nvarchar(255),
+    ngay_tham_gia date,
+    anh_dai_dien nvarchar(max)
+)
+
+
 
 Create table [Roles](
-    username varchar(50) NOT NULL,
-    role varchar(50) NOT NULL,
-    CONSTRAINT PK_authorities PRIMARY KEY (username, role),
-    FOREIGN KEY (username) REFERENCES account(username)
+    id_role int IDENTITY (1,1) primary key,
+    username varchar(50) NOT NULL  ,
+    username_user nvarchar(255) NOT NULL  ,
+    role varchar(50) NOT NULL  ,
+    FOREIGN KEY (username) REFERENCES account(username),
+    FOREIGN KEY (username_user) REFERENCES [User](ten_dang_nhap)
 )
 
-Create table [Product](
-    Sys_id_product int IDENTITY (1,1) primary key,
-    ma_san_pham nvarchar(max),
-    ten_san_pham nvarchar(max),
-    tinh_trang bit,
-    the_loai nvarchar(max),
-    gia_san_pham nvarchar(max),
-    percent_giam_gia nvarchar(max),
-    anh_san_pham nvarchar(max),
-    slug nvarchar(max),
-    danh_muc nvarchar(max),
-    mota nvarchar(max),
-    active_san_pham bit default 1
-)
-
-Create table [Cart](
-    Sys_id_cart int IDENTITY (1,1) primary key,
-    gia nvarchar(max),
-    anh_dai_dien nvarchar(max),
-    so_luong nvarchar(max),
-    tien_thanh_toan nvarchar(max),
-    percent_giam_gia nvarchar(max),
-    tinh_trang bit,
-    tong_tien_thanh_toan nvarchar(max)
-)
-
-Create table [Cart_payment](
-    Sys_id_cart_payment int IDENTITY (1,1) primary key,
-    ma_don_hang nvarchar(max),
-    ngay_lap_don date,
-    trang_thai_thanh_toan bit,
-    ten_nguoi_mua nvarchar(max),
-    tong_tien_san_pham nvarchar(max),
-    anh_san_pham nvarchar(max),
-    so_luong_mua nvarchar(max)
-)
 
 Create table [Category](
     Sys_id_category int IDENTITY (1,1) primary key,
     ten_the_loai nvarchar(max)
 )
 
+
 Create table [Discount](
     Sys_id_discount int IDENTITY (1,1) primary key,
-    ten_giam_gia nvarchar(max),
-    percent_giam_gia nvarchar(max),
+    ten_giam_gia nvarchar(255),
+    percent_giam_gia float,
     ngay_bat_dau date,
     ngay_ket_thuc date,
-    mota nvarchar(max)
+    mota nvarchar(255)
 )
+
+Create table [Product](
+    Sys_id_product int IDENTITY (1,1) primary key,
+    ma_san_pham nvarchar(255),
+    ten_san_pham nvarchar(255),
+    tinh_trang bit,
+    the_loai nvarchar(255),
+    gia_san_pham float,
+    percent_giam_gia float,
+    anh_san_pham nvarchar(255),
+    slug nvarchar(255) unique not null,
+    danh_muc nvarchar(255),
+    mota nvarchar(max),
+    active_san_pham bit default 1,
+    Sys_id_discount int,
+    FOREIGN KEY (Sys_id_discount) REFERENCES [Discount] (Sys_id_discount)
+)
+
+CREATE table [CategoryDetail](
+    Sys_id_category int not null ,
+    Sys_id_product int not null ,
+    FOREIGN KEY (Sys_id_category) REFERENCES [Category] (Sys_id_category),
+    FOREIGN KEY (Sys_id_product) REFERENCES [Product] (Sys_id_product)
+)
+
+Create table [Order](
+    Sys_id_cart_payment int IDENTITY (1,1) primary key,
+    ma_don_hang nvarchar(255),
+    ngay_lap_don date,
+    trang_thai_thanh_toan bit,
+    tong_tien_san_pham float,
+    tien_thanh_toan float,
+    so_luong_mua int,
+    Sys_id_product int,
+    Sys_id_user int,
+    FOREIGN KEY (Sys_id_product) REFERENCES [Product] (Sys_id_product),
+    FOREIGN KEY (Sys_id_user) REFERENCES [User] (Sys_id_user)
+)
+
+
+
+
+go
+CREATE TRIGGER trg_InsertUserAfterAccountInsert
+ON [Account]
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO [User] (ten_dang_nhap, email, ho_va_ten, so_du, ngay_tham_gia, anh_dai_dien)
+    SELECT
+        username AS ten_dang_nhap,
+        email,
+        NULL AS ho_va_ten,
+        NULL AS so_du,
+        GETDATE() AS ngay_tham_gia,
+        'anh-khach-hanggg.png' AS anh_dai_dien
+    FROM
+        inserted;
+END;
+GO
