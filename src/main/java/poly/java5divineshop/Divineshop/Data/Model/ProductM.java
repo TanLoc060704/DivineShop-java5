@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import poly.java5divineshop.Divineshop.Data.Dto.ProductDTO;
 import poly.java5divineshop.Divineshop.Data.Entity.ProductE;
 
@@ -147,4 +149,8 @@ public class ProductM {
                 .collect(Collectors.toList());
     }
 
+    public static Page<ProductM> convertPageProductEToPageProductM(Page<ProductE> pageProductE) {
+        List<ProductM> productMList = convertListProductEToListProductM(pageProductE.getContent());
+        return new PageImpl<>(productMList, pageProductE.getPageable(), pageProductE.getTotalElements());
+    }
 }
