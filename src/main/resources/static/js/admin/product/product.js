@@ -3,6 +3,7 @@ const pageSize = 10;
 let searchTerm = "";
 let danhmuc= "";
 let isShowingResultUpdated = false;
+
 function loadProducts() {
     axios.get(`/api/products/pagination?page=${currentPage}&size=${pageSize}&searchTerm=${searchTerm}&category=${danhmuc}`)
         .then(function (response) {
@@ -18,11 +19,12 @@ function loadProducts() {
             }
 
             productsList.empty();
-            content.forEach(product => {
-                let number = product.giaSanPham;
-                const formatter = new Intl.NumberFormat('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
-                let formattedNumber = number === null ? 0 : formatter.format(number);
-                let row = `<tr>
+            if(numberOfElements > 0){
+                content.forEach(product => {
+                    let number = product.giaSanPham;
+                    const formatter = new Intl.NumberFormat('vi-VN', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+                    let formattedNumber = number === null ? 0 : formatter.format(number);
+                    let row = `<tr>
                                     <td>${product.maSanPham}</td>
                                     <td>
                                         <div class="d-flex align-items-center gap-2">
@@ -79,14 +81,19 @@ function loadProducts() {
                                         </div> 
                                     </td>
                                 </tr>`;
-                productsList.append(row);
-            });
+                    productsList.append(row);
+                });
+            }
+            else {
+                productsList.append(`<td colspan="7" class="table-active text-center">Sorry, the product you are looking for does not exist.</td>`);
+            }
             updatePaginationButtons(first, last, totalPages);
         })
         .catch(function (error) {
             console.error("Error fetching products:", error);
         });
 }
+
 function searchEngine() {
     searchTerm = $('#searchListProductName').val()
     danhmuc = $('#searchListProductCate').val()
@@ -97,49 +104,59 @@ function searchEngine() {
     console.log($('#searchListProductCate').val())
 }
 
-$("#createProductForm").submit(function(e) {
-    // e.preventDefault();
-    var str = $("#createProductGenres").val()
-    var arr = str.split(", ");
-    var result = arr.map(function(item) {
-        return {
-            "tenTheLoai": item
-        };
-    });
-    let newProduct = {
-        maSanPham: $("#createProductCode").val(),
-        tenSanPham: $("#createProductName").val(),
-        tinhTrang: $("#createProductStatus").val(),
-        theLoai: $("#createProductGenres").val(),
-        giaSanPham: $("#createProductPrice").val(),
-        percentGiamGia: $("#createProductDiscounts").val(),
-        anhSanPham: $("#createProductImage").val(),
-        slug: $("#createProductSlug").val(),
-        danhMuc: $("#createProductCategory").val(),
-        mota: $("#createProductDescription").val(),
-        soLuong: $("#createProductQuantity").val(),
-        soLuongMua: 0,
-        soLuotThich: 0,
-        categories: result
-    };
-    // console.log($("#createProductImage").val().split('\\').pop().split('/').pop())
-    console.log(JSON.stringify(newProduct))
-    axios({
-        method: 'post',
-        url: '/api/products',
-        data: JSON.stringify(newProduct),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(function (response) {
-            console.log('Tạo product thành công!');
-            isShowingResultUpdated = false
-        })
-        .catch(function (error) {
-            console.error('Đã xảy ra lỗi:', error);
+$("#createProductForm").submit(async function (e) {
+    e.preventDefault();
+    let slug = $("#createProductSlug");
+    const slugCheckResult = await checkUniqueSlug(slug.val());
+    console.log(slugCheckResult)
+    if (slugCheckResult === true) {
+        slug.addClass('is-invalid');
+    } else {
+        // slug.classList.remove('is-invalid');
+        var str = $("#createProductGenres").val()
+        var arr = str.split(", ");
+        var result = arr.map(function (item) {
+            return {
+                "tenTheLoai": item
+            };
         });
-
+        let newProduct = {
+            maSanPham: $("#createProductCode").val(),
+            tenSanPham: $("#createProductName").val(),
+            tinhTrang: $("#createProductStatus").val(),
+            theLoai: $("#createProductGenres").val(),
+            giaSanPham: $("#createProductPrice").val(),
+            percentGiamGia: $("#createProductDiscounts").val(),
+            anhSanPham: $("#createProductImage").val(),
+            slug: $("#createProductSlug").val(),
+            danhMuc: $("#createProductCategory").val(),
+            mota: $("#createProductDescription").val(),
+            soLuong: $("#createProductQuantity").val(),
+            soLuongMua: 0,
+            soLuotThich: 0,
+            categories: result
+        };
+        // console.log($("#createProductImage").val().split('\\').pop().split('/').pop())
+        console.log(JSON.stringify(newProduct))
+        axios({
+            method: 'post',
+            url: '/api/products',
+            data: JSON.stringify(newProduct),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(function (response) {
+                console.log('Tạo product thành công!');
+                // isShowingResultUpdated = false
+                // $("#addProduct").modal('hide');
+                // loadProducts()
+                window.location.reload()
+            })
+            .catch(function (error) {
+                console.error('Đã xảy ra lỗi:', error);
+            });
+    }
     // const formData = new FormData();
     // formData.append('file', $("#createProductImage").val()); // `file` là biến chứa tệp cần tải lên
     // formData.append('productDTO', JSON.stringify(newProduct));
@@ -157,7 +174,6 @@ $("#createProductForm").submit(function(e) {
     //     });
 });
 
-// Disable/enable prev/next buttons based on current page
 function updatePaginationButtons(first, last, totalPages) {
     // Disable Previous button if on first page
     first ? $('#prevBtn').addClass('disabled') : $('#prevBtn').removeClass('disabled');
@@ -193,6 +209,16 @@ function prevPage() {
 function nextPage() {
     currentPage++;
     loadProducts();
+}
+
+async function checkUniqueSlug(value) {
+    try {
+        const response = await axios.get(`/api/products/${value}`);
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
 }
 
 $(document).ready(function() {
