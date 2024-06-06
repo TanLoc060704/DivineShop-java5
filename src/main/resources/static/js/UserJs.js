@@ -103,7 +103,7 @@ $('input[name="referralCode"]').focusout(function() {
 
 
         await axios
-        .post("/api/account/send-email-for-user",{
+        .post("/api/public/send-email-for-user",{
             "username": usernameSuccess,
             "email": emailSuccess,
             "hashedPassword": passwordSuccess

@@ -5,7 +5,7 @@ $('#btnConFirmOtp').click(function(){
     var otp4 = $('#otp4').val();
 
     var OTP = otp1 + otp2 + otp3 + otp4;
-      axios.post("/api/account/verify-otp/"+OTP)
+      axios.post("/api/public/verify-otp/"+OTP)
         .then(response => {
             console.log(OTP)
             if (response.data.success) {

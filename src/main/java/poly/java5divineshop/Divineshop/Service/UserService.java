@@ -3,7 +3,9 @@ package poly.java5divineshop.Divineshop.Service;
 import java.sql.SQLException;
 import java.util.List;
 
+import poly.java5divineshop.Divineshop.Data.Dto.AccountDTO;
 import poly.java5divineshop.Divineshop.Data.Dto.UserDto;
+import poly.java5divineshop.Divineshop.Data.Entity.AccountE;
 import poly.java5divineshop.Divineshop.Data.Model.UserM;
 
 public interface UserService {

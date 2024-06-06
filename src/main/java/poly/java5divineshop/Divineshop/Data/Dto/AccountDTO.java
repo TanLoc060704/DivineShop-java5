@@ -1,5 +1,7 @@
 package poly.java5divineshop.Divineshop.Data.Dto;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import lombok.AllArgsConstructor;
