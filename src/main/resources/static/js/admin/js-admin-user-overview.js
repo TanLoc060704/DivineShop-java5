@@ -1,8 +1,8 @@
 $(document).ready(function () {
-    var path;
-    var nameImg;
-    var nameImgCurr;
-    var nameUser;
+    var path = null;
+    var nameImg = null;
+    var nameImgCurr = null;
+    var nameUser = null;
     const getUserByUsernameAndRole = async () => {
         // Lấy giá trị từ session storage
         let username = sessionStorage.getItem('username');
@@ -21,6 +21,7 @@ $(document).ready(function () {
                 let formattedDate = moment(responseData.ngayThamGia).format('DD-MM-YYYY');
                 nameUser = responseData.hoVaTen;
                 nameImgCurr = responseData.anhDaiDien;
+                nameImg = responseData.anhDaiDien;
 
                 let html = `
                 <div class="px-3 py-4">
@@ -134,14 +135,13 @@ $(document).ready(function () {
     getUserByUsernameAndRole();
     const updateUser = async () => {
         let hoVaTen = $('#inputHoVaTen').val();
-        console.log(nameUser)
+        let role = $('#selectRole').val();
+        let username = sessionStorage.getItem('username');
+        let idRole = sessionStorage.getItem('idRole');
         let avatar = null;
         if (nameImg && path) {
             avatar = nameImg + "," + path;
         }
-        let role = $('#selectRole').val();
-        let username = sessionStorage.getItem('username');
-        let idRole = sessionStorage.getItem('idRole');
         if (hoVaTen === '' || role === '') {
             Swal.fire({
                 icon: "error",
