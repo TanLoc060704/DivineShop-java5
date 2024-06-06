@@ -1,16 +1,15 @@
 package poly.java5divineshop.Divineshop.Data.Dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import poly.java5divineshop.Divineshop.Data.Entity.AccountE;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class AccountDTO {
 
     private String username;

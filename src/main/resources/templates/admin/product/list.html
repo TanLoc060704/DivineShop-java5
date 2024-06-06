@@ -3,20 +3,20 @@
         <div class="container">
             <div class="d-flex justify-content-between align-items-center py-2">
                 <div class="d-flex justify-content-between align-items-center gap-4">
-                    <a th:href="@{/admin/account-view}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-users"></i> User Management</a>
-                    <a th:href="@{/admin/product-view}" class="btn btn-dark fw-bold " style="font-size: 0.83rem;"><i class="fa-brands fa-product-hunt"></i> Product Management</a>
-                    <a th:href="@{/admin/category-view}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-list"></i> Category Management</a>
-                    <a th:href="@{/admin/discount-view}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-tags"></i> Discount Management</a>
+                    <a th:href="@{/admin/account-list}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-users"></i> User Management</a>
+                    <a th:href="@{/admin/product-list}" class="btn btn-dark fw-bold " style="font-size: 0.83rem;"><i class="fa-brands fa-product-hunt"></i> Product Management</a>
+                    <a th:href="@{/admin/category-list}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-list"></i> Category Management</a>
+                    <a th:href="@{/admin/discount-list}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-tags"></i> Discount Management</a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container my-3">
+    <div class="container my-3" style="min-height: 40rem;">
         <div class="row">
             <div class="col-3">
                 <div class="list-group">
-                    <a th:href="@{/admin/product-view}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid fa-wrench"></i> Product Detail</a>
-                    <a th:href="@{/admin/product-list}" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid fa-store"></i> List Product</a>
+                    <a th:href="@{/admin/product-view/tai-khoan-netflix-1-thang}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid fa-wrench"></i> Product Detail</a>
+                    <a class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid fa-store"></i> List Product</a>
                 </div>
             </div>
             <div class="col-9 bg-white rounded border">
@@ -27,21 +27,28 @@
                         <form action="">
                             <div class="d-flex align-items-center gap-2">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control"  placeholder="Search">
+                                    <input type="text" class="form-control"  placeholder="Search" id="searchListProductName">
                                     <label>Search</label>
                                 </div>
                                 <div>
                                     <div class="form-floating">
-                                        <select class="form-select pe-5" aria-label="Floating label select example">
-                                            <option selected>Steam</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
+                                        <select class="form-select" aria-label="Floating label select example" id="searchListProductCate">
+                                            <option value="">None</option>
+                                            <option value="Giải trí">Giải trí</option>
+                                            <option value="Làm việc">Làm việc</option>
+                                            <option value="Học tập">Học tập</option>
+                                            <option value="Game Steam">Game Steam</option>
+                                            <option value="Edit Ảnh, Video">Edit Ảnh, Video</option>
+                                            <option value="Window, Office ">Window, Office</option>
+                                            <option value="Google Drive">Google Drive</option>
+                                            <option value="Steam Wallet">Steam Wallet</option>
+                                            <option value="Diệt Virus">Diệt Virus</option>
+                                            <option value="Google Play, iTunes">Google Play, iTunes</option>
                                         </select>
                                         <label>Category</label>
                                     </div>
                                 </div>
-                                <button class="btn btn-outline-secondary p-3" type="button"><i class="fa-solid fa-filter"></i></button>
+                                <button class="btn btn-outline-secondary p-3" type="button" onclick="searchEngine()"><i class="fa-solid fa-filter"></i></button>
                             </div>
                         </form>
 
@@ -59,57 +66,73 @@
                                             <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Product</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <form action="">
+                                        <form id="createProductForm">
                                             <div class="modal-body">
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <input type="text" class="form-control"  placeholder="Product Title">
+                                                            <input type="text" class="form-control"  placeholder="Product Code" id="createProductCode" required>
+                                                            <label>Product Code</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="form-floating mb-3">
+                                                            <input type="text" class="form-control"  placeholder="Product Slug" id="createProductSlug" required>
+                                                            <label>Product Slug</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div class="form-floating mb-3">
+                                                            <input type="text" class="form-control"  placeholder="Product Title" id="createProductName" required>
                                                             <label>Product Title</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <input type="text" class="form-control"  placeholder="Quantity">
+                                                            <input type="number" class="form-control"  placeholder="Quantity" id="createProductQuantity" required>
                                                             <label>Quantity</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <input type="text" class="form-control"  placeholder="Price">
+                                                            <input type="number" class="form-control"  placeholder="Price" id="createProductPrice" required>
                                                             <label>Price</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <input type="text" class="form-control"  placeholder="Discounts">
+                                                            <input type="number" class="form-control"  placeholder="Discounts" id="createProductDiscounts" required>
                                                             <label>Discounts</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="form-floating mb-3">
-                                                            <textarea class="form-control" placeholder="Description" style="height: 100px"></textarea>
+                                                            <textarea class="form-control" placeholder="Description" id="createProductDescription" style="height: 100px" required></textarea>
                                                             <label>Description</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <select class="form-select" aria-label="Floating label select example">
-                                                                <option selected>Open this select menu</option>
-                                                                <option value="1">One</option>
-                                                                <option value="2">Two</option>
-                                                                <option value="3">Three</option>
+                                                            <select class="form-select" aria-label="Floating label select example" id="createProductStatus">
+                                                                <option value="true">True</option>
+                                                                <option value="false">False</option>
                                                             </select>
                                                             <label>Status</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <select class="form-select" aria-label="Floating label select example">
-                                                                <option selected>Steam</option>
-                                                                <option value="1">One</option>
-                                                                <option value="2">Two</option>
-                                                                <option value="3">Three</option>
+                                                            <select class="form-select" aria-label="Floating label select example" id="createProductCategory">
+                                                                <option value="Giải trí">Giải trí</option>
+                                                                <option value="Làm việc">Làm việc</option>
+                                                                <option value="Học tập">Học tập</option>
+                                                                <option value="Game Steam">Game Steam</option>
+                                                                <option value="Edit Ảnh, Video">Edit Ảnh, Video</option>
+                                                                <option value="Window, Office ">Window, Office </option>
+                                                                <option value="Google Drive">Google Drive</option>
+                                                                <option value="Steam Wallet">Steam Wallet</option>
+                                                                <option value="Diệt Virus">Diệt Virus</option>
+                                                                <option value="Google Play, iTunes">Google Play, iTunes</option>
                                                             </select>
                                                             <label>Category</label>
                                                         </div>
@@ -117,19 +140,19 @@
                                                     <hr>
                                                     <div class="col-12">
                                                         <div class="mb-3">
-                                                            <label for="formFileMultiple" class="form-label ms-1">Product Image</label>
-                                                            <input class="form-control" type="file" id="formFileMultiple" multiple>
+                                                            <label class="form-label ms-1">Product Image</label>
+                                                            <input class="form-control" type="file"  id="createProductImage" multiple required>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
-                                                        <label for="exampleDataList" class="form-label ms-1">Genres</label>
-                                                        <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Type to search...">
+                                                        <label class="form-label ms-1">Genres</label>
+                                                        <input class="form-control" list="datalistOptions"  id="createProductGenres" placeholder="Type to search..." required>
                                                         <datalist id="datalistOptions">
-                                                            <option value="San Francisco">
-                                                            <option value="New York">
-                                                            <option value="Seattle">
-                                                            <option value="Los Angeles">
-                                                            <option value="Chicago">
+                                                            <option value="App, Giải trí, Xem phim">
+                                                            <option value="App, Làm việc, Diệt virus">
+                                                            <option value="Action, Adventure, RPG">
+                                                            <option value="windows, Làm việc, microsoft">
+                                                            <option value="Ggplay, itune, chplay">
                                                         </datalist>
                                                     </div>
 
@@ -151,143 +174,34 @@
                         <table class="table align-middle">
                             <thead class="table-light">
                             <tr>
-                                <th scope="col">Product ID</th>
-                                <th scope="col">Product Name</th>
-                                <th scope="col">Category</th>
-                                <th scope="col">Price</th>
-                                <th scope="col">Stock</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
+                                <th scope="col" class="col-2">Product ID</th>
+                                <th scope="col" class="col-4">Product Name</th>
+                                <th scope="col" class="col-2">Category</th>
+                                <th scope="col" class="col-1">Price</th>
+                                <th scope="col" class="col-1">Stock</th>
+                                <th scope="col" class="col-1">Status</th>
+                                <th scope="col" class="col-1">Action</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1245620</th>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <div class="">
-                                            <img src="https://cdn.divineshop.vn/image/catalog/Anh-SP/Kh%C3%A1c/Divine-Shop-Elden-Ring-82335.jpg?hash=1658742026" width="45px" height="30px" alt="">
-                                        </div>
-                                        <div class="">
-                                            <p class="m-0 fw-semibold">Elden Ring (CD Key Steam)</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="alert alert-light m-0 py-1 px-0 text-center" role="alert">
-                                        CD Key
-                                    </div>
-                                </td>
-                                <td>790.000đ</td>
-                                <td>12</td>
-                                <td>
-                                    <div class="alert alert-danger m-0 text-center p-1" role="alert">
-                                        Inactive
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <a class="btn btn-secondary btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis"></i>
-                                        </a>
-
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash"></i> Delete</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1245620</th>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <div class="">
-                                            <img src="https://cdn.divineshop.vn/image/catalog/Anh-SP/Kh%C3%A1c/Divine-Shop-Elden-Ring-82335.jpg?hash=1658742026" width="45px" height="30px" alt="">
-                                        </div>
-                                        <div class="">
-                                            <p class="m-0 fw-semibold">Elden Ring (CD Key Steam)</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="alert alert-light m-0 py-1 px-0 text-center" role="alert">
-                                        CD Key
-                                    </div>
-                                </td>
-                                <td>790.000đ</td>
-                                <td>12</td>
-                                <td>
-                                    <div class="alert alert-success m-0 text-center p-1" role="alert">
-                                        Publish
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <a class="btn btn-secondary btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis"></i>
-                                        </a>
-
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash"></i> Delete</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1245620</th>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <div class="">
-                                            <img src="https://cdn.divineshop.vn/image/catalog/Anh-SP/Kh%C3%A1c/Divine-Shop-Elden-Ring-82335.jpg?hash=1658742026" width="45px" height="30px" alt="">
-                                        </div>
-                                        <div class="">
-                                            <p class="m-0 fw-semibold">Elden Ring (CD Key Steam)</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="alert alert-light m-0 py-1 px-0 text-center" role="alert">
-                                        CD Key
-                                    </div>
-                                </td>
-                                <td>790.000đ</td>
-                                <td>12</td>
-                                <td>
-                                    <div class="alert alert-warning m-0 text-center p-1" role="alert">
-                                        Waiting
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <a class="btn btn-secondary btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis"></i>
-                                        </a>
-
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash"></i> Delete</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            </tbody>
+                            <tbody id="productTable"></tbody>
                         </table>
                         <div class="d-flex align-items-center justify-content-between">
-                            <p>Showing <b>10</b> of <b>57</b> Results</p>
-                            <nav aria-label="...">
-                                <ul class="pagination">
+                            <p id="showingResult"></p>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
                                     <li class="page-item">
-                                        <span class="page-link"><span aria-hidden="true">&laquo;</span></span>
+                                        <btn class="page-link" aria-label="Previous" id="prevBtn" onclick="prevPage();">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </btn>
                                     </li>
                                     <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item active" aria-current="page">
-                                        <span class="page-link">2</span>
-                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
                                     <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <!-- Các nút pagination sẽ được thêm vào đây -->
                                     <li class="page-item">
-                                        <a class="page-link" href="#"><span aria-hidden="true">&raquo;</span></a>
+                                        <btn class="page-link" aria-label="Next" id="nextBtn" onclick="nextPage();">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </btn>
                                     </li>
                                 </ul>
                             </nav>
@@ -298,3 +212,4 @@
         </div>
     </div>
 </section>
+<script th:src="@{/js/admin/product/product.js}"></script>

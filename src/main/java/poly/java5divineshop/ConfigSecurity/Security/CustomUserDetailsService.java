@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import poly.java5divineshop.ConfigSecurity.Service.AccountService;
+import poly.java5divineshop.Divineshop.Service.AccountService;
 import poly.java5divineshop.Divineshop.Data.Entity.AccountE;
 import poly.java5divineshop.Divineshop.Data.Entity.RoleE;
 
@@ -21,19 +21,19 @@ import java.util.List;
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
-    private AccountService accountService ;
+    AccountService accountService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AccountE accountE = accountService.findByUsernameSecurity(username);
-        if(accountE == null){
+        if (accountE == null) {
             return null;
         }
         Collection<GrantedAuthority> getAuthoritySet = new HashSet<>();
         List<RoleE> roleS = accountE.getRoles();
-        for(RoleE role : roleS){
+        for (RoleE role : roleS) {
             getAuthoritySet.add(new SimpleGrantedAuthority(role.getRole()));
         }
-        return new CustomUserDetails(accountE,getAuthoritySet );
+        return new CustomUserDetails(accountE, getAuthoritySet);
     }
 }
