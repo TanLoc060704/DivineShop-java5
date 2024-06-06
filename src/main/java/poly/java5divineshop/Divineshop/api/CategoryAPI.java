@@ -1,4 +1,4 @@
-package poly.java5divineshop.Divineshop.api;
+package poly.java5divineshop.Divineshop.Api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
