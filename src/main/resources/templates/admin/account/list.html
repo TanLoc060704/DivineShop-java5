@@ -1,16 +1,34 @@
 <section>
-    <div class="bg-white border-bottom border-light-subtle">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center py-2">
-                <div class="d-flex justify-content-between align-items-center gap-4">
-                    <a th:href="@{/admin/account-view}" class="btn btn-dark fw-bold" style="font-size: 0.83rem;"><i
-                            class="fa-solid fa-users"></i> User Management</a>
-                    <a th:href="@{/admin/product-view}" class="btn btn-outline-dark fw-bold border-0"
-                       style="font-size: 0.83rem;"><i class="fa-brands fa-product-hunt"></i> Product Management</a>
-                    <a th:href="@{/admin/category-view}" class="btn btn-outline-dark fw-bold border-0"
-                       style="font-size: 0.83rem;"><i class="fa-solid fa-list"></i> Category Management</a>
-                    <a th:href="@{/admin/discount-view}" class="btn btn-outline-dark fw-bold border-0"
-                       style="font-size: 0.83rem;"><i class="fa-solid fa-tags"></i> Discount Management</a>
+  <div class="bg-white border-bottom border-light-subtle">
+    <div class="container">
+      <div class="d-flex justify-content-between align-items-center py-2">
+        <div class="d-flex justify-content-between align-items-center gap-4">
+          <a th:href="@{/admin/account-list}" class="btn btn-dark fw-bold" style="font-size: 0.83rem;"><i class="fa-solid fa-users"></i> User Management</a>
+          <a th:href="@{/admin/product-list}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-brands fa-product-hunt"></i> Product Management</a>
+          <a th:href="@{/admin/category-list}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-list"></i> Category Management</a>
+          <a th:href="@{/admin/discount-list}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-tags"></i> Discount Management</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container my-3">
+    <div class="row">
+      <div class="col-3">
+        <div class="list-group">
+          <a th:href="@{/admin/account-view}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-user"></i> Account Detail</a>
+          <a th:href="@{/admin/account-list}" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid fa-users-gear"></i> List Account</a>
+        </div>
+      </div>
+      <div class="col-9 bg-white rounded border">
+        <div class="px-3 py-4">
+          <h4>Accounts List</h4>
+          <hr>
+          <div class="d-flex align-items-center justify-content-between">
+            <form action="">
+              <div class="d-flex align-items-center gap-2">
+                <div class="form-floating">
+                  <input type="text" class="form-control"  placeholder="Search">
+                  <label for="floatingInput">Search</label>
                 </div>
             </div>
         </div>

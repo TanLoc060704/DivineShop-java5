@@ -1,7 +1,11 @@
 package poly.java5divineshop.Divineshop.api;
 
+import jakarta.servlet.annotation.MultipartConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,12 +29,23 @@ public class ProductAPI {
 
     @PostMapping("/imageTest")
     public ResponseEntity<?> imageTest(@RequestParam("file") MultipartFile file) {
-        return ResponseEntity.ok().body(imageService.saveImage(file));
+        System.out.println(file.getOriginalFilename());
+        return ResponseEntity.ok().body("imageService.saveImage(file)");
     }
 
     @GetMapping
     public ResponseEntity<?> getAllProducts() {
         return ResponseEntity.ok(ProductM.convertListProductMToListProductDTO(productService.getAllProducts()));
+    }
+
+    @GetMapping("/pagination")
+    public ResponseEntity<Page<ProductM>> getProducts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String searchTerm,
+            @RequestParam(required = false) String category) {
+        Page<ProductM> products = productService.getAllProductsByPage(searchTerm, category,page, size);
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{slug}")
@@ -66,10 +81,11 @@ public class ProductAPI {
     }
 
     @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO, @RequestParam("file") MultipartFile file) {
+    public ResponseEntity<?> createProduct(@RequestBody ProductDTO productDTO) {
         Map<String, Object> result = new HashMap<>();
+//        System.out.println(file.getName());
         try {
-            ProductM createdProduct = productService.addProduct(ProductM.convertProductDTOToProductM(productDTO), file);
+            ProductM createdProduct = productService.addProduct(ProductM.convertProductDTOToProductM(productDTO));
             result.put("success", true);
             result.put("message", "Thêm sản phẩm thành công");
             result.put("data", createdProduct);
