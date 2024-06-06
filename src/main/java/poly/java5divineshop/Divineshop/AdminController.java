@@ -39,7 +39,7 @@ public class AdminController {
         return "admin/admin";
     }
 
-    @GetMapping("/category-view")
+    @GetMapping("/category-view/{}")
     public String categoryView(Model model) {
         model.addAttribute("view", "category/overview");
         return "admin/admin";

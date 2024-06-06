@@ -5,7 +5,7 @@
                 <div class="d-flex justify-content-between align-items-center gap-4">
                     <a th:href="@{/admin/account-view}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-users"></i> User Management</a>
                     <a th:href="@{/admin/product-view}" class="btn btn-outline-dark fw-bold border-0 " style="font-size: 0.83rem;"><i class="fa-brands fa-product-hunt"></i> Product Management</a>
-                    <a th:href="@{/admin/category-view}" class="btn btn-dark fw-bold" style="font-size: 0.83rem;"><i class="fa-solid fa-list"></i> Category Management</a>
+                    <a th:href="@{/admin/category-view/1}" class="btn btn-dark fw-bold" style="font-size: 0.83rem;"><i class="fa-solid fa-list"></i> Category Management</a>
                     <a th:href="@{/admin/discount-view}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-tags"></i> Discount Management</a>
                 </div>
             </div>
@@ -15,7 +15,7 @@
         <div class="row">
             <div class="col-3">
                 <div class="list-group">
-                    <a th:href="@{/admin/category-view}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid fa-wrench"></i> Category Detail</a>
+                    <a th:href="@{/admin/category-view/1}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid fa-wrench"></i> Category Detail</a>
                     <a th:href="@{/admin/category-list}" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid fa-table-list"></i> List Categories</a>
                 </div>
             </div>
@@ -24,26 +24,25 @@
                     <h4>Categories List</h4>
                     <hr>
                     <div class="d-flex align-items-center justify-content-between">
-                        <form action="">
                             <div class="d-flex align-items-center gap-2">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control"  placeholder="Search">
+                                    <input type="text" class="form-control"  placeholder="Search" id="searchInput">
                                     <label>Search</label>
                                 </div>
-                                <div>
-                                    <div class="form-floating">
-                                        <select class="form-select pe-5" aria-label="Floating label select example">
-                                            <option selected>Steam</option>
-                                            <option value="1">One</option>
-                                            <option value="2">Two</option>
-                                            <option value="3">Three</option>
-                                        </select>
-                                        <label>Sort</label>
-                                    </div>
-                                </div>
+<!--                                <div>-->
+<!--                                    <div class="form-floating">-->
+<!--                                        <select class="form-select pe-5" aria-label="Floating label select example">-->
+<!--                                            <option selected>Steam</option>-->
+<!--                                            <option value="1">One</option>-->
+<!--                                            <option value="2">Two</option>-->
+<!--                                            <option value="3">Three</option>-->
+<!--                                        </select>-->
+<!--                                        <label>Sort</label>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <button class="btn btn-outline-secondary p-3" type="button"><i class="fa-solid fa-filter"></i></button>
                             </div>
-                        </form>
+
 
                         <div>
                             <!-- Button trigger modal -->
@@ -64,7 +63,7 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <div class="form-floating mb-3">
-                                                            <input type="text" class="form-control"  placeholder="Product Title">
+                                                            <input type="text" class="form-control"  placeholder="Product Title" id="tenTheLoai">
                                                             <label>Category Title</label>
                                                         </div>
                                                     </div>
@@ -72,7 +71,7 @@
                                             </div>
                                             <div class="modal-footer">
                                                 <button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Create Category</button>
+                                                <button type="button" class="btn btn-primary" id="save-category">Create Category</button>
                                             </div>
                                         </form>
                                     </div>
@@ -90,46 +89,15 @@
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1245620</th>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <div class="">
-                                            <p class="m-0 fw-semibold">Elden Ring (CD Key Steam)</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <a class="btn btn-secondary btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis"></i>
-                                        </a>
+                            <tbody id="tr-table-category">
 
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash"></i> Delete</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
                             </tbody>
                         </table>
                         <div class="d-flex align-items-center justify-content-between">
-                            <p>Showing <b>10</b> of <b>57</b> Results</p>
+                            <p>Showing <b id="soluongItem">10</b> of <b id="tongItem">57</b> Results</p>
                             <nav aria-label="...">
-                                <ul class="pagination">
-                                    <li class="page-item">
-                                        <span class="page-link"><span aria-hidden="true">&laquo;</span></span>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item active" aria-current="page">
-                                        <span class="page-link">2</span>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#"><span aria-hidden="true">&raquo;</span></a>
-                                    </li>
+                                <ul class="pagination" id="pagination-category">
+
                                 </ul>
                             </nav>
                         </div>
@@ -139,3 +107,4 @@
         </div>
     </div>
 </section>
+<script th:src="@{/js/admin/js-admin-category.js}"></script>
