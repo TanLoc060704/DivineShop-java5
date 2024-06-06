@@ -54,6 +54,7 @@ public class UserApi {
         Map<String, Object> result = new HashMap<>();
         try {
             String base64Data = userDto.getAnhDaiDien();
+            System.out.println(base64Data);
             if (base64Data != null && !base64Data.isEmpty()) {
                 String name = base64Data.substring(0, base64Data.indexOf(","));
                 int viTriDauPhayThuHai = base64Data.indexOf(",", base64Data.indexOf(",") + 1);
@@ -67,13 +68,14 @@ public class UserApi {
             } else {
                 UserM userM = userService.getUserByTenDangNhap(userDto.getTenDangNhap());
                 if (userM != null) {
-                    userDto.setTenDangNhap(userM.getTenDangNhap());
+                    userDto.setAnhDaiDien(userM.getAnhDaiDien());
                 }
             }
             result.put("status", true);
             result.put("message", "Call Api Successfully");
             result.put("data", userService.updateUserByTenDangNhap(userDto));
         } catch (Exception e) {
+            e.printStackTrace();
             result.put("status", false);
             result.put("message", "Call Api Failed");
             result.put("data", null);

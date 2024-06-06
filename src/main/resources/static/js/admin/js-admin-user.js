@@ -86,7 +86,7 @@ $(document).ready(function () {
                                             <i class="fa-solid fa-ellipsis"></i>
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><a class="btn dropdown-item viewAndEdit" data-username="${user.tenDangNhap}" data-role="${role.role}" data-idRole="${role.idRole}"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
+                                            <li><a class="btn dropdown-item viewAndEdit" data-username="${user.tenDangNhap}" data-role="${role.role}" data-idrole="${role.idRole}"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
                                         </ul>
                                     </div>
                                 </td>
@@ -187,7 +187,7 @@ $(document).ready(function () {
     $(document).on('click', '.viewAndEdit', function () {
         let username = $(this).data('username');
         let role = $(this).data('role');
-        let idRole = $(this).data('idRole');
+        let idRole = $(this).data('idrole');
         console.log(username, role);
         sessionStorage.setItem('username', username);
         sessionStorage.setItem('role', role);
