@@ -1,4 +1,4 @@
-package poly.java5divineshop.Divineshop.api;
+package poly.java5divineshop.Divineshop.Api;
 
 import jakarta.servlet.annotation.MultipartConfig;
 import lombok.extern.slf4j.Slf4j;

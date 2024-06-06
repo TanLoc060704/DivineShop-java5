@@ -5,18 +5,20 @@ $(document).ready(function () {
     const getAllUser = async (searchQuery = '', roleFilter = '', page = 1) => {
         let listUserContainer = $('#listUserContainer');
         let paginationContainer = $('#paginationContainer');
+        let soluongItem = $('#soluongItem');
+        let tongItem = $('#tongItem');
         await axios.get('/api/public/getAllUser')
             .then(response => {
                 listUserContainer.html('');
                 paginationContainer.html('');
                 console.log(response.data)
                 let responseData = response.data.data;
-                let totalItems = responseData.length;
 
                 // Lưu thông tin người dùng đầu tiên vào sessionStorage
                 if (responseData.length > 0) {
                     sessionStorage.setItem('username', responseData[0].tenDangNhap);
                     sessionStorage.setItem('role', responseData[0].roles[0].role);
+                    sessionStorage.setItem('idRole', responseData[0].roles[0].idRole);
                 }
 
                 // Lọc dữ liệu theo vai trò và từ khóa tìm kiếm nếu có
@@ -31,47 +33,65 @@ $(document).ready(function () {
                 });
 
                 // Tính toán số lượng trang
-                totalItems = responseData.length;
-                let totalPages = Math.ceil(totalItems / pageSize);
-                let start = (page - 1) * pageSize;
-                let end = start + pageSize;
-                let paginatedUsers = responseData.slice(start, end);
+                let totalUsers = responseData.length;
+                tongItem.text(totalUsers);
+                let paginatedUsers = [];
+                let userCount = 0;
+
+                for (let i = 0; i < totalUsers; i++) {
+                    let user = responseData[i];
+                    let roles = user.roles;
+
+                    for (let j = 0; j < roles.length; j++) {
+                        if (userCount < page * pageSize && userCount >= (page - 1) * pageSize) {
+                            paginatedUsers.push({
+                                user,
+                                role: roles[j]
+                            });
+                        }
+                        userCount++;
+                    }
+                }
+
+                let totalPages = Math.ceil(userCount / pageSize);
+                soluongItem.text(paginatedUsers.length);
 
                 if (paginatedUsers.length === 0) {
                     listUserContainer.html('<tr><td colspan="5" class="text-center">No users found</td></tr>');
                 } else {
-                    $.each(paginatedUsers, function (index, user) {
+                    $.each(paginatedUsers, function (index, data) {
+                        let user = data.user;
+                        let role = data.role;
                         let formattedDate = moment(user.ngayThamGia).format('DD-MM-YYYY');
-                        $.each(user.roles, function (index, role) {
-                            let html = `
-                                <tr>
-                                    <th scope="row">${user.sysIdUser}</th>
-                                    <td>
-                                        <div class="d-flex align-items-center gap-2">
-                                            <div class="">
-                                                <img src="https://cdn.divineshop.vn/image/catalog/icon/avatar-khach-hang-2-52544.png?hash=1649933269" width="35px" height="35px" alt="">
-                                            </div>
-                                            <div class="">
-                                                <p class="m-0 fw-semibold">${user.tenDangNhap}</p>
-                                                <p class="m-0 text-secondary">${role.role}</p>
-                                            </div>
+
+                        let html = `
+                            <tr>
+                                <th scope="row">${user.sysIdUser}</th>
+                                <td>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <div class="">
+                                            <img src="https://cdn.divineshop.vn/image/catalog/icon/avatar-khach-hang-2-52544.png?hash=1649933269" width="35px" height="35px" alt="">
                                         </div>
-                                    </td>
-                                    <td>${user.email}</td>
-                                    <td>${formattedDate}</td>
-                                    <td>
-                                        <div class="dropdown">
-                                            <a class="btn btn-secondary btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="fa-solid fa-ellipsis"></i>
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="btn dropdown-item viewAndEdit" data-username="${user.tenDangNhap}" data-role="${role.role}"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
-                                            </ul>
+                                        <div class="">
+                                            <p class="m-0 fw-semibold">${user.tenDangNhap}</p>
+                                            <p class="m-0 text-secondary">${role.role}</p>
                                         </div>
-                                    </td>
-                                </tr>`;
-                            listUserContainer.append(html);
-                        });
+                                    </div>
+                                </td>
+                                <td>${user.email}</td>
+                                <td>${formattedDate}</td>
+                                <td>
+                                    <div class="dropdown">
+                                        <a class="btn btn-secondary btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li><a class="btn dropdown-item viewAndEdit" data-username="${user.tenDangNhap}" data-role="${role.role}" data-idRole="${role.idRole}"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>`;
+                        listUserContainer.append(html);
                     });
 
                     // Hiển thị nút "Back" và "Next"
@@ -105,11 +125,19 @@ $(document).ready(function () {
     const saveUser = async () => {
         let username = $('#inputUsername').val();
         let email = $('#inputEmail').val();
+        let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         if (username === '' || email === '') {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: "Please fill in all fields"
+            });
+            return;
+        } else if (!emailPattern.test(email)) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Please enter a valid email address"
             });
             return;
         }
@@ -159,9 +187,11 @@ $(document).ready(function () {
     $(document).on('click', '.viewAndEdit', function () {
         let username = $(this).data('username');
         let role = $(this).data('role');
+        let idRole = $(this).data('idRole');
         console.log(username, role);
         sessionStorage.setItem('username', username);
         sessionStorage.setItem('role', role);
+        sessionStorage.setItem('idRole', idRole);
         window.location.href = '/admin/account-view';
     });
 
