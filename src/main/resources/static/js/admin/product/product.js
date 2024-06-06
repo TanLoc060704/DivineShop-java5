@@ -6,7 +6,7 @@ let isShowingResultUpdated = false;
 function loadProducts() {
     axios.get(`/api/products/pagination?page=${currentPage}&size=${pageSize}&searchTerm=${searchTerm}&category=${danhmuc}`)
         .then(function (response) {
-            let {first, last, content, totalElements, numberOfElements} = response.data
+            let {first, last, content, totalElements, numberOfElements, totalPages} = response.data
             console.log(response.data)
             let productsList = $("#productTable");
 
@@ -81,22 +81,17 @@ function loadProducts() {
                                 </tr>`;
                 productsList.append(row);
             });
-            updatePaginationButtons(first, last);
+            updatePaginationButtons(first, last, totalPages);
         })
         .catch(function (error) {
             console.error("Error fetching products:", error);
         });
 }
-$(document).ready(function() {
-    // Load products initially
-    loadProducts();
-    // Create Product
-});
-
 function searchEngine() {
     searchTerm = $('#searchListProductName').val()
     danhmuc = $('#searchListProductCate').val()
     isShowingResultUpdated = false;
+    goToPage(0)
     loadProducts()
     console.log($('#searchListProductName').val())
     console.log($('#searchListProductCate').val())
@@ -161,10 +156,31 @@ $("#createProductForm").submit(function(e) {
     //         console.error("Error creating product:", error);
     //     });
 });
+
 // Disable/enable prev/next buttons based on current page
-function updatePaginationButtons(first, last) {
-    first ? $('#prevBtn').addClass('disabled') :  $('#prevBtn').removeClass('disabled')
-    last ? $('#nextBtn').addClass('disabled') :  $('#nextBtn').removeClass('disabled')
+function updatePaginationButtons(first, last, totalPages) {
+    // Disable Previous button if on first page
+    first ? $('#prevBtn').addClass('disabled') : $('#prevBtn').removeClass('disabled');
+
+    // Disable Next button if on last page
+    last ? $('#nextBtn').addClass('disabled') : $('#nextBtn').removeClass('disabled');
+
+    // Generate page number buttons
+    let paginationHtml = '';
+    let startPage = Math.max(currentPage - 1, 0);
+    let endPage = Math.min(startPage + 2, totalPages - 1);
+
+    for (let i = startPage; i <= endPage; i++) {
+        paginationHtml += `<li class="page-item ${currentPage === i ? 'active' : ''}"><a class="page-link" href="#" onclick="goToPage(${i})">${i + 1}</a></li>`;
+    }
+
+    $('.pagination').find('li:not(:first-child, :last-child)').remove();
+    $('.pagination').find('li:last-child').before(paginationHtml);
+}
+
+function goToPage(pageNumber) {
+    currentPage = pageNumber;
+    loadProducts();
 }
 
 function prevPage() {
@@ -178,5 +194,11 @@ function nextPage() {
     currentPage++;
     loadProducts();
 }
+
+$(document).ready(function() {
+    // Load products initially
+    loadProducts();
+    // Create Product
+});
 
 
