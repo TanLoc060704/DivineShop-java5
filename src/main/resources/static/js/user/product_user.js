@@ -1,6 +1,10 @@
 $(document).ready(function () {
     var categories = []
-
+    const url = new URL(window.location.href);
+    // Sử dụng URLSearchParams để lấy giá trị của tham số 'cat'
+    const params = new URLSearchParams(url.search);
+    const catValue = params.get('cat');
+    console.log(catValue);
     const getAllCategory = async () => {
         let listCategoryContainer = $('#listCategoryContainer');
         await axios
@@ -13,16 +17,13 @@ $(document).ready(function () {
                 $.each(responseData, (index, cat) => {
                     let html =
                         `
-                            <option value="${cat.tenTheLoai}">${cat.tenTheLoai}</option>
+                            <option value="${cat.tenTheLoai}" ${cat.tenTheLoai === catValue ? 'selected' : ''}>${cat.tenTheLoai}</option>
                         `
                     ;
                     listCategoryContainer.append(html);
                 })
             })
-        const url = new URL(window.location.href);
-        // Sử dụng URLSearchParams để lấy giá trị của tham số 'cat'
-        const params = new URLSearchParams(url.search);
-        const catValue = params.get('cat');
+
     }
     getAllCategory();
 
