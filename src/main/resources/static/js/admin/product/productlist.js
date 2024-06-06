@@ -25,13 +25,10 @@ $(document).ready(function() {
                         theLoai: $("#createProductGenres").val(),
                         giaSanPham: $("#createProductPrice").val(),
                         percentGiamGia: $("#createProductDiscounts").val(),
-                        anhSanPham: $("#createProductImage").val(),
                         slug: $("#createProductSlug").val(),
                         danhMuc: $("#createProductCategory").val(),
                         mota: $("#createProductDescription").val(),
                         soLuong: $("#createProductQuantity").val(),
-                        soLuongMua: 0,
-                        soLuotThich: 0,
                         categories: result
                     };
                     // console.log($("#createProductImage").val().split('\\').pop().split('/').pop())
