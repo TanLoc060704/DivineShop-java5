@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.cdnfonts.com/css/proxima-nova-condensed" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="icon" type="image/x-icon" href="">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/main.css}">
+    <script th:src="@{/js/UserJs.js}"></script>
     <title>Divine Clone</title>
 </head>
 <body class="bg-body-secondary">
@@ -15,7 +19,8 @@
     <div class="container my-3">
         <div class="d-flex justify-content-center  mt-4 p-3 rounded-top" style="background-color: #2679f2;">
             <a class="navbar-brand text-white fw-bold" th:href="@{/}">
-                <img src="https://cdn.divineshop.vn/static/b1402e84a947ed36cebe9799e47f61c2.svg" alt="" style="width: 49px; height: 49px;">
+                <img src="https://cdn.divineshop.vn/static/b1402e84a947ed36cebe9799e47f61c2.svg" alt=""
+                     style="width: 49px; height: 49px;">
                 Divine Shop
             </a>
         </div>
@@ -27,41 +32,64 @@
                 <div class="modal-body">
                     <div class="row">
                         <div class="col-6">
-                            <p style="font-size: 0.85rem;">Đăng ký để theo dõi đơn hàng, lưu danh sách sản phẩm yêu thích và nhận nhiều ưu đãi hấp dẫn</p>
+                            <p style="font-size: 0.85rem;">Đăng ký để theo dõi đơn hàng, lưu danh sách sản phẩm yêu
+                                thích và nhận nhiều ưu đãi hấp dẫn</p>
                             <div class="mb-3">
-                                <input type="email" class="form-control" placeholder="Email hoặc tên đăng nhập">
+                                <input type="text" class="form-control" placeholder="Họ tên" name="fullName">
+                                <span class="error" style="display: none; color: red;">✖ Họ tên không hợp lệ</span>
                             </div>
                             <div class="mb-3">
-                                <input type="password" class="form-control" placeholder="Mật khẩu">
+                                <input type="text" class="form-control" placeholder="Tên đăng nhập" name="username"
+                                       id="username">
+                                <span class="error"
+                                      style="display: none; color: red;">✖ Tên đăng nhập không hợp lệ</span>
                             </div>
                             <div class="mb-3">
-                                <input type="email" class="form-control" placeholder="Email hoặc tên đăng nhập">
+                                <input type="email" class="form-control" placeholder="Email" name="email" id="email">
+                                <span class="error" style="display: none; color: red;">✖ Email không hợp lệ</span>
                             </div>
                             <div class="mb-3">
-                                <input type="password" class="form-control" placeholder="Mật khẩu">
+                                <input type="password" class="form-control" placeholder="Mật khẩu" name="password"
+                                       id="password">
+                                <span class="error" style="display: none; color: red;">✖ Mật khẩu không hợp lệ</span>
                             </div>
                             <div class="mb-3">
-                                <input type="email" class="form-control" placeholder="Email hoặc tên đăng nhập">
+                                <input type="password" class="form-control" placeholder="Nhập lại mật khẩu"
+                                       name="confirmPassword" id="confirmPassword">
+                                <span class="error"
+                                      style="display: none; color: red;">✖ Mật khẩu nhập lại không khớp</span>
                             </div>
                             <div class="mb-3">
-                                <input type="password" class="form-control" placeholder="Mật khẩu">
+                                <input type="text" class="form-control" placeholder="Số điện thoại (Không bắt buộc)"
+                                       name="phoneNumber" id="phoneNumber">
+                                <span class="error"
+                                      style="display: none; color: red;">✖ Số điện thoại không hợp lệ</span>
                             </div>
                             <div class="mb-3">
-                                <input type="password" class="form-control" placeholder="Mật khẩu">
+                                <input type="text" class="form-control" placeholder="Mã giới thiệu (nếu có)"
+                                       name="referralCode" id="referralCode">
+                                <span class="error"
+                                      style="display: none; color: red;">✖ Mã giới thiệu không hợp lệ</span>
                             </div>
                             <div class="form-check mb-3">
-                                <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
-                                <label class="form-check-label"  style="font-size: 0.85rem;" for="flexCheckChecked">
+                                <input class="form-check-input" type="checkbox" value="" checked name="marketingConsent"
+                                       id="marketingConsent">
+                                <label class="form-check-label" style="font-size: 0.85rem;">
                                     Tôi đồng ý nhận thông tin marketing mới từ Divine Shop.
                                 </label>
                             </div>
 
-                            <button type="button" class="btn w-100 btn-primary mb-2">Tạo tài khoản</button>
-                            <p style="font-size: 0.8rem;">Khi bấm Tạo tài khoản, bạn đã đồng ý với <a href="#" class="nav-link">Điều khoản dịch vụ của Divine Shop</a></p>
+                            <button type="button" class="btn w-100 btn-primary mb-2" id="btnSendMailForUser">Tạo tài
+                                khoản
+                            </button>
+                            <p style="font-size: 0.8rem;">Khi bấm Tạo tài khoản, bạn đã đồng ý với <a href="#"
+                                                                                                      class="nav-link">Điều
+                                khoản dịch vụ của Divine Shop</a></p>
                         </div>
                         <div class="col-6">
                             <div class="d-flex align-items-center justify-content-center h-100">
-                                <img src="https://cdn.divineshop.vn/static/235dccb09069e3d4eebc6227236f9dc2.svg" class="img-fluid" alt="">
+                                <img src="https://cdn.divineshop.vn/static/235dccb09069e3d4eebc6227236f9dc2.svg"
+                                     class="img-fluid" alt="">
                             </div>
                         </div>
                     </div>
@@ -72,9 +100,11 @@
 </section>
 
 
-
 <script th:src="@{/js/main.js}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+        crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/830d8d2c62.js" crossorigin="anonymous"></script>
 </body>
 </html>

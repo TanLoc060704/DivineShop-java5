@@ -15,4 +15,7 @@ public interface AccountRepo extends JpaRepository<AccountE,Integer> {
     AccountE findByUsername(String username);
     @Query("SELECT a FROM AccountE a LEFT JOIN FETCH a.roles WHERE a.username = :username")
     AccountE findByUsernameQuerySecurity(@Param("username") String username);
+    AccountE findByUsernameOrEmail(String username, String email);
+    AccountE findByEmail(String email);
+    AccountE save (AccountE accountE);
 }

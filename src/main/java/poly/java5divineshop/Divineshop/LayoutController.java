@@ -19,6 +19,13 @@ public class LayoutController {
     public String register(Model model) {
         return "user/register";
     }
+
+    @GetMapping("/confirm-otp")
+    public String showConfirmOtp(Model model){
+        model.addAttribute("view", "confirmOtp");
+        return "user/index";
+    }
+
     @GetMapping("/forgot-password")
     public String forgotPW(Model model) {
         return "user/forgotPW";

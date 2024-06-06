@@ -1,0 +1,20 @@
+<section th:fragment="confirmOtp">
+    <div class="container d-flex justify-content-center align-items-center vh-100">
+        <div class="card p-4">
+            <div class="card-body text-center">
+                <h2 class="card-title">Xác nhận OTP</h2>
+                <p class="card-text">Vui lòng nhập mã OTP gồm 6 chữ số:</p>
+                <form id="otpForm" class="d-flex justify-content-center">
+                    <input type="text" class="form-control otp-input mx-1"  id="otp1" pattern="\d" required>
+                    <input type="text" class="form-control otp-input mx-1"  id="otp2" pattern="\d" required>
+                    <input type="text" class="form-control otp-input mx-1"  id="otp3" pattern="\d" required>
+                    <input type="text" class="form-control otp-input mx-1"  id="otp4" pattern="\d" required>
+                </form>
+                <button type="button" form="otpForm" class="btn btn-primary mt-3" id="btnConFirmOtp">Xác nhận</button>
+            </div>
+        </div>
+    </div>
+</section>
+<script th:src="@{/js/confirmOTP.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
