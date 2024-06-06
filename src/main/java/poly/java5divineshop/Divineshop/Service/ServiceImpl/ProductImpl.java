@@ -1,4 +1,4 @@
-package poly.java5divineshop.Divineshop.Service.impl;
+package poly.java5divineshop.Divineshop.Service.ServiceImpl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
