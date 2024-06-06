@@ -11,7 +11,6 @@ $(document).ready(function () {
                 paginationContainer.html('');
                 console.log(response.data)
                 let responseData = response.data.data;
-                let totalItems = responseData.length;
 
                 // Lưu thông tin người dùng đầu tiên vào sessionStorage
                 if (responseData.length > 0) {
@@ -32,7 +31,7 @@ $(document).ready(function () {
                 });
 
                 // Tính toán số lượng trang
-                totalItems = responseData.length;
+                let totalItems = responseData.length;
                 let totalPages = Math.ceil(totalItems / pageSize);
                 let start = (page - 1) * pageSize;
                 let end = start + pageSize;
@@ -106,11 +105,19 @@ $(document).ready(function () {
     const saveUser = async () => {
         let username = $('#inputUsername').val();
         let email = $('#inputEmail').val();
+        let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         if (username === '' || email === '') {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
                 text: "Please fill in all fields"
+            });
+            return;
+        } else if (!emailPattern.test(email)) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "Please enter a valid email address"
             });
             return;
         }

@@ -1,6 +1,7 @@
 $(document).ready(function () {
     var path;
     var nameImg;
+    var nameImgCurr;
     var nameUser;
     const getUserByUsernameAndRole = async () => {
         // Lấy giá trị từ session storage
@@ -19,6 +20,7 @@ $(document).ready(function () {
                 let responseData = response.data.data;
                 let formattedDate = moment(responseData.ngayThamGia).format('DD-MM-YYYY');
                 nameUser = responseData.hoVaTen;
+                nameImgCurr = responseData.anhDaiDien;
 
                 let html = `
                 <div class="px-3 py-4">
@@ -148,7 +150,7 @@ $(document).ready(function () {
             });
             return;
         }
-        if (hoVaTen !== nameUser) {
+        if (hoVaTen !== nameUser || nameImg !== nameImgCurr) {
             await axios.post('/api/public/updateUserByTenDangNhap', {
                 hoVaTen: hoVaTen,
                 anhDaiDien: avatar,
@@ -210,9 +212,11 @@ $(document).ready(function () {
                     });
                 })
         }
+
     }
-    $(document).on('click', '#updateUser', function () {
-        updateUser();
+    $(document).on('click', '#updateUser', async function () {
+        await updateUser();
+        getUserByUsernameAndRole();
     });
 
 })
