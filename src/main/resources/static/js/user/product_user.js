@@ -159,6 +159,15 @@ $(document).ready(function () {
                     </div>
                 `
                 productHtml.append(loadProductToHtml);
+
+                $("#gioi-thieu-san-pham").append(
+                    `
+                        <h6 class="fw-bold">Giới thiệu</h6>
+                        <p>${product.mota}</p>
+                        <hr>
+                    `
+                )
+
             })
             .catch(function (error) {
                 console.error("Error fetching products:", error);
