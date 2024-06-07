@@ -49,7 +49,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white fw-bold" style="font-size: 0.85rem;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="https://cdn.divineshop.vn/image/catalog/icon/avatar-khach-hang-2-52544.png?hash=1649933269" class="rounded-circle" alt="" width="42px" height="42px">
-                                Hi <span sec:authentication="name"></span>
+                                Hi <span sec:authentication="name" id="user_name"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="py-1 px-3"  style="font-size: 0.85rem;">Số dư tài khoản</li>
@@ -62,7 +62,7 @@
                                 <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/favorite}">Sản phẩm yêu thích</a></li>
                                 <li>
                                     <form action="#" th:action="@{/logout}" method="post" class="p-0 m-0">
-                                        <button type="submit" class="dropdown-item border-0 bg-transparent" style="font-size: 0.85rem;">Đăng Xuất</button>
+                                        <button type="submit" id="logout" class="dropdown-item border-0 bg-transparent" style="font-size: 0.85rem;">Đăng Xuất</button>
                                     </form>
                                 </li>
                             </ul>
@@ -71,7 +71,7 @@
                 </div>
                 <!--TanLoc-End-->
                 <a th:href="@{/cart}">
-                    <button type="button" class="btn btn-outline-light px-3 py-2" style="font-size: 0.9rem;"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng <span class="badge text-bg-light px-1">4</span></button>
+                    <button type="button" class="btn btn-outline-light px-3 py-2" style="font-size: 0.9rem;"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng <span class="badge text-bg-light px-1" id="soluong">0</span></button>
                 </a>
             </div>
         </nav>
