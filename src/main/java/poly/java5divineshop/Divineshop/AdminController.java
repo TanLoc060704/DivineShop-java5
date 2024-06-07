@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import poly.java5divineshop.Divineshop.Data.Model.UserM;
@@ -24,12 +25,14 @@ public class AdminController {
     @GetMapping("/account-list")
     public String accountList(Model model) {
         model.addAttribute("view", "account/list");
+
         return "admin/admin";
     }
 
-    @GetMapping("/product-view")
-    public String productView(Model model) {
+    @GetMapping("/product-view/{slug}")
+    public String productView(Model model, @PathVariable("slug") String id) {
         model.addAttribute("view", "product/overview");
+        model.addAttribute("detail", id);
         return "admin/admin";
     }
 
@@ -39,7 +42,7 @@ public class AdminController {
         return "admin/admin";
     }
 
-    @GetMapping("/category-view")
+    @GetMapping("/category-view/{}")
     public String categoryView(Model model) {
         model.addAttribute("view", "category/overview");
         return "admin/admin";

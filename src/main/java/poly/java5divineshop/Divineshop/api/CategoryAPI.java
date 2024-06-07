@@ -54,10 +54,18 @@ public class CategoryAPI {
     public ResponseEntity<?> createCategory(@RequestBody CategoryDTO categoryDTO) {
         Map<String, Object> result = new HashMap<>();
         try {
-            CategoryM createdCategory = categoryService.addCategoryByName(CategoryM.convertCategoryDTOToCategoryM(categoryDTO));
+            String tenTheLoai = categoryDTO.getTenTheLoai();
+            var checkTenTheLoai  = categoryService.getCategoryByTenTheLoai(tenTheLoai);
+            if(!checkTenTheLoai.isEmpty()){
+                result.put("success", true);
+                result.put("message", "Tên thể loại đã tồn tại");
+                result.put("data", false);
+                return ResponseEntity.ok(result);
+            }
+            categoryService.addCategoryByName(CategoryM.convertCategoryDTOToCategoryM(categoryDTO));
             result.put("success", true);
             result.put("message", "Thêm danh mục thành công");
-            result.put("data", createdCategory);
+            result.put("data", true);
             return ResponseEntity.ok(result);
         } catch (Exception e) {
             log.error("Thêm danh mục thất bại!!!", e);
@@ -72,11 +80,19 @@ public class CategoryAPI {
     public ResponseEntity<?> updateCategory(@PathVariable int id, @RequestBody CategoryDTO categoryDTO) {
         Map<String, Object> result = new HashMap<>();
         try {
+            String tenTheLoai = categoryDTO.getTenTheLoai();
+            var checkTenTheLoai  = categoryService.getCategoryByTenTheLoai(tenTheLoai);
+            if(!checkTenTheLoai.isEmpty()){
+                result.put("success", true);
+                result.put("message", "Tên thể loại đã tồn tại");
+                result.put("data", false);
+                return ResponseEntity.ok(result);
+            }
             Optional<CategoryM> updatedCategory = categoryService.updateCategory(id, CategoryM.convertCategoryDTOToCategoryM(categoryDTO));
             if (updatedCategory.isPresent()) {
                 result.put("success", true);
                 result.put("message", "Cập nhật danh mục thành công");
-                result.put("data", updatedCategory.get());
+                result.put("data", true);
             } else {
                 result.put("success", false);
                 result.put("message", "Danh mục không tồn tại");

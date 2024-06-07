@@ -63,14 +63,13 @@ $(document).ready(function () {
                         let user = data.user;
                         let role = data.role;
                         let formattedDate = moment(user.ngayThamGia).format('DD-MM-YYYY');
-
                         let html = `
                             <tr>
                                 <th scope="row">${user.sysIdUser}</th>
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
                                         <div class="">
-                                            <img src="https://cdn.divineshop.vn/image/catalog/icon/avatar-khach-hang-2-52544.png?hash=1649933269" width="35px" height="35px" alt="">
+                                            <img src="/img-user/${user.anhDaiDien}" width="35px" height="35px" alt="">
                                         </div>
                                         <div class="">
                                             <p class="m-0 fw-semibold">${user.tenDangNhap}</p>
@@ -110,7 +109,6 @@ $(document).ready(function () {
                             paginationContainer.append(`<li class="page-item"><a class="page-link" href="#" data-page="${i}">${i}</a></li>`);
                         }
                     }
-
                     paginationContainer.append(`<li class="page-item ${page === totalPages ? 'disabled' : ''}"><a class="page-link" href="#" data-page="${page + 1}">&raquo;</a></li>`);
                 }
             })

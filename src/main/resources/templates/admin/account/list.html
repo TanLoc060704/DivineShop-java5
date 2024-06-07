@@ -5,17 +5,17 @@
                 <div class="d-flex justify-content-between align-items-center gap-4">
                     <a th:href="@{/admin/account-list}" class="btn btn-dark fw-bold" style="font-size: 0.83rem;"><i
                             class="fa-solid fa-users"></i> User Management</a>
-                    <a th:href="@{/admin/product-view}" class="btn btn-outline-dark fw-bold border-0"
+                    <a th:href="@{/admin/product-list}" class="btn btn-outline-dark fw-bold border-0"
                        style="font-size: 0.83rem;"><i class="fa-brands fa-product-hunt"></i> Product Management</a>
-                    <a th:href="@{/admin/category-view}" class="btn btn-outline-dark fw-bold border-0"
+                    <a th:href="@{/admin/category-list}" class="btn btn-outline-dark fw-bold border-0"
                        style="font-size: 0.83rem;"><i class="fa-solid fa-list"></i> Category Management</a>
-                    <a th:href="@{/admin/discount-view}" class="btn btn-outline-dark fw-bold border-0"
+                    <a th:href="@{/admin/discount-list}" class="btn btn-outline-dark fw-bold border-0"
                        style="font-size: 0.83rem;"><i class="fa-solid fa-tags"></i> Discount Management</a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container my-3">
+    <div class="container my-3" style="min-height: 40rem;">
         <div class="row">
             <div class="col-3">
                 <div class="list-group">
@@ -33,25 +33,25 @@
                     <hr>
                     <div class="d-flex align-items-center justify-content-between">
 
-                            <div class="d-flex align-items-center gap-2">
-                                <div class="form-floating">
-                                    <input type="text" class="form-control" id="searchInput" placeholder="Search">
-                                    <label for="searchInput">Search</label>
-                                </div>
-                                <div>
-                                    <div class="form-floating">
-                                        <select class="form-select pe-5" id="roleSelect" aria-label="Floating label select example">
-                                            <option value="">All Roles</option>
-                                            <option value="ROLE_EMPLOYEE">Employee</option>
-                                            <option value="ROLE_MANAGER">Manager</option>
-                                            <option value="ROLE_ADMIN">Admin</option>
-                                        </select>
-                                        <label >Role</label>
-                                    </div>
-                                </div>
-                                <button class="btn btn-outline-secondary p-3" id="filterButton" type="button"><i
-                                        class="fa-solid fa-filter"></i></button>
+                        <div class="d-flex align-items-center gap-2">
+                            <div class="form-floating">
+                                <input type="text" class="form-control" id="searchInput" placeholder="Search">
+                                <label for="searchInput">Search</label>
                             </div>
+                            <div>
+                                <div class="form-floating">
+                                    <select class="form-select pe-5" id="roleSelect" aria-label="Floating label select example">
+                                        <option value="">All Roles</option>
+                                        <option value="ROLE_EMPLOYEE">Employee</option>
+                                        <option value="ROLE_MANAGER">Manager</option>
+                                        <option value="ROLE_ADMIN">Admin</option>
+                                    </select>
+                                    <label >Role</label>
+                                </div>
+                            </div>
+                            <button class="btn btn-outline-secondary p-3" id="filterButton" type="button"><i
+                                    class="fa-solid fa-filter"></i></button>
+                        </div>
 
                         <div>
                             <!-- Button trigger modal -->
@@ -71,27 +71,27 @@
                                                     aria-label="Close"></button>
                                         </div>
 
-                                            <div class="modal-body">
-                                                <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="inputUsername"
-                                                           placeholder="Username">
-                                                    <label for="inputUsername">Username</label>
-                                                </div>
+                                        <div class="modal-body">
+                                            <div class="form-floating mb-3">
+                                                <input type="text" class="form-control" id="inputUsername"
+                                                       placeholder="Username">
+                                                <label for="inputUsername">Username</label>
+                                            </div>
 
-                                                <div class="form-floating mb-3">
-                                                    <input type="email" class="form-control" id="inputEmail"
-                                                           placeholder="Email">
-                                                    <label for="inputEmail">Email</label>
-                                                </div>
+                                            <div class="form-floating mb-3">
+                                                <input type="email" class="form-control" id="inputEmail"
+                                                       placeholder="Email">
+                                                <label for="inputEmail">Email</label>
                                             </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-outline-danger"
-                                                        data-bs-dismiss="modal">Close
-                                                </button>
-                                                <button type="button" class="btn btn-primary" id="submitAddUser">Add
-                                                    User
-                                                </button>
-                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-outline-danger"
+                                                    data-bs-dismiss="modal">Close
+                                            </button>
+                                            <button type="button" class="btn btn-primary" id="submitAddUser">Add
+                                                User
+                                            </button>
+                                        </div>
 
                                     </div>
                                 </div>

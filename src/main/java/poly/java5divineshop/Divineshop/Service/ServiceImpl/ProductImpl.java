@@ -1,9 +1,14 @@
-package poly.java5divineshop.Divineshop.Service.impl;
+package poly.java5divineshop.Divineshop.Service.ServiceImpl;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.thymeleaf.util.StringUtils;
 import poly.java5divineshop.Divineshop.Data.Entity.CategoryE;
 import poly.java5divineshop.Divineshop.Data.Entity.ProductE;
 import poly.java5divineshop.Divineshop.Data.Model.CategoryM;
@@ -39,22 +44,25 @@ public class ProductImpl implements ProductService {
     }
 
     @Override
-    public ProductM addProduct(ProductM productM, MultipartFile file) {
+    public ProductM addProduct(ProductM productM) {
         // Chuyển đổi ProductM sang ProductE
         ProductE productE = ProductM.convertProductMToProductE(productM);
         productE.setCategories(null);
 
-        // Có thì thêm ko có thì tự tạo mới xong thêm phải để là 0 khi tìm category nếu không thấy trên js
+        // Có thì thêm ko có thì tự tạo mới xong thêm
         for (CategoryM category : productM.getCategories()) {
-            CategoryE existingCategory = categoryRepo.findById(category.getId())
-                    .orElseGet(() -> {
-                        CategoryE newCategory = new CategoryE(category.getTenTheLoai());
-                        return categoryRepo.save(newCategory);
-                    });
-            productE.addCateList(existingCategory);
+
+            Optional<CategoryE> categoryE = categoryRepo.findByTenTheLoai(category.getTenTheLoai());
+
+            if (categoryE.isEmpty()) {
+                CategoryE newCategory = new CategoryE(category.getTenTheLoai());
+                CategoryE savedCategoryE = categoryRepo.save(newCategory);
+                productE.addCateList(savedCategoryE);
+            }else{
+                productE.addCateList(categoryE.get());
+            }
             System.out.println(category.getTenTheLoai() + category.getId());
         }
-        productE.setAnhSanPham(imageService.saveImage(file));
         // Thực hiện thêm mới sản phẩm
         productE = productRepository.save(productE);
         // Trả về sản phẩm đã thêm mới
@@ -63,6 +71,25 @@ public class ProductImpl implements ProductService {
 
     @Override
     public Optional<ProductM> updateProduct(int id, ProductM productM) {
+
+        ProductE productE = ProductM.convertProductMToProductE(productM);
+        productE.setCategories(null);
+
+        // Có thì thêm ko có thì tự tạo mới xong thêm
+        for (CategoryM category : productM.getCategories()) {
+
+            Optional<CategoryE> categoryE = categoryRepo.findByTenTheLoai(category.getTenTheLoai());
+
+            if (categoryE.isEmpty()) {
+                CategoryE newCategory = new CategoryE(category.getTenTheLoai());
+                CategoryE savedCategoryE = categoryRepo.save(newCategory);
+                productE.addCateList(savedCategoryE);
+            }else{
+                productE.addCateList(categoryE.get());
+            }
+            System.out.println(category.getTenTheLoai() + category.getId());
+        }
+
         return productRepository.findById(id)
                 .map(existingProduct -> {
                     existingProduct.setMaSanPham(productM.getMaSanPham());
@@ -80,7 +107,7 @@ public class ProductImpl implements ProductService {
                     existingProduct.setSoLuong(productM.getSoLuong());
                     existingProduct.setSoLuongMua(productM.getSoLuongMua());
                     existingProduct.setSoLuotThich(productM.getSoLuotThich());
-                    existingProduct.setCategories(CategoryM.convertListCategoryMToListCategoryE(productM.getCategories()));
+                    existingProduct.setCategories(productE.getCategories());
                     productRepository.save(existingProduct);
                     return ProductM.convertProductEToProductM(existingProduct);
                 });
@@ -100,6 +127,20 @@ public class ProductImpl implements ProductService {
     public Optional<ProductM> getProductBySlug(String slug) {
         return productRepository.findProductBySlug(slug)
                 .map(ProductM::convertProductEToProductM);
+    }
+
+    @Override
+    public Page<ProductM> getAllProductsByPage(String searchTerm, String category, int page, int pageSize) {
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by("id").descending());
+        if (StringUtils.isEmpty(searchTerm) && StringUtils.isEmpty(category)) {
+            return ProductM.convertPageProductEToPageProductM(productRepository.findAll(pageable));
+        } else if (!StringUtils.isEmpty(searchTerm) && StringUtils.isEmpty(category)) {
+            return ProductM.convertPageProductEToPageProductM(productRepository.findByTenSanPhamContainingIgnoreCase(searchTerm, pageable));
+        } else if (StringUtils.isEmpty(searchTerm) && !StringUtils.isEmpty(category)) {
+            return ProductM.convertPageProductEToPageProductM(productRepository.findByDanhMucIgnoreCase(category, pageable));
+        } else {
+            return ProductM.convertPageProductEToPageProductM(productRepository.findByTenSanPhamContainingIgnoreCaseAndDanhMucIgnoreCase(searchTerm, category, pageable));
+        }
     }
 
 }

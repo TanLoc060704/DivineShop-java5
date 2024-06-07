@@ -104,7 +104,7 @@ $(document).ready(function () {
                             <div class="col-5">
                                 <h4>Cá nhân</h4>
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="inputHoVaTen" value="${responseData.hoVaTen === null ? '' : responseData.hoVaTen}"  placeholder="Full name">
+                                <input type="text" class="form-control" id="inputHoVaTen" value="${responseData.hoVaTen === null ? '' : responseData.hoVaTen}"  placeholder="Full name">
                                     <label>Full name</label>
                                 </div>
                                 <div class="form-floating mb-3">
