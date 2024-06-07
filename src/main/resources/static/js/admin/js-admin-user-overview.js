@@ -3,6 +3,22 @@ $(document).ready(function () {
     var nameImg = null;
     var nameImgCurr = null;
     var nameUser = null;
+
+    function generateRandomName(length, characters) {
+        // tách phần tên và phần mở rộng của tệp
+        const parts = characters.split('.');
+        const namePart = parts[0];
+        const extensionPart = parts.length > 1 ? '.' + parts[1] : '';
+        // tạo chuỗi ngẫu nhiên từ phần tên
+        let randomName = '';
+        const nameLength = namePart.length;
+        for (let i = 0; i < length; i++) {
+            randomName += namePart.charAt(Math.floor(Math.random() * nameLength));
+        }
+        // ghép chuỗi ngẫu nhiên với phần mở rộng
+        return randomName + extensionPart;
+    }
+
     const getUserByUsernameAndRole = async () => {
         // Lấy giá trị từ session storage
         let username = sessionStorage.getItem('username');
@@ -140,7 +156,8 @@ $(document).ready(function () {
         let idRole = sessionStorage.getItem('idRole');
         let avatar = null;
         if (nameImg && path) {
-            avatar = nameImg + "," + path;
+            let result = generateRandomName(10, nameImg);
+            avatar = result + "," + path;
         }
         if (hoVaTen === '' || role === '') {
             Swal.fire({
