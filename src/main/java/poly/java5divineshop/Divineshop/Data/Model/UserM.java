@@ -1,45 +1,46 @@
 package poly.java5divineshop.Divineshop.Data.Model;
 
-import jakarta.persistence.Column;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.*;
+import lombok.*;
 import poly.java5divineshop.Divineshop.Data.Entity.AccountE;
-import poly.java5divineshop.Divineshop.Data.Entity.ProductE;
+import poly.java5divineshop.Divineshop.Data.Entity.RoleE;
 import poly.java5divineshop.Divineshop.Data.Entity.UserE;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 public class UserM {
-    private Integer Id;
-    private String ten_dang_nhap;
+
+    private Integer sysIdUser;
+    private String tenDangNhap;
     private String email;
-    private String ho_va_ten;
-    private String so_du;
-    private Date ngay_tham_gia;
-    private String anh_dai_dien;
+    private String hoVaTen;
+    private String soDu;
+    private Date ngayThamGia;
+    private String anhDaiDien;
+    private List<RoleE> roles;
 
     public static UserM convertUserEToUserM(UserE userE) {
         return UserM.builder()
-                .Id(userE.getId())
-                .ten_dang_nhap(userE.getTen_dang_nhap())
+                .sysIdUser(userE.getSysIdUser())
+                .tenDangNhap(userE.getTenDangNhap())
                 .email(userE.getEmail())
-                .ho_va_ten(userE.getHo_va_ten())
-                .so_du(userE.getSo_du())
-                .ngay_tham_gia(userE.getNgay_tham_gia())
-                .anh_dai_dien(String.valueOf(userE.getNgay_tham_gia()))
+                .hoVaTen(userE.getHoVaTen())
+                .soDu(userE.getSoDu())
+                .ngayThamGia(userE.getNgayThamGia())
+                .anhDaiDien(userE.getAnhDaiDien())
+                .roles(userE.getRoles())
                 .build();
     }
 
     public static List<UserM> convertListUserEToListUserM(List<UserE> userEList) {
-        return  userEList.stream()
+        return userEList.stream()
                 .map(e -> convertUserEToUserM(e))
                 .collect(Collectors.toList());
     }

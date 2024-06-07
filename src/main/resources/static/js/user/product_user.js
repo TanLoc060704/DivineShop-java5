@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
     var idSP =''
     var dataMua = new Date();//lấy ngày hiện tại
     var formattedDate ='';
@@ -11,10 +11,40 @@ $(document).ready(function() {
     var giaDaGiam ='';
     var objSanPham = {};
     var ObjArray= [];
+    var categories = []
+    const url = new URL(window.location.href);
+    // Sử dụng URLSearchParams để lấy giá trị của tham số 'cat'
+    const params = new URLSearchParams(url.search);
+    const catValue = params.get('cat');
+    console.log(catValue);
+    const getAllCategory = async () => {
+        let listCategoryContainer = $('#listCategoryContainer');
+        await axios
+            .get('/api/categories')
+            .then(response => {
+                listCategoryContainer.empty();
+                let responseData = response.data;
+                categories = responseData;
+                listCategoryContainer.append(`<option selected>Tất cả</option>`);
+                $.each(responseData, (index, cat) => {
+                    let html =
+                        `
+                            <option value="${cat.tenTheLoai}" ${cat.tenTheLoai === catValue ? 'selected' : ''}>${cat.tenTheLoai}</option>
+                        `
+                    ;
+                    listCategoryContainer.append(html);
+                })
+            })
+
+    }
+    getAllCategory();
+
+
     function loadProducts() {
         axios.get("/api/products")
             .then(function (response) {
                 let products = response.data;
+                console.log(products);
                 let productsList = $("#product-all-from-user");
                 if(localStorage.getItem(sessionStorage.getItem("user_name")) == null){
                     $('#soluong').text(0);
@@ -29,8 +59,14 @@ $(document).ready(function() {
                     let discountedPrice = discountPercent > 0 ? (originalPrice * (1 - discountPercent / 100)).toFixed(0) : originalPrice;
 
                     // Định dạng giá thành tiền Việt Nam Đồng
-                    let formattedOriginalPrice = parseFloat(originalPrice).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-                    let formattedDiscountedPrice = parseFloat(discountedPrice).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                    let formattedOriginalPrice = parseFloat(originalPrice).toLocaleString('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND'
+                    });
+                    let formattedDiscountedPrice = parseFloat(discountedPrice).toLocaleString('vi-VN', {
+                        style: 'currency',
+                        currency: 'VND'
+                    });
 
                     // Sử dụng toán tử 3 ngôi để chỉ hiển thị giá gốc nếu không có giảm giá
                     let giaGiam = discountPercent > 0 ? `<p style="font-size: 0.9rem;" class="m-0 text-decoration-line-through text-secondary">${formattedOriginalPrice}</p>` : "";
@@ -61,15 +97,16 @@ $(document).ready(function() {
                 console.error("Error fetching products:", error);
             });
     }
-    if(window.location.pathname === "/all-products"){
+
+    if (window.location.pathname === "/all-products") {
         // Load products initially
         loadProducts();
     }
 
 
     // loadProduct details
-    function loadProductDetails  ()  {
-        let  slug = window.location.pathname.split("/")[2];
+    function loadProductDetails() {
+        let slug = window.location.pathname.split("/")[2];
         if(localStorage.getItem(sessionStorage.getItem("user_name")) == null){
             $('#soluong').text(0);
         }else {
@@ -77,7 +114,7 @@ $(document).ready(function() {
             $('#soluong').text(arrayAlredyInWeb.length)
         }
         axios.get("/api/products/" + slug)
-            .then(function(response){
+            .then(function (response) {
                 let product = response.data.data;
                 console.log(product)
                 let productHtml = $("#productHtml");
@@ -88,8 +125,14 @@ $(document).ready(function() {
                 let discountedPrice = discountPercent > 0 ? (originalPrice * (1 - discountPercent / 100)).toFixed(0) : originalPrice;
 
                 // Định dạng giá thành tiền Việt Nam Đồng
-                let formattedOriginalPrice = parseFloat(originalPrice).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-                let formattedDiscountedPrice = parseFloat(discountedPrice).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                let formattedOriginalPrice = parseFloat(originalPrice).toLocaleString('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                });
+                let formattedDiscountedPrice = parseFloat(discountedPrice).toLocaleString('vi-VN', {
+                    style: 'currency',
+                    currency: 'VND'
+                });
 
                 let productDisplay = discountPercent > 0 ?
                     `
@@ -109,7 +152,7 @@ $(document).ready(function() {
                         </div>
                 `
                     :
-                `
+                    `
                         <div class="d-flex align-items-center gap-3">
                             <h4 class="m-0">${formattedOriginalPrice}</h4>
                             <button type="button" class="btn text-body-secondary fs-4"><i class="fa-solid fa-bell"></i></button>
@@ -164,11 +207,20 @@ $(document).ready(function() {
                     phantramgiam : phanTramGiam,
                     giadagiam : giaDaGiam * 1000
                 }
+                $("#gioi-thieu-san-pham").append(
+                    `
+                        <h6 class="fw-bold">Giới thiệu</h6>
+                        <p>${product.mota}</p>
+                        <hr>
+                    `
+                )
+
             })
-            .catch(function (error){
+            .catch(function (error) {
                 console.error("Error fetching products:", error);
             })
     }
+
     const detailPattern = /\/detail\/.*/;
     if (detailPattern.test(window.location.pathname)) {
         loadProductDetails();

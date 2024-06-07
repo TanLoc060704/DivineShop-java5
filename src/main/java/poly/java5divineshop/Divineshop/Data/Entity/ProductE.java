@@ -1,15 +1,13 @@
 package poly.java5divineshop.Divineshop.Data.Entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -66,8 +64,8 @@ public class ProductE {
     @Column(name = "soluotthich")
     private Integer soLuotThich;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.LAZY)
-    @JoinTable(name = "CategoryDetail",
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.EAGER)
+    @JoinTable(name = "category_detail",
             joinColumns = @JoinColumn(name = "Sys_id_product"),
             inverseJoinColumns = @JoinColumn(name = "Sys_id_category"))
     private List<CategoryE> categories;

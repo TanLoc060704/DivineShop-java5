@@ -1,7 +1,7 @@
 USE master;
 GO
 
-ALTER DATABASE Java5_DivineShop SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+-- ALTER DATABASE Java5_DivineShop SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 DROP DATABASE IF EXISTS Java5_DivineShop;
 GO
 
@@ -12,35 +12,32 @@ USE Java5_DivineShop;
 GO
 
 -- Tạo bảng Account
-CREATE TABLE [Account] (
-    id INT IDENTITY(1,1) PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    hash_password VARCHAR(255) NOT NULL,
-    is_enabled BIT DEFAULT 1
-);
+Create table [Account](
+    id              int IDENTITY (1,1) PRIMARY KEY,
+    username        varchar(50) NOT NULL UNIQUE,
+    email           varchar(255) NOT NULL UNIQUE,
+    hash_password		varchar(255) NOT NULL,
+    is_enabled			bit DEFAULT 1
+)
 
--- Tạo bảng User
-CREATE TABLE [User] (
-    Sys_id_user INT IDENTITY(1,1) PRIMARY KEY,
-    ten_dang_nhap NVARCHAR(255) NOT NULL UNIQUE,
-    email NVARCHAR(255) NOT NULL UNIQUE,
-    ho_va_ten NVARCHAR(255),
-    so_du NVARCHAR(255),
-    ngay_tham_gia DATE,
-    anh_dai_dien NVARCHAR(MAX)
-);
+Create table [User](
+    Sys_id_user int IDENTITY (1,1) primary key,
+    ten_dang_nhap nvarchar(255) NOT NULL UNIQUE,
+    email nvarchar(255) NOT NULL UNIQUE,
+    ho_va_ten nvarchar(255),
+    so_du nvarchar(255),
+    ngay_tham_gia date,
+    anh_dai_dien nvarchar(max)
+)
 
--- Tạo bảng Roles
-CREATE TABLE [Roles] (
-    username VARCHAR(50) NOT NULL,
-    username_user NVARCHAR(255),
-    role VARCHAR(50) NOT NULL,
-    CONSTRAINT PK_authorities PRIMARY KEY (username, role, username_user),
-    FOREIGN KEY (username) REFERENCES [Account] (username),
-    FOREIGN KEY (username_user) REFERENCES [User] (ten_dang_nhap)
-);
-
+Create table [Roles](
+    id_role int IDENTITY (1,1) primary key,
+    username varchar(50) NOT NULL  ,
+    username_user nvarchar(255) NOT NULL  ,
+    role varchar(50) NOT NULL  ,
+    FOREIGN KEY (username) REFERENCES account(username),
+    FOREIGN KEY (username_user) REFERENCES [User](ten_dang_nhap)
+)
 
 -- Tạo bảng Discount
 CREATE TABLE [Discount] (
@@ -117,7 +114,7 @@ BEGIN
         NULL AS ho_va_ten,
         NULL AS so_du,
         GETDATE() AS ngay_tham_gia,
-        NULL AS anh_dai_dien
+        'anh-khach-hanggg.png' AS anh_dai_dien
     FROM
         inserted;
 END;

@@ -33,10 +33,10 @@
                             <form action="" th:action="@{/authenticateTheUser}" method="post">
                                 <p style="font-size: 0.85rem;">Đăng nhập để theo dõi đơn hàng, lưu danh sách sản phẩm yêu thích và nhận nhiều ưu đãi hấp dẫn</p>
                                 <div class="mb-3">
-                                    <input type="text" class="form-control" placeholder="Email hoặc tên đăng nhập" name="username">
+                                    <input type="text" class="form-control" placeholder="Email hoặc tên đăng nhập" name="username" value="susan">
                                 </div>
                                 <div class="mb-3">
-                                    <input type="password" class="form-control" placeholder="Mật khẩu" name="password">
+                                    <input type="password" class="form-control" placeholder="Mật khẩu" name="password" value="test123">
                                 </div>
                                 <a th:href="@{/forgot-password}" class="text-decoration-none">Bạn quên mật khẩu?</a>
                                 <!-- check for login error  -->

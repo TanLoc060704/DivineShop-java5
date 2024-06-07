@@ -55,7 +55,7 @@
                                 <li class="py-1 px-3"  style="font-size: 0.85rem;">Số dư tài khoản</li>
                                 <li><a class="dropdown-item fw-bold py-2" th:href="@{/add-funds}">4.000đ <i class="fa-solid fa-plus text-primary"></i></a></li>
                                 <div sec:authorize="hasRole('ADMIN')">
-                                    <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/admin/product-view}">Quản trị</a></li>
+                                    <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/admin/product-list}">Quản trị</a></li>
                                 </div>
                                 <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/user-info}">Quản lý tài khoản</a></li>
                                 <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/order-history}">Lịch sử đơn hàng</a></li>
