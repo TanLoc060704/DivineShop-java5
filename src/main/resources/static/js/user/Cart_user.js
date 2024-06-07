@@ -132,14 +132,14 @@ function tongTienSanPham (){
 
 async function getMonyForUser(){
     var listUser;
-    await axios.get("/api-User")
+    await axios.get("/api/public/getAllUser")
         .then(function (response) {
             listUser = response.data.data;
             let formattedtongtienPrice;
             listUser.forEach(function (obj,index){
-                if (obj.ten_dang_nhap == sessionStorage.getItem("user_name")){
-                    formattedtongtienPrice = parseFloat(obj.so_du).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-                    soDuHienTai = obj.so_du;
+                if (obj.tenDangNhap == sessionStorage.getItem("user_name")){
+                    formattedtongtienPrice = parseFloat(obj.soDu).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                    soDuHienTai = obj.soDu;
                     $('#tienuser').text(formattedtongtienPrice);
                 }
             })

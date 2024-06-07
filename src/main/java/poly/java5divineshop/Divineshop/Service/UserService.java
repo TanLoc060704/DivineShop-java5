@@ -15,6 +15,4 @@ public interface UserService {
     UserM getUserByUsernameAndRole(String username, String role) throws SQLException;
 
     int updateUserByTenDangNhap(UserDto userDto) throws SQLException;
-    
-    List<UserM> findAll();
 }
