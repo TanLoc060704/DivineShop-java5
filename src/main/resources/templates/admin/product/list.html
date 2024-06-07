@@ -77,8 +77,9 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <input type="text" class="form-control"  placeholder="Product Slug" id="createProductSlug" required>
+                                                            <input type="text" class="form-control"  placeholder="Product Slug" id="createProductSlug"  required>
                                                             <label>Product Slug</label>
+                                                            <div class="invalid-feedback">Slug must be unique.</div>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
@@ -89,19 +90,19 @@
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <input type="number" class="form-control"  placeholder="Quantity" id="createProductQuantity" required>
+                                                            <input type="number" class="form-control"  placeholder="Quantity" min="0" id="createProductQuantity" required>
                                                             <label>Quantity</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <input type="number" class="form-control"  placeholder="Price" id="createProductPrice" required>
+                                                            <input type="number" class="form-control"  placeholder="Price" min="0" id="createProductPrice" required>
                                                             <label>Price</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <input type="number" class="form-control"  placeholder="Discounts" id="createProductDiscounts" required>
+                                                            <input type="number" class="form-control"  placeholder="Discounts" min="0" max="100" id="createProductDiscounts" required>
                                                             <label>Discounts</label>
                                                         </div>
                                                     </div>
@@ -141,7 +142,7 @@
                                                     <div class="col-12">
                                                         <div class="mb-3">
                                                             <label class="form-label ms-1">Product Image</label>
-                                                            <input class="form-control" type="file"  id="createProductImage" multiple required>
+                                                            <input class="form-control" type="file"  id="createProductImage" accept="image/*" multiple required>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">

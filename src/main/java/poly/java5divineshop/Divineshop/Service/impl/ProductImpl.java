@@ -82,9 +82,11 @@ public class ProductImpl implements ProductService {
 
             if (categoryE.isEmpty()) {
                 CategoryE newCategory = new CategoryE(category.getTenTheLoai());
-                productE.addCateList(newCategory);
+                CategoryE savedCategoryE = categoryRepo.save(newCategory);
+                productE.addCateList(savedCategoryE);
+            }else{
+                productE.addCateList(categoryE.get());
             }
-            productE.addCateList(categoryE.get());
             System.out.println(category.getTenTheLoai() + category.getId());
         }
 
