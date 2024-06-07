@@ -62,44 +62,46 @@ public class AccountApi {
     }
 
     @PostMapping("/send-email-for-user")
-    public ResponseEntity<?> sendEmailForUser(@RequestBody() AccountDTO accountDTO){
+    public ResponseEntity<?> sendEmailForUser(@RequestBody() AccountDTO accountDTO) {
         Map<String, Object> result = new HashMap<>();
         try {
             String Otp = OTPUtil.generateOTP();
-            httpSession.setAttribute("otp",Otp);
-            httpSession.setAttribute("account",accountDTO);
-            userService.sendMailForUser(accountDTO.getEmail(),Otp);
-            result.put("success",true);
-            result.put("message","Call api thành công");
-            result.put("data",Otp);
-        }catch (Exception e){
-            log.error("Call api thất bại: /register ",e);
-            result.put("success",false);
-            result.put("message","Call api thất bại");
-            result.put("data",null);
+            httpSession.setAttribute("otp", Otp);
+            httpSession.setAttribute("account", accountDTO);
+            userService.sendMailForUser(accountDTO.getEmail(), Otp);
+            result.put("success", true);
+            result.put("message", "Call api thành công");
+            result.put("data", Otp);
+        } catch (Exception e) {
+            log.error("Call api thất bại: /register ", e);
+            result.put("success", false);
+            result.put("message", "Call api thất bại");
+            result.put("data", null);
         }
         return ResponseEntity.ok(result);
     }
 
     @PostMapping("/verify-otp/{otp}")
-    public ResponseEntity<?> verifyOTP(@PathVariable ("otp") String otp){
+    public ResponseEntity<?> verifyOTP(@PathVariable("otp") String otp) {
         Map<String, Object> result = new HashMap<>();
         try {
             String otpSession = (String) httpSession.getAttribute("otp");
-            if(otp.equals(otpSession)){
+            if (otp.equals(otpSession)) {
                 AccountDTO accountDTO = (AccountDTO) httpSession.getAttribute("account");
-//                accountDTO.setHashedPassword(accountDTO.getHashedPassword());
+                String password = AccountDTO.passwordEncoder.encode(accountDTO.getHashedPassword());
+                accountDTO.setHashedPassword(password);
+                accountDTO.setEnabled(true);
                 userService.save(accountDTO);
-                result.put("success",true);
-                result.put("message","OTP đúng");
-            }else {
-                result.put("success",false);
-                result.put("message","OTP sai");
+                result.put("success", true);
+                result.put("message", "OTP đúng");
+            } else {
+                result.put("success", false);
+                result.put("message", "OTP sai");
             }
-        }catch (Exception e){
-            log.error("Call api thất bại: /register ",e);
-            result.put("success",false);
-            result.put("message","Call api thất bại");
+        } catch (Exception e) {
+            log.error("Call api thất bại: /register ", e);
+            result.put("success", false);
+            result.put("message", "Call api thất bại");
         }
         return ResponseEntity.ok(result);
     }

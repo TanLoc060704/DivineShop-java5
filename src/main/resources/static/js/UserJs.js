@@ -132,8 +132,8 @@ $('input[name="referralCode"]').focusout(function() {
     let email = $('input[name="email"]').val();
     let password = $('input[name="password"]').val();
     let confirmPassword = $('input[name="confirmPassword"]').val();
-    let phoneNumber = $('input[name="phoneNumber"]').val(); // Optional
-    let referralCode = $('input[name="referralCode"]').val(); // Optional
+    // let phoneNumber = $('input[name="phoneNumber"]').val(); // Optional
+    // let referralCode = $('input[name="referralCode"]').val(); // Optional
 
 
 
