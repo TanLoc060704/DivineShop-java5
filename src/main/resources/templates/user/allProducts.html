@@ -1,33 +1,40 @@
 <section th:fragment="allProducts">
-  <div class="container">
-    <h2 class="my-3">Tìm kiếm sản phẩm</h2>
-    <div class="row">
-      <div class="col-3">
-        <select class="form-select" aria-label="Default select example" id="listCategoryContainer">
-
-        </select>
-      </div>
-      <div class="col-5">
+    <div class="container">
+        <h2 class="my-3">Tìm kiếm sản phẩm</h2>
         <div class="row">
-          <div class="col-2 p-0 align-self-center fw-bold text-end" style="font-size: 0.8rem;">Mức giá</div>
-          <div class="col-5">
-            <input type="text" class="form-control" placeholder="Mức giá từ">
-          </div>
-          <div class="col-5">
-            <input type="text" class="form-control" placeholder="Mức giá đến">
-          </div>
-        </div>
-      </div>
+            <div class="col-3">
+                <select class="form-select" aria-label="Default select example" id="listDanhMucContainer">
+                    <option value="">Tất cả</option>
+                </select>
+            </div>
+            <div class="col-3">
+                <select class="form-select" aria-label="Default select example" id="listCategoryContainer">
+                    <option value="">Tất cả</option>
+                </select>
+            </div>
+            <div class="col-5">
+                <div class="row">
+                    <div class="col-2 p-0 align-self-center fw-bold text-end" style="font-size: 0.8rem;">Mức giá</div>
+                    <div class="col-5">
+                        <input type="number" min="0" step="10000" class="form-control" placeholder="Mức giá từ" id="minPrice">
+                    </div>
+                    <div class="col-5">
+                        <input type="number"  min="0" step="10000" class="form-control" placeholder="Mức giá đến" id="maxPrice">
+                    </div>
+                </div>
+            </div>
 
-      <div class="col-1"><button type="button" class="btn btn-primary w-100"><i class="fa-solid fa-filter"></i> Lọc</button></div>
+            <div class="col-1">
+                <button type="button" id="filterButton" class="btn btn-primary w-100"><i class="fa-solid fa-filter"></i> Lọc</button>
+            </div>
+        </div>
     </div>
-  </div>
-  <div class="container">
-    <div class="mt-5">
-      <div class="row gy-3" id="product-all-from-user">
-      </div>
-      <hr>
+    <div class="container">
+        <div class="mt-5">
+            <div class="row gy-3" id="product-all-from-user">
+            </div>
+            <hr>
+        </div>
     </div>
-  </div>
 </section>
 <script th:src="@{/js/user/product_user.js}"></script>

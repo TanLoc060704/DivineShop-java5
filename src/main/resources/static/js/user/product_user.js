@@ -1,10 +1,10 @@
 $(document).ready(function () {
-    var categories = []
+    var categories = [];
     const url = new URL(window.location.href);
-    // Sử dụng URLSearchParams để lấy giá trị của tham số 'cat'
     const params = new URLSearchParams(url.search);
+    const dmValue = params.get('p');
     const catValue = params.get('cat');
-    console.log(catValue);
+
     const getAllCategory = async () => {
         let listCategoryContainer = $('#listCategoryContainer');
         await axios
@@ -13,67 +13,112 @@ $(document).ready(function () {
                 listCategoryContainer.empty();
                 let responseData = response.data;
                 categories = responseData;
-                listCategoryContainer.append(`<option selected>Tất cả</option>`);
+                listCategoryContainer.append(`<option value="">Tất cả</option>`);
                 $.each(responseData, (index, cat) => {
                     let html =
-                        `
-                            <option value="${cat.tenTheLoai}" ${cat.tenTheLoai === catValue ? 'selected' : ''}>${cat.tenTheLoai}</option>
-                        `
-                    ;
+                        `<option value="${cat.tenTheLoai}" ${cat.tenTheLoai === catValue ? 'selected' : ''}>${cat.tenTheLoai}</option>`;
                     listCategoryContainer.append(html);
-                })
-            })
+                });
+            });
+    };
 
-    }
+    const getAllDanhMuc = async () => {
+        let listDanhMucContainer = $('#listDanhMucContainer');
+        await axios
+            .get('/api/products')
+            .then(response => {
+                listDanhMucContainer.empty();
+                let products = response.data;
+                let uniqueDanhMuc = new Set(products.map(product => product.danhMuc));
+                listDanhMucContainer.append(`<option value="">Tất cả</option>`);
+                uniqueDanhMuc.forEach(dm => {
+                    let html = `<option value="${dm}" ${dm === dmValue ? 'selected' : ''}>${dm}</option>`;
+                    listDanhMucContainer.append(html);
+                });
+                $('#listCategoryContainer, #listDanhMucContainer').click();
+            });
+    };
+
     getAllCategory();
+    getAllDanhMuc();
 
-
-    function loadProducts() {
-        axios.get("/api/products")
+    async function loadProducts(category = "", danhMuc = "", minPrice = "", maxPrice = "") {
+        await axios.get("/api/products")
             .then(function (response) {
                 let products = response.data;
-                console.log(products);
+                let filteredProducts = products.filter(product => {
+                    let categoryMatch = category ? product.theLoai.includes(category) : true;
+                    let danhMucMatch = danhMuc ? product.danhMuc.includes(danhMuc) : true;
+                    let priceMatch = true;
+
+                    if (minPrice && !isNaN(minPrice)) {
+                        let originalPrice = product.giaSanPham;
+                        let discountPercent = product.percentGiamGia;
+                        let discountedPrice = discountPercent > 0 ? (originalPrice * (1 - discountPercent / 100)) : originalPrice;
+                        priceMatch = priceMatch && discountedPrice >= parseInt(minPrice);
+                    }
+
+                    if (maxPrice && !isNaN(maxPrice)) {
+                        let originalPrice = product.giaSanPham;
+                        let discountPercent = product.percentGiamGia;
+                        let discountedPrice = discountPercent > 0 ? (originalPrice * (1 - discountPercent / 100)) : originalPrice;
+                        priceMatch = priceMatch && discountedPrice <= parseInt(maxPrice);
+                    }
+
+                    return categoryMatch && danhMucMatch && priceMatch;
+                });
+                filteredProducts.sort((a, b) => {
+                    // Sắp xếp theo giá giảm giá
+                    let priceA = a.percentGiamGia > 0 ? (a.giaSanPham * (1 - a.percentGiamGia / 100)) : a.giaSanPham;
+                    let priceB = b.percentGiamGia > 0 ? (b.giaSanPham * (1 - b.percentGiamGia / 100)) : b.giaSanPham;
+                    return priceA - priceB;
+                });
+
+
                 let productsList = $("#product-all-from-user");
                 productsList.empty();
-                products.forEach(product => {
-                    let originalPrice = product.giaSanPham;
-                    let discountPercent = product.percentGiamGia;
-                    let discountedPrice = discountPercent > 0 ? (originalPrice * (1 - discountPercent / 100)).toFixed(0) : originalPrice;
+                console.log(filteredProducts);
+                if (filteredProducts.length === 0) {
+                    productsList.append('<p>Không có sản phẩm phù hợp.</p>');
+                } else {
+                    filteredProducts.forEach(product => {
+                        let originalPrice = product.giaSanPham;
+                        let discountPercent = product.percentGiamGia;
+                        let discountedPrice = discountPercent > 0 ? (originalPrice * (1 - discountPercent / 100)).toFixed(0) : originalPrice;
 
-                    // Định dạng giá thành tiền Việt Nam Đồng
-                    let formattedOriginalPrice = parseFloat(originalPrice).toLocaleString('vi-VN', {
-                        style: 'currency',
-                        currency: 'VND'
-                    });
-                    let formattedDiscountedPrice = parseFloat(discountedPrice).toLocaleString('vi-VN', {
-                        style: 'currency',
-                        currency: 'VND'
-                    });
+                        let formattedOriginalPrice = parseFloat(originalPrice).toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        });
+                        let formattedDiscountedPrice = parseFloat(discountedPrice).toLocaleString('vi-VN', {
+                            style: 'currency',
+                            currency: 'VND'
+                        });
 
-                    // Sử dụng toán tử 3 ngôi để chỉ hiển thị giá gốc nếu không có giảm giá
-                    let giaGiam = discountPercent > 0 ? `<p style="font-size: 0.9rem;" class="m-0 text-decoration-line-through text-secondary">${formattedOriginalPrice}</p>` : "";
-                    let percentGiamGia = discountPercent > 0 ? `<p style="font-size: 0.7rem;" class="m-0 text-bg-danger fw-bold rounded p-1">${discountPercent}%</p>` : "";
+                        let giaGiam = discountPercent > 0 ? `<p style="font-size: 0.9rem;" class="m-0 text-decoration-line-through text-secondary">${formattedOriginalPrice}</p>` : "";
+                        let percentGiamGia = discountPercent > 0 ? `<p style="font-size: 0.7rem;" class="m-0 text-bg-danger fw-bold rounded p-1">${discountPercent}%</p>` : "";
 
-                    let priceDisplay = discountPercent > 0
-                        ? `<div class="d-flex gap-2 align-items-center">
-                              <p style="font-size: 0.9rem;" class="m-0 fw-bold">${formattedDiscountedPrice}</p>
-                              ${giaGiam}
-                              ${percentGiamGia}
-                           </div>`
-                        : `<p style="font-size: 0.9rem;" class="m-0 fw-bold">${formattedOriginalPrice}</p>`;
+                        let priceDisplay = discountPercent > 0
+                            ? `<div class="d-flex gap-2 align-items-center">
+                                  <p style="font-size: 0.9rem;" class="m-0 fw-bold">${formattedDiscountedPrice}</p>
+                                  ${giaGiam}
+                                  ${percentGiamGia}
+                               </div>`
+                            : `<p style="font-size: 0.9rem;" class="m-0 fw-bold">${formattedOriginalPrice}</p>`;
 
-                    let row =
-                        `<a class="col-3 text-decoration-none" href="detail/${product.slug}">
-                            <div class="card border-0 bg-transparent">
-                                <img src="/images/${product.anhSanPham}" class="card-img-top rounded" alt="${product.tenSanPham}">
-                                <div class="card-body px-0">
-                                    <h5 class="card-title" style="font-size: 0.9rem;">${product.tenSanPham}</h5>
-                                    ${priceDisplay}
+                        let row =
+                            `<a class="col-3 text-decoration-none" href="detail/${product.slug}">
+                                <div class="card border-0 bg-transparent">
+                                    <img src="/images/${product.anhSanPham}" class="card-img-top rounded" alt="${product.tenSanPham}">
+                                    <div class="card-body px-0">
+                                        <h5 class="card-title" style="font-size: 0.9rem;">${product.tenSanPham}</h5>
+                                        ${priceDisplay}
+                                    </div>
                                 </div>
-                            </div>
-                        </a>`;
-                    productsList.append(row);
-                });
+                            </a>`;
+                        productsList.append(row);
+                    });
+                }
             })
             .catch(function (error) {
                 console.error("Error fetching products:", error);
@@ -85,6 +130,20 @@ $(document).ready(function () {
         loadProducts();
     }
 
+    $('#listCategoryContainer, #listDanhMucContainer').on('change click', function () {
+        let selectedCategory = $('#listCategoryContainer').val();
+        let selectedDanhMuc = $('#listDanhMucContainer').val();
+        let minPrice = $('#minPrice').val();
+        let maxPrice = $('#maxPrice').val();
+        loadProducts(selectedCategory, selectedDanhMuc, minPrice, maxPrice);
+    });
+    $('#filterButton').on('click', function () {
+        let selectedCategory = $('#listCategoryContainer').val();
+        let selectedDanhMuc = $('#listDanhMucContainer').val();
+        let minPrice = $('#minPrice').val();
+        let maxPrice = $('#maxPrice').val();
+        loadProducts(selectedCategory, selectedDanhMuc, minPrice, maxPrice);
+    });
 
     // loadProduct details
     function loadProductDetails() {
