@@ -23,6 +23,4 @@ public interface AccountRepo extends JpaRepository<AccountE, Integer> {
     AccountE findByEmail(@Param("email") String email);
 
     AccountE save(AccountE account);
-
-    AccountE findByUsernameOrEmail(String username, String email);
 }
