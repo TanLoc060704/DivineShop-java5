@@ -54,15 +54,15 @@ public class AdminController {
         return "admin/admin";
     }
 
-    @GetMapping("/discount-view")
-    public String discountView(Model model) {
-        model.addAttribute("view", "discount/overview");
+    @GetMapping("/voucher-view")
+    public String voucherView(Model model) {
+        model.addAttribute("view", "voucher/overview");
         return "admin/admin";
     }
 
-    @GetMapping("/discount-list")
-    public String discountList(Model model) {
-        model.addAttribute("view", "discount/list");
+    @GetMapping("/voucher-list")
+    public String voucherList(Model model) {
+        model.addAttribute("view", "voucher/list");
         return "admin/admin";
     }
 }
