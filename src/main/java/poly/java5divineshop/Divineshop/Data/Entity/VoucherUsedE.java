@@ -11,19 +11,19 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "discount_used")
-public class DiscountUsedE {
+@Table(name = "voucher_used")
+public class VoucherUsedE {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Sys_id_discount_used")
-    private Integer sysIdDiscountUsed;
+    @Column(name = "Sys_id_voucher_used")
+    private Integer sysIdVoucherUsed;
 
     @Column(name = "Sys_id_user", nullable = false)
     private Integer sysIdUser;
 
-    @Column(name = "Sys_id_discount", nullable = false)
-    private Integer sysIdDiscount;
+    @Column(name = "Sys_id_voucher", nullable = false)
+    private Integer sysIdVoucher;
 
     @Column(name = "ngay_su_dung", nullable = false)
     private Date ngaySuDung;

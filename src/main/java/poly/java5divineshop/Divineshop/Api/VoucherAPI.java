@@ -5,36 +5,36 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import poly.java5divineshop.Divineshop.Data.Dto.DiscountDTO;
-import poly.java5divineshop.Divineshop.Data.Model.DiscountM;
-import poly.java5divineshop.Divineshop.Service.DiscountService;
+import poly.java5divineshop.Divineshop.Data.Dto.VoucherDTO;
+import poly.java5divineshop.Divineshop.Data.Model.VoucherM;
+import poly.java5divineshop.Divineshop.Service.VoucherService;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/discounts")
+@RequestMapping("/api/vouchers")
 @Slf4j
-public class DiscountAPI {
+public class VoucherAPI {
 
     @Autowired
-    private DiscountService discountService;
+    private VoucherService voucherService;
 
     @GetMapping
-    public ResponseEntity<?> getAllDiscounts() {
-        return ResponseEntity.ok(discountService.getAllDiscounts());
+    public ResponseEntity<?> getAllVouchers() {
+        return ResponseEntity.ok(voucherService.getAllVouchers());
     }
 
 //    @GetMapping("/{id}")
-//    public ResponseEntity<?> getDiscountById(@PathVariable int id) {
+//    public ResponseEntity<?> getVoucherById(@PathVariable int id) {
 //        Map<String, Object> result = new HashMap<>();
 //        try {
-//            Optional<DiscountDTO> discount = discountService.getDiscountById(id);
-//            if (discount.isPresent()) {
+//            Optional<VoucherDTO> Voucher = VoucherService.getVoucherById(id);
+//            if (Voucher.isPresent()) {
 //                result.put("success", true);
 //                result.put("message", "Lấy thông tin giảm giá thành công");
-//                result.put("data", discount.get());
+//                result.put("data", Voucher.get());
 //            } else {
 //                result.put("success", false);
 //                result.put("message", "Không tìm thấy giảm giá");
@@ -52,14 +52,14 @@ public class DiscountAPI {
 //    }
 
     @GetMapping("/{code}")
-    public ResponseEntity<?> getDiscountByCode(@PathVariable String code) {
+    public ResponseEntity<?> getVoucherByCode(@PathVariable String code) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Optional<DiscountDTO> discount = discountService.getDiscountByCodeDiscount(code);
-            if (discount.isPresent()) {
+            Optional<VoucherDTO> Voucher = voucherService.getVoucherByCodeVoucher(code);
+            if (Voucher.isPresent()) {
                 result.put("success", true);
                 result.put("message", "Lấy thông tin giảm giá thành công");
-                result.put("data", discount.get());
+                result.put("data", Voucher.get());
             } else {
                 result.put("success", false);
                 result.put("message", "Không tìm thấy giảm giá");
@@ -77,10 +77,10 @@ public class DiscountAPI {
     }
 
     @PostMapping
-    public ResponseEntity<?> createDiscount(@RequestBody DiscountDTO discountDTO) {
+    public ResponseEntity<?> createVoucher(@RequestBody VoucherDTO voucherDTO) {
         Map<String, Object> result = new HashMap<>();
         try {
-            discountService.createDiscount(discountDTO);
+            voucherService.createVoucher(voucherDTO);
             result.put("success", true);
             result.put("message", "Thêm giảm giá thành công");
         } catch (Exception e) {
@@ -92,14 +92,14 @@ public class DiscountAPI {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateDiscount(@PathVariable int id, @RequestBody DiscountDTO discountDTO) {
+    public ResponseEntity<?> updateVoucher(@PathVariable int id, @RequestBody VoucherDTO voucherDTO) {
         Map<String, Object> result = new HashMap<>();
         try {
-            Optional<DiscountM> updatedDiscount = discountService.updateDiscount(id, discountDTO);
-            if (updatedDiscount.isPresent()) {
+            Optional<VoucherM> updatedVoucher = voucherService.updateVoucher(id, voucherDTO);
+            if (updatedVoucher.isPresent()) {
                 result.put("success", true);
                 result.put("message", "Cập nhật giảm giá thành công");
-                result.put("data", updatedDiscount.get());
+                result.put("data", updatedVoucher.get());
             } else {
                 result.put("success", false);
                 result.put("message", "Không tìm thấy giảm giá");
@@ -116,10 +116,10 @@ public class DiscountAPI {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteDiscount(@PathVariable int id) {
+    public ResponseEntity<?> deleteVoucher(@PathVariable int id) {
         Map<String, Object> result = new HashMap<>();
         try {
-            boolean isDeleted = discountService.deleteDiscount(id);
+            boolean isDeleted = voucherService.deleteVoucher(id);
             if (isDeleted) {
                 result.put("success", true);
                 result.put("message", "Xoá giảm giá thành công");

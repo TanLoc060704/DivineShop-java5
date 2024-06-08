@@ -40,9 +40,9 @@ Create table [Roles](
 )
 
 -- Tạo bảng Discount
-CREATE TABLE [Discount] (
-    Sys_id_discount INT IDENTITY(1,1) PRIMARY KEY,
-    code_discount NVARCHAR(8) UNIQUE,
+CREATE TABLE [Voucher] (
+    Sys_id_voucher INT IDENTITY(1,1) PRIMARY KEY,
+    code_voucher NVARCHAR(8) UNIQUE,
     ten_giam_gia NVARCHAR(255),
     percent_giam_gia FLOAT,
     ngay_bat_dau DATE,
@@ -50,13 +50,13 @@ CREATE TABLE [Discount] (
     mota NVARCHAR(255)
 );
 
-CREATE TABLE [discount_used] (
-    Sys_id_discount_used INT IDENTITY(1,1) PRIMARY KEY,
+CREATE TABLE [voucher_used] (
+    Sys_id_voucher_used INT IDENTITY(1,1) PRIMARY KEY,
     Sys_id_user INT NOT NULL,
-    Sys_id_discount INT NOT NULL,
+    Sys_id_voucher INT NOT NULL,
     ngay_su_dung DATE NOT NULL,
     FOREIGN KEY (Sys_id_user) REFERENCES [User](Sys_id_user),
-    FOREIGN KEY (Sys_id_discount) REFERENCES [Discount](Sys_id_discount)
+    FOREIGN KEY (Sys_id_voucher) REFERENCES [voucher](Sys_id_voucher)
 );
 
 -- Tạo bảng Category
@@ -83,7 +83,7 @@ CREATE TABLE [Product] (
     soluong int,
     soluongmua int,
     soluotthich int
-    FOREIGN KEY (Sys_id_discount) REFERENCES [Discount] (Sys_id_discount)
+    FOREIGN KEY (Sys_id_discount) REFERENCES [voucher](Sys_id_voucher)    
 );
 
 -- Tạo bảng CategoryDetail

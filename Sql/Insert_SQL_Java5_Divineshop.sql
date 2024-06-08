@@ -176,7 +176,7 @@ VALUES
 GO
 
 
-INSERT INTO [Discount] (code_discount, ten_giam_gia, percent_giam_gia, ngay_bat_dau, ngay_ket_thuc, mota)
+INSERT INTO [Voucher] (code_voucher, ten_giam_gia, percent_giam_gia, ngay_bat_dau, ngay_ket_thuc, mota)
 VALUES
     ('SUMMER10', N'Giảm 10% mùa hè', 0.10, '2023-06-01', '2023-08-31', N'Giảm giá 10% cho các đơn hàng trong mùa hè'),
     ('XMAS20', N'Giảm 20% dịp Noel', 0.20, '2023-12-01', '2023-12-31', N'Giảm giá 20% cho các đơn hàng dịp Noel'),
@@ -185,7 +185,7 @@ VALUES
     ('NEWYEAR7', N'Giảm 7% đầu năm mới', 0.07, '2024-01-01', '2024-01-31', N'Giảm giá 7% cho các đơn hàng đầu năm mới');
 
 
-INSERT INTO [DiscountUsed] (Sys_id_user, Sys_id_discount, ngay_su_dung)
+INSERT INTO [voucher_used] (Sys_id_user, Sys_id_voucher, ngay_su_dung)
 VALUES
     (1, 1, '2023-06-15'),
     (2, 1, '2023-07-10'),

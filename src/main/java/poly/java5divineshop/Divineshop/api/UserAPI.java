@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/public")
-public class UserApi {
+public class UserAPI {
     @Autowired
     UserService userService;
 

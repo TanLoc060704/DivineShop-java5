@@ -11,12 +11,12 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class DiscountDTO {
+public class VoucherDTO {
 
-    private Integer sysIdDiscount;
-    private String codeDiscount;
-    private String discountName;
-    private Float discountPercentage;
+    private Integer sysIdVoucher;
+    private String codeVoucher;
+    private String VoucherName;
+    private Float VoucherPercentage;
     private Date startDate;
     private Date endDate;
     private String description;

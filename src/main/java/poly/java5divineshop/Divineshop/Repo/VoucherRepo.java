@@ -2,11 +2,11 @@ package poly.java5divineshop.Divineshop.Repo;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import poly.java5divineshop.Divineshop.Data.Entity.DiscountE;
+import poly.java5divineshop.Divineshop.Data.Entity.VoucherE;
 
 import java.util.Optional;
 
 @Repository
-public interface DiscountRepo extends JpaRepository<DiscountE, Integer> {
-    Optional<DiscountE> findByCodeDiscount(String codeDiscount);
+public interface VoucherRepo extends JpaRepository<VoucherE, Integer> {
+    Optional<VoucherE> findByCodeVoucher(String codeVoucher);
 }

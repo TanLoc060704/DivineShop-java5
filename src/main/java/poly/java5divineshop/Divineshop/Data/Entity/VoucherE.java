@@ -3,7 +3,6 @@ package poly.java5divineshop.Divineshop.Data.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -12,22 +11,22 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "Discount")
-public class DiscountE {
+@Table(name = "Voucher")
+public class VoucherE {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Sys_id_discount")
-    private Integer sysIdDiscount;
+    @Column(name = "Sys_id_Voucher")
+    private Integer sysIdVoucher;
 
-    @Column(name = "code_discount", unique = true, nullable = false)
-    private String codeDiscount;
+    @Column(name = "code_Voucher", unique = true, nullable = false)
+    private String codeVoucher;
 
     @Column(name = "ten_giam_gia", columnDefinition = "nvarchar(255)")
-    private String discountName;
+    private String VoucherName;
 
     @Column(name = "percent_giam_gia")
-    private Float discountPercentage;
+    private Float VoucherPercentage;
 
     @Column(name = "ngay_bat_dau")
     private Date startDate;

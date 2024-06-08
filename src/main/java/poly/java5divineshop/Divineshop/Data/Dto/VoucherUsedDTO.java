@@ -1,6 +1,5 @@
 package poly.java5divineshop.Divineshop.Data.Dto;
 
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
@@ -10,9 +9,9 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DiscountUsedDTO {
-    private Integer sysIdDiscountUsed;
+public class VoucherUsedDTO {
+    private Integer sysIdVoucherUsed;
     private Integer sysIdUser;
-    private Integer sysIdDiscount;
+    private Integer sysIdVoucher;
     private Date ngaySuDung;
 }
