@@ -175,12 +175,28 @@ VALUES
 (32, 13);
 GO
 
-go
-INSERT INTO [Discount] (ten_giam_gia, percent_giam_gia, ngay_bat_dau, ngay_ket_thuc, mota)
-VALUES
-    ('4/4','50','2024-05-29','2024-05-31','')
-go
 
+INSERT INTO [Discount] (code_discount, ten_giam_gia, percent_giam_gia, ngay_bat_dau, ngay_ket_thuc, mota)
+VALUES
+    ('SUMMER10', N'Giảm 10% mùa hè', 0.10, '2023-06-01', '2023-08-31', N'Giảm giá 10% cho các đơn hàng trong mùa hè'),
+    ('XMAS20', N'Giảm 20% dịp Noel', 0.20, '2023-12-01', '2023-12-31', N'Giảm giá 20% cho các đơn hàng dịp Noel'),
+    ('SPRING5', N'Giảm 5% mùa xuân', 0.05, '2023-03-01', '2023-05-31', N'Giảm giá 5% cho các đơn hàng trong mùa xuân'),
+    ('FALL15', N'Giảm 15% mùa thu', 0.15, '2023-09-01', '2023-11-30', N'Giảm giá 15% cho các đơn hàng trong mùa thu'),
+    ('NEWYEAR7', N'Giảm 7% đầu năm mới', 0.07, '2024-01-01', '2024-01-31', N'Giảm giá 7% cho các đơn hàng đầu năm mới');
+
+
+INSERT INTO [DiscountUsed] (Sys_id_user, Sys_id_discount, ngay_su_dung)
+VALUES
+    (1, 1, '2023-06-15'),
+    (2, 1, '2023-07-10'),
+    (3, 2, '2023-12-20'),
+    (1, 3, '2023-04-25'),
+    (2, 4, '2023-10-18'),
+    (3, 5, '2024-01-10'),
+    (1, 2, '2023-12-24'),
+    (2, 3, '2023-05-05'),
+    (3, 1, '2023-08-01'),
+    (1, 4, '2023-09-22');
 
 -- -- Kiểm tra lại câu truy vấn SQL trong Hibernate
 -- SELECT 

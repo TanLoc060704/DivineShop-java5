@@ -1,7 +1,7 @@
 USE master;
 GO
 
--- ALTER DATABASE Java5_DivineShop SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+ALTER DATABASE Java5_DivineShop SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
 DROP DATABASE IF EXISTS Java5_DivineShop;
 GO
 
@@ -42,11 +42,21 @@ Create table [Roles](
 -- Tạo bảng Discount
 CREATE TABLE [Discount] (
     Sys_id_discount INT IDENTITY(1,1) PRIMARY KEY,
+    code_discount NVARCHAR(8) UNIQUE,
     ten_giam_gia NVARCHAR(255),
     percent_giam_gia FLOAT,
     ngay_bat_dau DATE,
     ngay_ket_thuc DATE,
     mota NVARCHAR(255)
+);
+
+CREATE TABLE [discount_used] (
+    Sys_id_discount_used INT IDENTITY(1,1) PRIMARY KEY,
+    Sys_id_user INT NOT NULL,
+    Sys_id_discount INT NOT NULL,
+    ngay_su_dung DATE NOT NULL,
+    FOREIGN KEY (Sys_id_user) REFERENCES [User](Sys_id_user),
+    FOREIGN KEY (Sys_id_discount) REFERENCES [Discount](Sys_id_discount)
 );
 
 -- Tạo bảng Category

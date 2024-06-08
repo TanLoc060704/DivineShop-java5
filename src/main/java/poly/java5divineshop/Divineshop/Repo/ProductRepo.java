@@ -5,12 +5,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import poly.java5divineshop.Divineshop.Data.Entity.ProductE;
 import poly.java5divineshop.Divineshop.Data.Model.ProductM;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface ProductRepo extends JpaRepository<ProductE, Integer> {
     @Query("SELECT p FROM ProductE p LEFT JOIN FETCH p.categories WHERE p.slug = :slug")
     Optional<ProductE> findProductBySlug(@Param("slug") String slug);
