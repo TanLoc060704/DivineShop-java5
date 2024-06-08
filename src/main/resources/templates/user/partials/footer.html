@@ -1,19 +1,6 @@
 <footer th:fragment="footer">
-    <div class="container-fluid bg-black">
-        <div class="container p-5">
-            <div class="d-flex align-items-center gap-5">
-                <div class=""><img src="https://cdn.divineshop.vn/static/528b91cfa29c7ffd85418f4b1e8cc8ce.svg" alt=""></div>
-                <div class="text-white">
-                    <h3>Bạn chưa có tài khoản?</h3>
-                    <p style="font-size: 0.9rem;" class="my-4">Hãy tạo ngay một tài khoản để sử dụng đầy đủ các tính năng, tích lũy ưu đãi khi thanh toán các sản phẩm và tham gia vào chương trình Giới thiệu bạn bè nhận hoa hồng vĩnh viễn tại Divine Shop.</p>
-                    <div class="d-flex align-items-center">
-                        <button type="button" class="btn btn-primary fw-bold" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">Đăng ký ngay</button>
-                        <p class="m-0 ms-3 me-1">Hoặc bạn đã có tài khoản?</p>
-                        <a href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="nav-link fw-bold">Đăng nhập</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="container-fluid bg-black " id="goi-y-dang-nhap-dang-ky">
+
     </div>
     <div class="container-fluid bg-white">
         <div class="container py-3">
@@ -66,4 +53,28 @@
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready(function (){
+            let username = sessionStorage.getItem('user_name');
+            $("#goi-y-dang-nhap-dang-ky").empty().append(
+                `
+                    <div class="container p-5 ${ username !== null ? "d-none":""}">
+                        <div class="d-flex align-items-center gap-5">
+                            <div class=""><img src="https://cdn.divineshop.vn/static/528b91cfa29c7ffd85418f4b1e8cc8ce.svg" alt=""></div>
+                            <div class="text-white">
+                                <h3>Bạn chưa có tài khoản?</h3>
+                                <p style="font-size: 0.9rem;" class="my-4">Hãy tạo ngay một tài khoản để sử dụng đầy đủ các tính năng, tích lũy ưu đãi khi thanh toán các sản phẩm và tham gia vào chương trình Giới thiệu bạn bè nhận hoa hồng vĩnh viễn tại Divine Shop.</p>
+                                <div class="d-flex align-items-center">
+                                    <button type="button" class="btn btn-primary fw-bold" data-bs-toggle="modal" data-bs-target="#staticBackdrop1">Đăng ký ngay</button>
+                                    <p class="m-0 ms-3 me-1">Hoặc bạn đã có tài khoản?</p>
+                                    <a href="" data-bs-toggle="modal" data-bs-target="#staticBackdrop" class="nav-link fw-bold">Đăng nhập</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `
+            )
+        })
+    </script>
 </footer>

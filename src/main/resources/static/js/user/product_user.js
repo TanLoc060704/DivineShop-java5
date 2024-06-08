@@ -206,16 +206,20 @@ $(document).ready(function () {
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="col"><button type="button" class="btn fw-semibold w-100 btn-primary" id="buyNow"><i class="fa-regular fa-credit-card"></i> Mua Ngay</button></div>
-                            <div class="col"><button type="button" class="btn fw-semibold w-100 btn-outline-primary" id="addCart"><i class="fa-solid fa-cart-plus"></i> Thêm Vào Giỏ</button></div>
+                            <div class="col"><button type="button" class="btn fw-semibold w-100 btn-primary ${product.tinhTrang ? "" : "disabled"}" id="buyNow"><i class="fa-regular fa-credit-card" ></i> Mua Ngay</button></div>
+                            <div class="col"><button type="button" class="btn fw-semibold w-100 btn-outline-primary ${product.tinhTrang ? "" : "disabled"}" id="addCart"><i class="fa-solid fa-cart-plus"></i> Thêm Vào Giỏ</button></div>
                         </div>
-                `
+                    `
                     :
                     `
                         <div class="d-flex align-items-center gap-3">
                             <h4 class="m-0">${formattedOriginalPrice}</h4>
                             <button type="button" class="btn text-body-secondary fs-4"><i class="fa-solid fa-bell"></i></button>
                             <button type="button" class="btn text-body-secondary fs-4"><i class="fa-solid fa-heart"></i></button>
+                        </div>
+                        <div class="row">
+                            <div class="col"><button type="button" class="btn fw-semibold w-100 btn-primary ${product.tinhTrang ? "" : "disabled"}" id="buyNow"><i class="fa-regular fa-credit-card" ></i> Mua Ngay</button></div>
+                            <div class="col"><button type="button" class="btn fw-semibold w-100 btn-outline-primary ${product.tinhTrang ? "" : "disabled"}" id="addCart"><i class="fa-solid fa-cart-plus" ></i> Thêm Vào Giỏ</button></div>
                         </div>
                 `
                 let loadProductToHtml = `
