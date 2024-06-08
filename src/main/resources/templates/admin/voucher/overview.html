@@ -6,7 +6,7 @@
                     <a th:href="@{/admin/account-list}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-users"></i> User Management</a>
                     <a th:href="@{/admin/product-list}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-brands fa-product-hunt"></i> Product Management</a>
                     <a th:href="@{/admin/category-list}" class="btn btn-outline-dark fw-bold border-0" style="font-size: 0.83rem;"><i class="fa-solid fa-list"></i> Category Management</a>
-                    <a th:href="@{/admin/voucher-list}" class="btn btn-dark fw-bold" style="font-size: 0.83rem;"><i class="fa-solid fa-tags"></i> Discount Management</a>
+                    <a th:href="@{/admin/voucher-list}" class="btn btn-dark fw-bold" style="font-size: 0.83rem;"><i class="fa-solid fa-tags"></i> Voucher Management</a>
                 </div>
             </div>
         </div>
@@ -15,8 +15,8 @@
         <div class="row">
             <div class="col-3">
                 <div class="list-group">
-                    <a th:href="@{/admin/voucher-view}" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid fa-wrench"></i> Discount Detail</a>
-                    <a th:href="@{/admin/voucher-list}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid fa-table-list"></i> List Discounts</a>
+                    <a th:href="@{/admin/voucher-view}" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid fa-wrench"></i> Voucher Detail</a>
+                    <a th:href="@{/admin/voucher-list}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid fa-table-list"></i> List Voucher</a>
                 </div>
             </div>
             <div class="col-9 bg-white rounded border">
@@ -24,15 +24,15 @@
                     <h4>Overview</h4>
                     <div class="row mt-3">
                         <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Discount ID</p>
+                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Voucher ID</p>
                             <p style="font-size: 0.85rem;"  class="fw-bold">1234</p>
                         </div>
                         <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Discount Title</p>
+                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Voucher Title</p>
                             <p style="font-size: 0.85rem;"  class="fw-bold">Elden Ring (CD Key Steam)</p>
                         </div>
                         <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Discount Percent</p>
+                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Voucher Percent</p>
                             <p style="font-size: 0.85rem;"  class="fw-bold">10%</p>
                         </div>
                         <div class="col-3">
@@ -64,14 +64,14 @@
                         <div class="row">
                             <div class="col-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control"  placeholder="Discount Title">
-                                    <label>Discount Title</label>
+                                    <input type="text" class="form-control"  placeholder="Voucher Title">
+                                    <label>Voucher Title</label>
                                 </div>
                             </div>
                             <div class="col-6">
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control"  placeholder="Discount Percent">
-                                    <label>Discount Percent</label>
+                                    <input type="text" class="form-control"  placeholder="Voucher Percent">
+                                    <label>Voucher Percent</label>
                                 </div>
                             </div>
                             <div class="col-6">
