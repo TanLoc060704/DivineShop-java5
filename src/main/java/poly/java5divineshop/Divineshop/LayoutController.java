@@ -19,6 +19,17 @@ public class LayoutController {
     public String register(Model model) {
         return "user/register";
     }
+
+    @GetMapping("/confirm-otp")
+    public String showConfirmOtp(){
+        return "user/confirmOtp";
+    }
+
+    @GetMapping("/confirm-otp-forgot-pw")
+    public String showConfirmOtpForgotPW(){
+        return "user/confirmOtpForgotPW";
+    }
+
     @GetMapping("/forgot-password")
     public String forgotPW(Model model) {
         return "user/forgotPW";
@@ -28,7 +39,7 @@ public class LayoutController {
         model.addAttribute("view", "allProducts");
         return "user/index";
     }
-    @GetMapping("/detail")
+    @GetMapping("/detail/{}")
     public String detail(Model model) {
         model.addAttribute("view", "detailProduct");
         return "user/index";

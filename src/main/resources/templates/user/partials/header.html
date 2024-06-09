@@ -1,4 +1,4 @@
-<header th:fragment="header">
+<header th:fragment="header" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <div style="background-color: #0a59cc;">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
@@ -36,7 +36,7 @@
                     <button class="btn text-white rounded-start-0" style="background-color: #0a59cc;" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
                 <!--TanLoc-Begin-->
-                <div class="text-white">
+                <div class="text-white" id="div-login-logout" sec:authorize="isAnonymous()">
                     <a th:href="@{/log-in}">
                         <button type="button" id="btnLogin" class="btn btn-outline-light rounded-circle"><i class="fa-solid fa-user"></i></button>
                         <button type="button" class="btn p-0 text-white fw-semibold"  style="font-size: 0.83rem;">Đăng nhập</button>
@@ -44,41 +44,34 @@
                     <span style="font-size: 0.83rem;">/</span>
                     <a th:href="@{/register}"><button type="button" class="btn p-0 text-white fw-semibold" style="font-size: 0.83rem;">Đăng ký</button></a>
                 </div>
-                <div class="" id="divUserInfo" style="display: none">
+                <div class="" id="divUserInfo" sec:authorize="isAuthenticated()">
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white fw-bold" style="font-size: 0.85rem;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <img src="https://cdn.divineshop.vn/image/catalog/icon/avatar-khach-hang-2-52544.png?hash=1649933269" class="rounded-circle" alt="" width="42px" height="42px">
-                                hieuchi1999
+                                Hi <span sec:authentication="name" id="user_name"></span>
                             </a>
                             <ul class="dropdown-menu">
                                 <li class="py-1 px-3"  style="font-size: 0.85rem;">Số dư tài khoản</li>
                                 <li><a class="dropdown-item fw-bold py-2" th:href="@{/add-funds}">4.000đ <i class="fa-solid fa-plus text-primary"></i></a></li>
-                                <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/admin/product-view}">Quản trị</a></li>
+                                <div sec:authorize="hasRole('ADMIN')">
+                                    <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/admin/product-list}">Quản trị</a></li>
+                                </div>
                                 <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/user-info}">Quản lý tài khoản</a></li>
                                 <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/order-history}">Lịch sử đơn hàng</a></li>
                                 <li><a class="dropdown-item" style="font-size: 0.85rem;" th:href="@{/favorite}">Sản phẩm yêu thích</a></li>
                                 <li>
                                     <form action="#" th:action="@{/logout}" method="post" class="p-0 m-0">
-                                        <button type="submit" class="dropdown-item border-0 bg-transparent" style="font-size: 0.85rem;">Đăng Xuất</button>
+                                        <button type="submit" id="logout" class="dropdown-item border-0 bg-transparent" style="font-size: 0.85rem;">Đăng Xuất</button>
                                     </form>
                                 </li>
                             </ul>
                         </li>
                     </ul>
                 </div>
-                <script>
-                    $(document).ready(function() {
-                        $("#btnLogin").click(function(e) {
-                            e.preventDefault();
-                            console.log("abc")
-                            $("#divUserInfo").show();
-                        });
-                    });
-                </script>
                 <!--TanLoc-End-->
                 <a th:href="@{/cart}">
-                    <button type="button" class="btn btn-outline-light px-3 py-2" style="font-size: 0.9rem;"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng <span class="badge text-bg-light px-1">4</span></button>
+                    <button type="button" class="btn btn-outline-light px-3 py-2" style="font-size: 0.9rem;"><i class="fa-solid fa-cart-shopping"></i> Giỏ hàng <span class="badge text-bg-light px-1" id="soluong">0</span></button>
                 </a>
             </div>
         </nav>

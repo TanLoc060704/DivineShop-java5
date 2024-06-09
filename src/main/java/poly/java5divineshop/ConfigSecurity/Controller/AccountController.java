@@ -4,9 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import poly.java5divineshop.ConfigSecurity.Service.AccountService;
-import poly.java5divineshop.Divineshop.Data.Dto.UserRequest;
 import poly.java5divineshop.Divineshop.Data.Model.AccountM;
+import poly.java5divineshop.Divineshop.Service.AccountService;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,19 +46,19 @@ public class AccountController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody UserRequest userRequest){
-        Map<String, Object> result = new HashMap<>();
-        try {
-            result.put("success",true);
-            result.put("message","Call api thành công");
-            result.put("data",userRequest);
-        }catch (Exception e){
-            log.error("Call api thất bại: /register ",e);
-            result.put("success",false);
-            result.put("message","Call api thất bại");
-            result.put("data",null);
-        }
-        return ResponseEntity.ok(result);
-    }
+//    @PostMapping("/register")
+//    public ResponseEntity<?> register(@RequestBody UserRequest userRequest){
+//        Map<String, Object> result = new HashMap<>();
+//        try {
+//            result.put("success",true);
+//            result.put("message","Call api thành công");
+//            result.put("data",userRequest);
+//        }catch (Exception e){
+//            log.error("Call api thất bại: /register ",e);
+//            result.put("success",false);
+//            result.put("message","Call api thất bại");
+//            result.put("data",null);
+//        }
+//        return ResponseEntity.ok(result);
+//    }
 }

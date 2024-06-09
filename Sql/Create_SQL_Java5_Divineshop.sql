@@ -1,26 +1,17 @@
-use master
-go
+USE master;
+GO
 
-drop database if exists Java5_DivineShop
-go
+-- ALTER DATABASE Java5_DivineShop SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
+DROP DATABASE IF EXISTS Java5_DivineShop;
+GO
 
-create database Java5_DivineShop
-go
+CREATE DATABASE Java5_DivineShop;
+GO
 
-use Java5_DivineShop
-go
+USE Java5_DivineShop;
+GO
 
-Create table [User](
-    Sys_id_user int IDENTITY (1,1) primary key,
-    ten_dang_nhap nvarchar(max),
-    email nvarchar(max),
-    ho_va_ten nvarchar(max),
-    so_du nvarchar(max),
-    ngay_tham_gia date,
-    anh_dai_dien nvarchar(max)
-)
-
-
+-- Tạo bảng Account
 Create table [Account](
     id              int IDENTITY (1,1) PRIMARY KEY,
     username        varchar(50) NOT NULL UNIQUE,
@@ -29,60 +20,102 @@ Create table [Account](
     is_enabled			bit DEFAULT 1
 )
 
+Create table [User](
+    Sys_id_user int IDENTITY (1,1) primary key,
+    ten_dang_nhap nvarchar(255) NOT NULL UNIQUE,
+    email nvarchar(255) NOT NULL UNIQUE,
+    ho_va_ten nvarchar(255),
+    so_du nvarchar(255),
+    ngay_tham_gia date,
+    anh_dai_dien nvarchar(max)
+)
 
 Create table [Roles](
-    username varchar(50) NOT NULL,
-    role varchar(50) NOT NULL,
-    CONSTRAINT PK_authorities PRIMARY KEY (username, role),
-    FOREIGN KEY (username) REFERENCES account(username)
+    id_role int IDENTITY (1,1) primary key,
+    username varchar(50) NOT NULL  ,
+    username_user nvarchar(255) NOT NULL  ,
+    role varchar(50) NOT NULL  ,
+    FOREIGN KEY (username) REFERENCES account(username),
+    FOREIGN KEY (username_user) REFERENCES [User](ten_dang_nhap)
 )
 
-Create table [Product](
-    Sys_id_product int IDENTITY (1,1) primary key,
-    ma_san_pham nvarchar(max),
-    ten_san_pham nvarchar(max),
-    tinh_trang bit,
-    the_loai nvarchar(max),
-    gia_san_pham nvarchar(max),
-    percent_giam_gia nvarchar(max),
-    anh_san_pham nvarchar(max),
-    slug nvarchar(max),
-    danh_muc nvarchar(max),
-    active_san_pham bit default 1
-)
+-- Tạo bảng Discount
+CREATE TABLE [Discount] (
+    Sys_id_discount INT IDENTITY(1,1) PRIMARY KEY,
+    ten_giam_gia NVARCHAR(255),
+    percent_giam_gia FLOAT,
+    ngay_bat_dau DATE,
+    ngay_ket_thuc DATE,
+    mota NVARCHAR(255)
+);
 
-Create table [Cart](
-    Sys_id_cart int IDENTITY (1,1) primary key,
-    gia nvarchar(max),
-    anh_dai_dien nvarchar(max),
-    so_luong nvarchar(max),
-    tien_thanh_toan nvarchar(max),
-    percent_giam_gia nvarchar(max),
-    tinh_trang bit,
-    tong_tien_thanh_toan nvarchar(max)
-)
+-- Tạo bảng Category
+CREATE TABLE [Category] (
+    Sys_id_category INT IDENTITY(1,1) PRIMARY KEY,
+    ten_the_loai NVARCHAR(MAX)
+);
 
-Create table [Cart_payment](
-    Sys_id_cart_payment int IDENTITY (1,1) primary key,
-    ma_don_hang nvarchar(max),
-    ngay_lap_don date,
-    trang_thai_thanh_toan bit,
-    ten_nguoi_mua nvarchar(max),
-    tong_tien_san_pham nvarchar(max),
-    anh_san_pham nvarchar(max),
-    so_luong_mua nvarchar(max)
-)
+-- Tạo bảng Product
+CREATE TABLE [Product] (
+    Sys_id_product INT IDENTITY(1,1) PRIMARY KEY,
+    ma_san_pham NVARCHAR(255),
+    ten_san_pham NVARCHAR(255),
+    tinh_trang BIT,
+    the_loai NVARCHAR(255),
+    gia_san_pham FLOAT,
+    percent_giam_gia FLOAT,
+    anh_san_pham NVARCHAR(255),
+    slug NVARCHAR(255) UNIQUE NOT NULL,
+    danh_muc NVARCHAR(255),
+    mota NVARCHAR(MAX),
+    active_san_pham BIT DEFAULT 1,
+    Sys_id_discount INT,
+    soluong int,
+    soluongmua int,
+    soluotthich int
+    FOREIGN KEY (Sys_id_discount) REFERENCES [Discount] (Sys_id_discount)
+);
 
-Create table [Category](
-    Sys_id_category int IDENTITY (1,1) primary key,
-    ten_the_loai nvarchar(max)
-)
+-- Tạo bảng CategoryDetail
+CREATE TABLE [category_detail] (
+    Sys_id_category INT NOT NULL,
+    Sys_id_product INT NOT NULL,
+    FOREIGN KEY (Sys_id_category) REFERENCES [Category] (Sys_id_category),
+    FOREIGN KEY (Sys_id_product) REFERENCES [Product] (Sys_id_product),
+    PRIMARY KEY (Sys_id_category, Sys_id_product)
+);
 
-Create table [Discount](
-    Sys_id_discount int IDENTITY (1,1) primary key,
-    ten_giam_gia nvarchar(max),
-    percent_giam_gia nvarchar(max),
-    ngay_bat_dau date,
-    ngay_ket_thuc date,
-    mota nvarchar(max)
-)
+-- Tạo bảng Order
+CREATE TABLE [Order] (
+    Sys_id_cart_payment INT IDENTITY(1,1) PRIMARY KEY,
+    ma_don_hang NVARCHAR(255),
+    ngay_lap_don DATE,
+    trang_thai_thanh_toan BIT,
+    tong_tien_san_pham FLOAT,
+    tien_thanh_toan FLOAT,
+    so_luong_mua INT,
+    Sys_id_product INT,
+    Sys_id_user INT,
+    FOREIGN KEY (Sys_id_product) REFERENCES [Product] (Sys_id_product),
+    FOREIGN KEY (Sys_id_user) REFERENCES [User] (Sys_id_user)
+);
+GO
+
+-- Tạo trigger trg_InsertUserAfterAccountInsert
+CREATE TRIGGER trg_InsertUserAfterAccountInsert
+ON [Account]
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO [User] (ten_dang_nhap, email, ho_va_ten, so_du, ngay_tham_gia, anh_dai_dien)
+    SELECT
+        username AS ten_dang_nhap,
+        email,
+        NULL AS ho_va_ten,
+        NULL AS so_du,
+        GETDATE() AS ngay_tham_gia,
+        'anh-khach-hanggg.png' AS anh_dai_dien
+    FROM
+        inserted;
+END;
+GO
