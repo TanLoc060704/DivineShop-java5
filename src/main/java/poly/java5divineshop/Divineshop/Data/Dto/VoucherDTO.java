@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -17,8 +18,8 @@ public class VoucherDTO {
     private String codeVoucher;
     private String VoucherName;
     private Float VoucherPercentage;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String description;
 
 }

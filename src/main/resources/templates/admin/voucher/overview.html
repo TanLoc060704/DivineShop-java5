@@ -15,91 +15,17 @@
         <div class="row">
             <div class="col-3">
                 <div class="list-group">
-                    <a th:href="@{/admin/voucher-view}" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid fa-wrench"></i> Voucher Detail</a>
+                    <a class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid fa-wrench"></i> Voucher Detail</a>
                     <a th:href="@{/admin/voucher-list}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid fa-table-list"></i> List Voucher</a>
                 </div>
             </div>
             <div class="col-9 bg-white rounded border">
                 <div class="px-3 py-4">
-                    <h4>Overview</h4>
-                    <div class="row mt-3">
-                        <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Voucher ID</p>
-                            <p style="font-size: 0.85rem;"  class="fw-bold">1234</p>
-                        </div>
-                        <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Voucher Title</p>
-                            <p style="font-size: 0.85rem;"  class="fw-bold">Elden Ring (CD Key Steam)</p>
-                        </div>
-                        <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Voucher Percent</p>
-                            <p style="font-size: 0.85rem;"  class="fw-bold">10%</p>
-                        </div>
-                        <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Start Date</p>
-                            <p style="font-size: 0.85rem;"  class="fw-bold">01 Jan, 2023</p>
-                        </div>
-                        <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">End Date</p>
-                            <p style="font-size: 0.85rem;"  class="fw-bold">01 Jan, 2023</p>
-                        </div>
-                        <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Status</p>
-                            <p style="font-size: 0.85rem;"  class="fw-bold text-success">Active</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <form action="">
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="d-flex align-items-center h-100">
-                                    <div>
-                                        <p class="fw-bold" style="font-size: 0.87rem;">Description</p>
-                                        <p class="m-0 overflow-hidden" style="font-size: 0.87rem;">Sale vì Thích thế</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control"  placeholder="Voucher Title">
-                                    <label>Voucher Title</label>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control"  placeholder="Voucher Percent">
-                                    <label>Voucher Percent</label>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-floating mb-3">
-                                    <input type="date" class="form-control"  placeholder="Start Date">
-                                    <label>Start Date</label>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-floating mb-3">
-                                    <input type="date" class="form-control"  placeholder="End Date">
-                                    <label>End Date</label>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-floating mb-3">
-                                    <textarea class="form-control" placeholder="Description" style="height: 100px"></textarea>
-                                    <label>Description</label>
-                                </div>
-                            </div>
-                            <div>
-                                <button class="btn btn-primary" type="submit">Save change</button>
-                                <button class="btn btn-outline-danger" type="">Delete</button>
-                            </div>
-                        </div>
-                    </form>
+                    <h4 th:attr="data-detail=${detail}" id="voucherDetailCode">Overview</h4>
+                    <div id="detailVoucher"></div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<script th:src="@{/js/admin/voucher/voucher-view.js}"></script>

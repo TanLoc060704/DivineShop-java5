@@ -15,8 +15,8 @@
         <div class="row">
             <div class="col-3">
                 <div class="list-group">
-                    <a th:href="@{/admin/voucher-view}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid fa-wrench"></i> Voucher Detail</a>
-                    <a th:href="@{/admin/voucher-list}" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid fa-table-list"></i> List Voucher</a>
+                    <a th:href="@{/admin/voucher-view/SUMMER10}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid fa-wrench"></i> Voucher Detail</a>
+                    <a class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid fa-table-list"></i> List Voucher</a>
                 </div>
             </div>
             <div class="col-9 bg-white rounded border">
@@ -27,24 +27,26 @@
                         <form action="">
                             <div class="d-flex align-items-center gap-2">
                                 <div class="form-floating">
-                                    <input type="text" class="form-control"  placeholder="Search">
+                                    <input type="text" class="form-control" id="searchListVoucherName"  placeholder="Search">
                                     <label>Search</label>
                                 </div>
                                 <div class="row">
                                     <div class="col-6 pe-0">
                                         <div class="form-floating">
-                                            <input type="date" class="form-control"  placeholder="Start Date">
+                                            <input type="date" class="form-control" id="searchListVoucherStartDate" placeholder="Start Date">
                                             <label>Start Date</label>
+                                            <div class="invalid-tooltip">The start date must be before the end date.</div>
                                         </div>
                                     </div>
                                     <div class="col-6">
                                         <div class="form-floating">
-                                            <input type="date" class="form-control"  placeholder="End Date">
+                                            <input type="date" class="form-control" id="searchListVoucherEndDate"  placeholder="End Date">
                                             <label>End Date</label>
+                                            <div class="invalid-tooltip">The end date must be after the start date.</div>
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-outline-secondary p-3" type="button"><i class="fa-solid fa-filter"></i></button>
+                                <button class="btn btn-outline-secondary p-3" type="button" onclick="searchEngine()"><i class="fa-solid fa-filter"></i></button>
                             </div>
                         </form>
 
@@ -62,36 +64,38 @@
                                             <h1 class="modal-title fs-5" id="staticBackdropLabel">Create Voucher</h1>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
-                                        <form action="">
+                                        <form id="createVoucherForm">
                                             <div class="modal-body">
                                                 <div class="row">
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <input type="text" class="form-control"  placeholder="Voucher Title">
+                                                            <input type="text" class="form-control" id="createVoucherTitle"  placeholder="Voucher Title" required>
                                                             <label>Voucher Title</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <input type="text" class="form-control"  placeholder="Voucher Percent">
+                                                            <input type="number" class="form-control" id="createVoucherPercent" min="1"  max="100"  placeholder="Voucher Percent" required>
                                                             <label>Voucher Percent</label>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <input type="date" class="form-control"  placeholder="Start Date">
+                                                            <input type="date" class="form-control" id="createVoucherSDate"   placeholder="Start Date" required>
                                                             <label>Start Date</label>
+                                                            <div class="invalid-feedback">The start date must be before the end date.</div>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="form-floating mb-3">
-                                                            <input type="date" class="form-control"  placeholder="End Date">
+                                                            <input type="date" class="form-control" id="createVoucherEDate"   placeholder="End Date" required>
                                                             <label>End Date</label>
+                                                            <div class="invalid-feedback">The end date must be after the start date.</div>
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
                                                         <div class="form-floating mb-3">
-                                                            <textarea class="form-control" placeholder="Description" style="height: 100px"></textarea>
+                                                            <textarea class="form-control" id="createVoucherDescription"  placeholder="Description" style="height: 100px" required></textarea>
                                                             <label>Description</label>
                                                         </div>
                                                     </div>
@@ -123,125 +127,27 @@
                                 <th scope="col">Action</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <th scope="row">1245620</th>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <div class="">
-                                            <p class="m-0 fw-semibold">Elden Ring (CD Key Steam)</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="alert alert-light m-0 py-1 px-0 text-center" role="alert">
-                                        10%
-                                    </div>
-                                </td>
-                                <td>01 Jan, 2023</td>
-                                <td>01 Jan, 2023</td>
-                                <td>
-                                    <div class="alert alert-danger m-0 text-center p-1" role="alert">
-                                        Inactive
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <a class="btn btn-secondary btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis"></i>
-                                        </a>
+                            <tbody id="voucherTable">
 
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash"></i> Delete</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1245620</th>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <div class="">
-                                            <p class="m-0 fw-semibold">Elden Ring (CD Key Steam)</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="alert alert-light m-0 py-1 px-0 text-center" role="alert">
-                                        10%
-                                    </div>
-                                </td>
-                                <td>01 Jan, 2023</td>
-                                <td>01 Jan, 2023</td>
-                                <td>
-                                    <div class="alert alert-warning m-0 text-center p-1" role="alert">
-                                        Waiting
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <a class="btn btn-secondary btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis"></i>
-                                        </a>
-
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash"></i> Delete</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">1245620</th>
-                                <td>
-                                    <div class="d-flex align-items-center gap-2">
-                                        <div class="">
-                                            <p class="m-0 fw-semibold">Elden Ring (CD Key Steam)</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="alert alert-light m-0 py-1 px-0 text-center" role="alert">
-                                        10%
-                                    </div>
-                                </td>
-                                <td>01 Jan, 2023</td>
-                                <td>01 Jan, 2023</td>
-                                <td>
-                                    <div class="alert alert-success m-0 text-center p-1" role="alert">
-                                        Ongoing
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="dropdown">
-                                        <a class="btn btn-secondary btn-sm" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            <i class="fa-solid fa-ellipsis"></i>
-                                        </a>
-
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
-                                            <li><a class="dropdown-item" href="#"><i class="fa-solid fa-trash"></i> Delete</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
                             </tbody>
                         </table>
                         <div class="d-flex align-items-center justify-content-between">
-                            <p>Showing <b>10</b> of <b>57</b> Results</p>
-                            <nav aria-label="...">
-                                <ul class="pagination">
+                            <p id="showingResultVoucher"></p>
+                            <nav aria-label="Page navigation example">
+                                <ul class="pagination justify-content-center">
                                     <li class="page-item">
-                                        <span class="page-link"><span aria-hidden="true">&laquo;</span></span>
+                                        <btn class="page-link" aria-label="Previous" id="prevBtn" onclick="prevPage();">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </btn>
                                     </li>
                                     <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item active" aria-current="page">
-                                        <span class="page-link">2</span>
-                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
                                     <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <!-- Các nút pagination sẽ được thêm vào đây -->
                                     <li class="page-item">
-                                        <a class="page-link" href="#"><span aria-hidden="true">&raquo;</span></a>
+                                        <btn class="page-link" aria-label="Next" id="nextBtn" onclick="nextPage();">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </btn>
                                     </li>
                                 </ul>
                             </nav>
@@ -252,3 +158,4 @@
         </div>
     </div>
 </section>
+<script th:src="@{/js/admin/voucher/voucher-list.js}"></script>

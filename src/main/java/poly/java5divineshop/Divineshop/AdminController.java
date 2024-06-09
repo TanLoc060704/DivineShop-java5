@@ -54,9 +54,10 @@ public class AdminController {
         return "admin/admin";
     }
 
-    @GetMapping("/voucher-view")
-    public String voucherView(Model model) {
+    @GetMapping("/voucher-view/{slug}")
+    public String voucherView(Model model, @PathVariable("slug") String id) {
         model.addAttribute("view", "voucher/overview");
+        model.addAttribute("detail", id);
         return "admin/admin";
     }
 

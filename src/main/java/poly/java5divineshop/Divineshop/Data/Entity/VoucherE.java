@@ -3,6 +3,7 @@ package poly.java5divineshop.Divineshop.Data.Entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -29,10 +30,10 @@ public class VoucherE {
     private Float VoucherPercentage;
 
     @Column(name = "ngay_bat_dau")
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(name = "ngay_ket_thuc")
-    private Date endDate;
+    private LocalDate endDate;
 
     @Column(name = "mota", columnDefinition = "nvarchar(255)")
     private String description;

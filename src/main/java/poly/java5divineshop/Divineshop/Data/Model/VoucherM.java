@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import poly.java5divineshop.Divineshop.Data.Dto.VoucherDTO;
 import poly.java5divineshop.Divineshop.Data.Entity.VoucherE;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -19,8 +20,8 @@ public class VoucherM {
     private String codeVoucher;
     private String VoucherName;
     private Float VoucherPercentage;
-    private Date startDate;
-    private Date endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private String description;
 
     public static VoucherM convertVoucherEToVoucherM(VoucherE voucherE) {

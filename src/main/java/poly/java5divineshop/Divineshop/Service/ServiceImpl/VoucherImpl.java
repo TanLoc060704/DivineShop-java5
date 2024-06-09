@@ -1,6 +1,10 @@
 package poly.java5divineshop.Divineshop.Service.ServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import poly.java5divineshop.Divineshop.Data.Dto.VoucherDTO;
 import poly.java5divineshop.Divineshop.Data.Entity.VoucherE;
@@ -8,6 +12,8 @@ import poly.java5divineshop.Divineshop.Data.Model.VoucherM;
 import poly.java5divineshop.Divineshop.Repo.VoucherRepo;
 import poly.java5divineshop.Divineshop.Service.VoucherService;
 
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -53,7 +59,6 @@ public class VoucherImpl implements VoucherService {
     public Optional<VoucherM> updateVoucher(Integer id, VoucherDTO voucherDTO) {
         return voucherRepository.findById(id)
                 .map(tempDis -> {
-                    tempDis.setCodeVoucher(voucherDTO.getCodeVoucher());
                     tempDis.setVoucherName(voucherDTO.getVoucherName());
                     tempDis.setVoucherPercentage(voucherDTO.getVoucherPercentage());
                     tempDis.setStartDate(voucherDTO.getStartDate());
@@ -72,4 +77,13 @@ public class VoucherImpl implements VoucherService {
                     return true;
                 }).orElse(false);
     }
+
+    @Override
+    public Page<VoucherDTO> getAllVouchersByPage(String searchTerm, LocalDate startDate, LocalDate endDate, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("sysIdVoucher").descending());
+        Page<VoucherE> voucherPage = voucherRepository.findAllByFilter(searchTerm, startDate, endDate, pageable);
+        // Convert VoucherE to VoucherDTO
+        return voucherPage.map(VoucherM::convertVoucherEToVoucherDTO);
+    }
+
 }

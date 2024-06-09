@@ -2,13 +2,20 @@ package poly.java5divineshop.Divineshop.Api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import poly.java5divineshop.Divineshop.Data.Dto.VoucherDTO;
+import poly.java5divineshop.Divineshop.Data.Model.ProductM;
 import poly.java5divineshop.Divineshop.Data.Model.VoucherM;
+import poly.java5divineshop.Divineshop.Service.UniqueCodeGenerator;
 import poly.java5divineshop.Divineshop.Service.VoucherService;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -20,6 +27,14 @@ public class VoucherAPI {
 
     @Autowired
     private VoucherService voucherService;
+
+    @Autowired
+    private UniqueCodeGenerator uniqueCodeGenerator;
+
+    @GetMapping("/generate")
+    public ResponseEntity<?> getVoucherCode() {
+        return ResponseEntity.ok(uniqueCodeGenerator.generateUniqueCode());
+    }
 
     @GetMapping
     public ResponseEntity<?> getAllVouchers() {
@@ -50,6 +65,16 @@ public class VoucherAPI {
 //        }
 //        return ResponseEntity.ok(result);
 //    }
+    @GetMapping("/pagination")
+    public ResponseEntity<?> getVouchers(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(required = false) String searchTerm,
+            @RequestParam(required = false) LocalDate startDate,
+            @RequestParam(required = false) LocalDate endDate) {
+        Page<VoucherDTO> voucher = voucherService.getAllVouchersByPage(searchTerm, startDate, endDate, page, size);
+        return ResponseEntity.ok(voucher);
+    }
 
     @GetMapping("/{code}")
     public ResponseEntity<?> getVoucherByCode(@PathVariable String code) {
