@@ -53,31 +53,19 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public void sendMailForUser(String email, String otp) {
+    public void sendMailForUser(String email, String otp,String subject) {
         try {
             MimeMessage message = emailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(email);
-            helper.setSubject("Mã OTP cho đăng ký tài khoản");
+            helper.setSubject(subject);
             helper.setText("Mã OTP của bạn là: " + otp);
             emailSender.send(message);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    @Override
-    public void sendMailForUserChangePW(String email, String otp) {
-        try {
-            MimeMessage message = emailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setTo(email);
-            helper.setSubject("Mã OTP cho thay đổi mật khẩu");
-            helper.setText("Mã OTP của bạn là: " + otp);
-            emailSender.send(message);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+
 
     @Override
     public int updatePassAccountByEmail(AccountDTO accountDTO) {
