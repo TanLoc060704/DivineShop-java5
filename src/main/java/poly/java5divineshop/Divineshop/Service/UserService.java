@@ -17,8 +17,5 @@ public interface UserService {
 
     int updateUserByTenDangNhap(UserDto userDto) throws SQLException;
 
-    AccountE save(AccountDTO accountDTO);
-
-    void sendMailForUser(String email, String otp);
 
 }

@@ -12,46 +12,9 @@
     <div class="container rounded bg-white">
       <div class="row py-4 px-3">
         <div class="col-9">
-          <h3 class="mb-3">Giỏ hàng <span style="font-size: 0.9rem;" class="ms-1">(1 sản phẩm)</span></h3>
-          <div class="border border-light-subtle rounded p-3">
-            <div class="row">
-              <div class="col-4 pe-0">
-                <img src="https://cdn.divineshop.vn/image/catalog/OpenAI%20-%20ChatGPT-37620.jpg?hash=1672200973" alt="" class="img-fluid rounded">
-              </div>
-              <div class="col-8">
-                <div class="row">
-                  <div class="col-6">
-                    <a href="#" class="nav-link fw-semibold mb-1">Tài khoản OpenAI - ChatGPT</a>
-                    <div class="d-flex" style="font-size: 0.9rem;">
-                      <a href="#" class="nav-link">openai</a>
-                      <span class="me-1">,</span>
-                      <a href="#" class="nav-link">chatgpt</a>
-                      <span class="me-1">,</span>
-                      <a href="#" class="nav-link">taikhoan</a>
-                    </div>
-                  </div>
-                  <div class="col-2 p-0">
-                    <div class="input-group input-group-sm">
-                      <button type="button" class="btn btn-outline-light text-black border-light-subtle">-</button>
-                      <input type="text" class="form-control text-center px-1" value="1">
-                      <button type="button" class="btn btn-outline-light text-black border-light-subtle">+</button>
-                    </div>
-                  </div>
-                  <div class="col-4 text-end">
-                    <h5 class="">299.000đ</h5>
-                    <div class="d-flex align-items-center justify-content-end gap-3">
-                      <p style="font-size: 0.7rem;" class="m-0 text-bg-danger fw-bold rounded p-1">-62%</p>
-                      <p style="font-size: 0.9rem;" class="m-0 text-decoration-line-through text-secondary">260.000đ</p>
-                    </div>
-                  </div>
-                </div>
-                <hr class="mb-2 mt-4">
-                <div class="d-flex align-items-center justify-content-between">
-                  <p class="m-0" style="font-size: 0.85rem;"><i class="fa-solid fa-box"></i> Tình trạng: <span class="text-success">Còn hàng</span></p>
-                  <button type="button" class="btn text-danger"><i class="fa-solid fa-trash-can" aria-hidden="true"></i></button>
-                </div>
-              </div>
-            </div>
+          <h3 class="mb-3">Giỏ hàng <span style="font-size: 0.9rem;" class="ms-1">(<span id="soluongsp"></span> sản phẩm)</span></h3>
+          <div class="border border-light-subtle rounded p-3" id="list_sp_cart">
+
           </div>
         </div>
         <div class="col-3">
@@ -59,9 +22,13 @@
             <h6 class="m-0 fw-semibold" style="font-size: 0.95rem;">Bạn có mã giới thiệu?</h6>
             <i class="fa-solid fa-user"  style="font-size: 1.3rem;"></i>
           </div>
-          <div class="d-flex justify-content-between align-items-center mb-4">
+          <div class="d-flex justify-content-between align-items-center mb-2">
             <h6 class="m-0 fw-semibold" style="font-size: 0.95rem;">Bạn có mã ưu đãi?</h6>
             <i class="fa-solid fa-percent" style="font-size: 1.3rem;"></i>
+          </div>
+          <div class="input-group mb-4 gap-2">
+            <input type="text" class="form-control rounded" placeholder="Mã giảm giá">
+            <button class="btn btn-outline-primary rounded" type="button">Áp dụng</button>
           </div>
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h6 class="m-0 fw-semibold" style="font-size: 0.95rem;">Bạn muốn tặng cho bạn bè?</h6>
@@ -70,46 +37,37 @@
           <h6 class="m-0 mb-4 fw-semibold" style="font-size: 0.95rem;">Thanh toán</h6>
           <div class="d-flex align-items-center justify-content-between"  style="font-size: 0.85rem;">
             <p class="mb-1">Tổng giá trị sản phẩm</p>
-            <p class="m-0">178.000đ</p>
+            <p class="m-0" id="tonggiatrisp1"></p>
           </div>
-          <div class="d-flex align-items-center justify-content-between"  style="font-size: 0.85rem;">
-            <p class="m-0">Thưởng tiền khách Vip Bạc (1%)</p>
-            <p class="m-0">1.780đ</p>
-          </div>
+<!--          <div class="d-flex align-items-center justify-content-between"  style="font-size: 0.85rem;">-->
+<!--            <p class="m-0">Thưởng tiền khách Vip Bạc (1%)</p>-->
+<!--            <p class="m-0">1.780đ</p>-->
+<!--          </div>-->
           <hr>
           <div class="d-flex align-items-center justify-content-between"  style="font-size: 0.85rem;">
             <p class="mb-1">Tổng giá trị phải thanh toán</p>
-            <p class="m-0 fw-semibold">178.000đ</p>
+            <p class="m-0 fw-semibold" id="tonggiatrisp2"></p>
           </div>
           <div class="d-flex align-items-center justify-content-between"  style="font-size: 0.85rem;">
             <p class="mb-1">Số dư hiện tại</p>
-            <p class="m-0 fw-semibold">4.910đ</p>
+            <p class="m-0 fw-semibold" id="tienuser"></p>
           </div>
-          <div class="d-flex align-items-center justify-content-between"  style="font-size: 0.85rem;">
-            <p class="mb-1">Số tiền cần nạp thêm</p>
-            <p class="m-0 fw-semibold">173.090đ</p>
+          <div id="khongdutien">
+
           </div>
-          <div class="mt-3">
-            <a th:href="@{/add-funds}" class="btn btn-primary py-2 w-100 fw-semibold"  style="font-size: 0.85rem;">
-              <img src="https://cdn.divineshop.vn/static/b1402e84a947ed36cebe9799e47f61c2.svg" alt="" class="" width="7%">
-              Nạp thêm vào tài khoản
-            </a>
-          </div>
-          <p class="my-2 text-center text-secondary"  style="font-size: 0.85rem;">Quét mã. Thanh toán. Không cần nạp tiền.</p>
-          <div class="mb-2">
-            <button type="button" class="btn text-white py-2 w-100 fw-semibold"  style="font-size: 0.85rem; background-color: #005baa;">
-              <img src="https://cdn.divineshop.vn/static/ed4044413ba8489903d4f27bac88aa02.svg" alt="" class="" width="7%">
-              Mua siêu tốc qua Mobile Banking
-            </button>
-          </div>
-          <div class="mb-2">
-            <a th:href="@{/confirm-cart}" class="btn text-white py-2 w-100 fw-semibold"  style="font-size: 0.85rem; background-color: #ae2070;">
-              <img src="https://cdn.divineshop.vn/static/b77a2122717d76696bd2b87d7125fd47.svg" alt="" class="" width="7%">
-              Mua siêu tốc với MoMo
-            </a>
+<!--          <p class="my-2 text-center text-secondary"  style="font-size: 0.85rem;">Quét mã. Thanh toán. Không cần nạp tiền.</p>-->
+<!--          <div class="mb-2">-->
+<!--            <button type="button" class="btn text-white py-2 w-100 fw-semibold"  style="font-size: 0.85rem; background-color: #005baa;">-->
+<!--              <img src="https://cdn.divineshop.vn/static/ed4044413ba8489903d4f27bac88aa02.svg" alt="" class="" width="7%">-->
+<!--              Mua siêu tốc qua Mobile Banking-->
+<!--            </button>-->
+<!--          </div>-->
+          <div id="dutien">
+
           </div>
         </div>
       </div>
     </div>
   </div>
 </section>
+<script src="/js/user/Cart_user.js"></script>

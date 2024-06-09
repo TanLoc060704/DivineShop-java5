@@ -82,9 +82,11 @@ public class ProductImpl implements ProductService {
 
             if (categoryE.isEmpty()) {
                 CategoryE newCategory = new CategoryE(category.getTenTheLoai());
-                productE.addCateList(newCategory);
+                CategoryE savedCategoryE = categoryRepo.save(newCategory);
+                productE.addCateList(savedCategoryE);
+            }else{
+                productE.addCateList(categoryE.get());
             }
-            productE.addCateList(categoryE.get());
             System.out.println(category.getTenTheLoai() + category.getId());
         }
 
@@ -139,6 +141,21 @@ public class ProductImpl implements ProductService {
         } else {
             return ProductM.convertPageProductEToPageProductM(productRepository.findByTenSanPhamContainingIgnoreCaseAndDanhMucIgnoreCase(searchTerm, category, pageable));
         }
+    }
+
+    @Override
+    public List<ProductM> getTop8ByCustomOrder() {
+        return ProductM.convertListProductEToListProductM(productRepository.findTop8ByCustomOrder());
+    }
+
+    @Override
+    public List<ProductM> getTop8ByOrderBySoLuongMuaDesc() {
+        return ProductM.convertListProductEToListProductM(productRepository.findTop8ByOrderBySoLuongMuaDesc());
+    }
+
+    @Override
+    public List<ProductM> getTop8ByOrderByPercentGiamGiaDesc() {
+        return ProductM.convertListProductEToListProductM(productRepository.findTop8ByOrderByPercentGiamGiaDesc());
     }
 
 }

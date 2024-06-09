@@ -7,47 +7,65 @@ $(document).ready(function() {
             .then(response => {
                 console.log(response.data.data);
                 let detailProduct = $('#detailProduct')
+                detailProduct.html('');
                 detailProduct.append(loadDetailProduct(response.data.data))
                 // Create Product
-                $("#updateDetailProduct").submit(function(e) {
-                    // e.preventDefault();
-                    var str = $("#createProductGenres").val()
-                    var arr = str.split(", ");
-                    var result = arr.map(function(item) {
-                        return {
-                            "tenTheLoai": item
-                        };
-                    });
-                    let newProduct = {
-                        maSanPham: $("#createProductCode").val(),
-                        tenSanPham: $("#createProductName").val(),
-                        tinhTrang: $("#createProductStatus").val(),
-                        theLoai: $("#createProductGenres").val(),
-                        giaSanPham: $("#createProductPrice").val(),
-                        percentGiamGia: $("#createProductDiscounts").val(),
-                        slug: $("#createProductSlug").val(),
-                        danhMuc: $("#createProductCategory").val(),
-                        mota: $("#createProductDescription").val(),
-                        soLuong: $("#createProductQuantity").val(),
-                        categories: result
-                    };
-                    // console.log($("#createProductImage").val().split('\\').pop().split('/').pop())
-                    console.log(JSON.stringify(newProduct))
-                    axios({
-                        method: 'put',
-                        url: `/api/products/${response.data.data.id}`,
-                        data: JSON.stringify(newProduct),
-                        headers: {
-                            'Content-Type': 'application/json'
-                        }
-                    })
-                        .then(function (response) {
-                            console.log('Update product thành công!');
-                            // window.location.reload();
-                        })
-                        .catch(function (error) {
-                            console.error('Đã xảy ra lỗi:', error);
+                const oldSlug = $("#createProductSlug").val()
+                $("#updateDetailProduct").submit(async function (e) {
+                    e.preventDefault();
+                    let slug = $("#createProductSlug");
+                    const slugCheckResult = await checkUniqueSlug(slug.val());
+                    console.log(slugCheckResult)
+
+
+                    console.log(oldSlug !== $("#createProductSlug").val() && slugCheckResult === true)
+                    if (oldSlug !== $("#createProductSlug").val() && slugCheckResult === true) {
+                        slug.addClass('is-invalid');
+                    }else{
+
+                        var str = $("#createProductGenres").val()
+                        var arr = str.split(", ");
+                        var result = arr.map(function (item) {
+                            return {
+                                "tenTheLoai": item
+                            };
                         });
+                        let newProduct = {
+                            maSanPham: $("#createProductCode").val(),
+                            tenSanPham: $("#createProductName").val(),
+                            tinhTrang: $("#createProductStatus").val(),
+                            theLoai: $("#createProductGenres").val(),
+                            giaSanPham: $("#createProductPrice").val(),
+                            percentGiamGia: $("#createProductDiscounts").val(),
+                            anhSanPham: response.data.data.anhSanPham,
+                            slug: $("#createProductSlug").val(),
+                            danhMuc: $("#createProductCategory").val(),
+                            mota: $("#createProductDescription").val(),
+                            soLuong: $("#createProductQuantity").val(),
+                            soLuongMua: response.data.data.soLuongMua,
+                            soLuotThich: response.data.data.soLuotThich,
+                            categories: result
+                        };
+                        // console.log($("#createProductImage").val().split('\\').pop().split('/').pop())
+                        console.log(JSON.stringify(newProduct))
+                        axios({
+                            method: 'put',
+                            url: `/api/products/${response.data.data.id}`,
+                            data: JSON.stringify(newProduct),
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                        })
+                            .then(function (response) {
+                                console.log('Update product thành công!');
+                                loadDetailPage();
+                                // window.location.reload();
+                            })
+                            .catch(function (error) {
+                                console.error('Đã xảy ra lỗi:', error);
+                            });
+                    }
+
                 });
             })
             .catch(error => {
@@ -142,6 +160,7 @@ $(document).ready(function() {
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" value="${data.slug}"  placeholder="Product Slug" id="createProductSlug" required>
                             <label>Product Slug</label>
+                            <div class="invalid-feedback">Slug must be unique.</div>
                         </div>
                     </div>
                     <div class="col-6">
@@ -152,19 +171,19 @@ $(document).ready(function() {
                     </div>
                     <div class="col-6">
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" value="${data.soLuong}"  placeholder="Quantity" id="createProductQuantity" required>
+                            <input type="number" class="form-control" value="${data.soLuong}" min="0"  placeholder="Quantity" id="createProductQuantity" required>
                             <label>Quantity</label>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" value="${data.giaSanPham}"  placeholder="Price" id="createProductPrice" required>
+                            <input type="number" class="form-control" value="${data.giaSanPham}" min="0"  placeholder="Price" id="createProductPrice" required>
                             <label>Price</label>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="form-floating mb-3">
-                            <input type="number" class="form-control" value="${data.percentGiamGia}"  placeholder="Discounts" id="createProductDiscounts" required>
+                            <input type="number" class="form-control" value="${data.percentGiamGia}" min="0" max="100"  placeholder="Discounts" id="createProductDiscounts" required>
                             <label>Discounts</label>
                         </div>
                     </div>
@@ -241,6 +260,14 @@ $(document).ready(function() {
         `
     }
 
-
-
 });
+
+async function checkUniqueSlug(value) {
+    try {
+        const response = await axios.get(`/api/products/${value}`);
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+}
