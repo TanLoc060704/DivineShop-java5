@@ -145,4 +145,56 @@ public class ProductAPI {
             return ResponseEntity.internalServerError().body(result);
         }
     }
+
+    @GetMapping("/find-top8-by-custom-order")
+    public ResponseEntity<?> findTop8ByCustomOrder() {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<ProductM> list = productService.getTop8ByCustomOrder();
+            result.put("status", true);
+            result.put("message", "Call Api Successfully");
+            result.put("data", list );
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("status", false);
+            result.put("message", "Call Api Failed");
+            result.put("data", null);
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/get-top8-by-order-by-so-luong-mua-desc")
+    public ResponseEntity<?> getTop8ByOrderBySoLuongMuaDesc() {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<ProductM> list = productService.getTop8ByOrderBySoLuongMuaDesc();
+            result.put("status", true);
+            result.put("message", "Call Api Successfully");
+            result.put("data", list );
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("status", false);
+            result.put("message", "Call Api Failed");
+            result.put("data", null);
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/get-top8-by-order-by-percent-giam-gia-desc")
+    public ResponseEntity<?> getTop8ByOrderByPercentGiamGiaDesc() {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            List<ProductM> list = productService.getTop8ByOrderByPercentGiamGiaDesc();
+            result.put("status", true);
+            result.put("message", "Call Api Successfully");
+            result.put("data", list );
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.put("status", false);
+            result.put("message", "Call Api Failed");
+            result.put("data", null);
+        }
+        return ResponseEntity.ok(result);
+    }
+
 }
