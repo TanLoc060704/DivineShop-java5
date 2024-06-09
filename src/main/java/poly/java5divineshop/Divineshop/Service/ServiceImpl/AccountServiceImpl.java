@@ -12,6 +12,7 @@ import poly.java5divineshop.Divineshop.Data.Entity.AccountE;
 import poly.java5divineshop.Divineshop.Data.Model.AccountM;
 import poly.java5divineshop.Divineshop.Repo.AccountRepo;
 
+import java.sql.SQLException;
 import java.util.List;
 
 @Service
@@ -63,5 +64,23 @@ public class AccountServiceImpl implements AccountService {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    @Override
+    public void sendMailForUserChangePW(String email, String otp) {
+        try {
+            MimeMessage message = emailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(email);
+            helper.setSubject("Mã OTP cho thay đổi mật khẩu");
+            helper.setText("Mã OTP của bạn là: " + otp);
+            emailSender.send(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public int updatePassAccountByEmail(AccountDTO accountDTO) {
+        return repo.updatePassAccountByEmail(accountDTO.getHashedPassword(), accountDTO.getEmail());
     }
 }

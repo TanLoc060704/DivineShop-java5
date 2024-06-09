@@ -43,10 +43,9 @@ $(document).ready(function () {
             return;
         }
         let otp = otp1 + otp2 + otp3 + otp4 + otp5 + otp6;
-        await axios.post('/api/public/verify-otp/' + otp)
+        await axios.post('/api/public/verify-otp-change-pw/' + otp)
             .then(response => {
                 let responseData = response.data;
-                console.log(responseData);
                 if (responseData.message === 'Otp does not exist') {
                     Swal.fire({
                         icon: "error",
@@ -66,7 +65,7 @@ $(document).ready(function () {
                 if (responseData.message === 'Call Api Successfully') {
                     Swal.fire({
                         icon: "success",
-                        title: "Tạo tài khoản thành công",
+                        title: "Đổi mật khẩu thành công",
                         showConfirmButton: true,
                         timer: 5000
                     }).then((result) => {
@@ -96,7 +95,7 @@ $(document).ready(function () {
     });
 
     const resendOtp = async () => {
-        await axios.post('/api/public/resendOtp')
+        await axios.post('/api/public/resendOtpForgotPW')
             .then(response => {
                 let responseData = response.data;
                 if (responseData.message === 'Call Api Successfully') {

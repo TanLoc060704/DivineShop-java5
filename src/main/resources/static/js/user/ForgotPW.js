@@ -1,12 +1,11 @@
 $(document).ready(function () {
 
-    const saveAccountByUser = async () => {
-        let username = $('#username').val();
+    const forgotPW = async () => {
         let email = $('#email').val();
         let emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
         let password = $('#password').val();
         let confirmPassword = $('#confirmPassword').val();
-        if (username === '' || email === '' || password === '' || confirmPassword === '') {
+        if (email === '' || password === '' || confirmPassword === '') {
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
@@ -28,61 +27,53 @@ $(document).ready(function () {
             });
             return;
         }
-        await axios.post('/api/public/saveAccountByUser', {
-            username: username,
+        await axios.post('/api/public/forgotPW', {
             email: email,
             hashedPassword: password
         })
             .then(response => {
                 let responseData = response.data;
-                if (responseData.message === 'Username already exists') {
+                if (responseData.message === 'Email does not exist') {
                     Swal.fire({
                         icon: "error",
                         title: "Oops...",
-                        text: "Username already exists"
-                    });
-                    return;
-                } else if (responseData.message === 'Email already exists') {
-                    Swal.fire({
-                        icon: "error",
-                        title: "Oops...",
-                        text: "Email already exists"
+                        text: "Email không tồn tại"
                     });
                     return;
                 } else if (responseData.message === 'Call Api Successfully') {
                     Swal.fire({
                         icon: "success",
-                        title: "Vui lòng xác nhận otp được gửi vào email để tạo tài khoản\n" +
+                        title: "Vui lòng xác nhận otp được gửi vào email để đổi mật khẩu\n" +
                             "Lưu ý thời hạn của otp là 1 phút",
                         showConfirmButton: true,
                         timer: 7000
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            window.location.href = '/confirm-otp';
+                            window.location.href = '/confirm-otp-forgot-pw';
                         }
                         /* Read more about handling dismissals below */
                         if (result.dismiss === Swal.DismissReason.timer) {
-                            window.location.href = '/confirm-otp';
+                            window.location.href = '/confirm-otp-forgot-pw';
                         }
-                    });
+                    })
                     setTimeout(() => {
-                        window.location.href = '/confirm-otp';
+                        window.location.href = '/confirm-otp-forgot-pw';
                     }, 7000);
                 }
             })
     }
 
     $('#btnSendMailForUser').click(() => {
-        saveAccountByUser();
-    })
+        forgotPW();
+    });
     // $(document).on('keypress', function (event) {
     //     if (event.key === 'Enter') {
-    //         saveAccountByUser();
+    //         forgotPW();
     //     }
     // });
     $('.form-control').on('keypress', function (event) {
         if (event.key === 'Enter') {
-            saveAccountByUser();
+            forgotPW();
         }
     });
 

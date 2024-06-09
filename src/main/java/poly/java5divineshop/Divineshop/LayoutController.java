@@ -25,6 +25,11 @@ public class LayoutController {
         return "user/confirmOtp";
     }
 
+    @GetMapping("/confirm-otp-forgot-pw")
+    public String showConfirmOtpForgotPW(){
+        return "user/confirmOtpForgotPW";
+    }
+
     @GetMapping("/forgot-password")
     public String forgotPW(Model model) {
         return "user/forgotPW";

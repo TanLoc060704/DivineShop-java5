@@ -94,7 +94,7 @@ public class AccountApi {
 
             String otpSession = (String) httpSession.getAttribute("otp");
             Long otpTime = (Long) httpSession.getAttribute("otpTime");
-            if (otpTime == null || (System.currentTimeMillis() - otpTime) > 2 * 60 * 1000) {
+            if (otpTime == null || (System.currentTimeMillis() - otpTime) > 1 * 60 * 1000) {
                 result.put("status", true);
                 result.put("message", "OTP đã hết hạn");
             } else if (otp.equals(otpSession)) {
@@ -126,6 +126,74 @@ public class AccountApi {
             httpSession.setAttribute("otpTime", System.currentTimeMillis());
             AccountDTO accountDTO = (AccountDTO) httpSession.getAttribute("account");
             accountService.sendMailForUser(accountDTO.getEmail(), Otp);
+            result.put("status", true);
+            result.put("message", "Call Api Successfully");
+        } catch (Exception e) {
+            result.put("status", false);
+            result.put("message", "Call Api Failed");
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/forgotPW")
+    public ResponseEntity<?> forgotPW(@RequestBody AccountDTO accountDTO) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            if (accountService.findByEmail(accountDTO.getEmail()) == null) {
+                result.put("status", true);
+                result.put("message", "Email does not exist");
+                return ResponseEntity.ok(result);
+            }
+            String Otp = OTPUtil.generateOTP();
+            httpSession.setAttribute("otpForgotPW", Otp);
+            httpSession.setAttribute("otpTimeForgotPW", System.currentTimeMillis());
+            httpSession.setAttribute("accountForgotPW", accountDTO);
+            accountService.sendMailForUserChangePW(accountDTO.getEmail(), Otp);
+            result.put("status", true);
+            result.put("message", "Call Api Successfully");
+        } catch (Exception e) {
+            result.put("status", false);
+            result.put("message", "Call Api Failed");
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/verify-otp-change-pw/{otp}")
+    public ResponseEntity<?> verifyOTPChangePW(@PathVariable("otp") String otp) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            String otpSession = (String) httpSession.getAttribute("otpForgotPW");
+            Long otpTime = (Long) httpSession.getAttribute("otpTimeForgotPW");
+            if (otpTime == null || (System.currentTimeMillis() - otpTime) > 1 * 60 * 1000) {
+                result.put("status", true);
+                result.put("message", "OTP đã hết hạn");
+            } else if (otp.equals(otpSession)) {
+                AccountDTO accountDTO = (AccountDTO) httpSession.getAttribute("accountForgotPW");
+                String password = AccountDTO.passwordEncoder.encode(accountDTO.getHashedPassword());
+                accountDTO.setHashedPassword(password);
+                accountService.updatePassAccountByEmail(accountDTO);
+                result.put("status", true);
+                result.put("message", "Call Api Successfully");
+            } else {
+                result.put("status", true);
+                result.put("message", "Otp does not exist");
+            }
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("message", "Call Api Failed");
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/resendOtpForgotPW")
+    public ResponseEntity<?> resendOtpForgotPW() {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            String Otp = OTPUtil.generateOTP();
+            httpSession.setAttribute("otpForgotPW", Otp);
+            httpSession.setAttribute("otpTimeForgotPW", System.currentTimeMillis());
+            AccountDTO accountDTO = (AccountDTO) httpSession.getAttribute("accountForgotPW");
+            accountService.sendMailForUserChangePW(accountDTO.getEmail(), Otp);
             result.put("status", true);
             result.put("message", "Call Api Successfully");
         } catch (Exception e) {
