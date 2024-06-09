@@ -18,4 +18,7 @@ public interface ProductService {
     boolean deleteProduct(int id);
     Optional<ProductM> getProductBySlug(String slug);
     Page<ProductM> getAllProductsByPage(String searchTerm, String category, int page, int pageSize);
+    List<ProductM> getTop8ByCustomOrder();
+    List<ProductM> getTop8ByOrderBySoLuongMuaDesc();
+    List<ProductM> getTop8ByOrderByPercentGiamGiaDesc();
 }
