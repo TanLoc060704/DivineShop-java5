@@ -46,5 +46,8 @@ public class UserServiceImpl implements UserService {
                 userDto.getTenDangNhap());
     }
 
-
+    @Override
+    public UserE findBytenDangNhap(String tenDangNhap) {
+        return userRepo.findBytenDangNhap(tenDangNhap);
+    }
 }
