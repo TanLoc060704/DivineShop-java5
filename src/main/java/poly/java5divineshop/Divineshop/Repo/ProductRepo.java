@@ -22,4 +22,9 @@ public interface ProductRepo extends JpaRepository<ProductE, Integer> {
     Page<ProductE> findByDanhMucIgnoreCase(String category, Pageable pageable);
 
     Page<ProductE> findByTenSanPhamContainingIgnoreCase(String searchTerm, Pageable pageable);
+
+    @Query(value = "SELECT TOP 8 * FROM Product ORDER BY (soluongmua * 0.4 + soluotthich * 0.6) DESC", nativeQuery = true)
+    List<ProductE> findTop8ByCustomOrder();
+    List<ProductE> findTop8ByOrderBySoLuongMuaDesc();
+    List<ProductE> findTop8ByOrderByPercentGiamGiaDesc();
 }

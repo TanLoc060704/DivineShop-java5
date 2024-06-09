@@ -26,9 +26,6 @@ public class AccountApi {
     AccountService accountService;
 
     @Autowired
-    UserService userService;
-
-    @Autowired
     HttpSession httpSession;
 
     @PostMapping("/saveAccount")
@@ -61,22 +58,31 @@ public class AccountApi {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/send-email-for-user")
-    public ResponseEntity<?> sendEmailForUser(@RequestBody() AccountDTO accountDTO) {
+    @PostMapping("/saveAccountByUser")
+    public ResponseEntity<?> saveAccountByUser(@RequestBody AccountDTO accountDTO) {
         Map<String, Object> result = new HashMap<>();
         try {
+            if (accountService.findByUsername(accountDTO.getUsername()) != null) {
+                result.put("status", true);
+                result.put("message", "Username already exists");
+                return ResponseEntity.ok(result);
+            }
+            if (accountService.findByEmail(accountDTO.getEmail()) != null) {
+                result.put("status", true);
+                result.put("message", "Email already exists");
+                return ResponseEntity.ok(result);
+            }
             String Otp = OTPUtil.generateOTP();
             httpSession.setAttribute("otp", Otp);
+            httpSession.setAttribute("otpTime", System.currentTimeMillis());
             httpSession.setAttribute("account", accountDTO);
-            userService.sendMailForUser(accountDTO.getEmail(), Otp);
-            result.put("success", true);
-            result.put("message", "Call api thành công");
-            result.put("data", Otp);
+            accountService.sendMailForUser(accountDTO.getEmail(), Otp,"Mã OTP cho đăng ký tài khoản");
+            result.put("status", true);
+            result.put("message", "Call Api Successfully");
         } catch (Exception e) {
             log.error("Call api thất bại: /register ", e);
-            result.put("success", false);
-            result.put("message", "Call api thất bại");
-            result.put("data", null);
+            result.put("status", false);
+            result.put("message", "Call Api Failed");
         }
         return ResponseEntity.ok(result);
     }
@@ -85,23 +91,114 @@ public class AccountApi {
     public ResponseEntity<?> verifyOTP(@PathVariable("otp") String otp) {
         Map<String, Object> result = new HashMap<>();
         try {
+
             String otpSession = (String) httpSession.getAttribute("otp");
-            if (otp.equals(otpSession)) {
+            Long otpTime = (Long) httpSession.getAttribute("otpTime");
+            if (otpTime == null || (System.currentTimeMillis() - otpTime) > 1 * 60 * 1000) {
+                result.put("status", true);
+                result.put("message", "OTP đã hết hạn");
+            } else if (otp.equals(otpSession)) {
                 AccountDTO accountDTO = (AccountDTO) httpSession.getAttribute("account");
+                accountDTO.setEnabled(true);
                 String password = AccountDTO.passwordEncoder.encode(accountDTO.getHashedPassword());
                 accountDTO.setHashedPassword(password);
-                accountDTO.setEnabled(true);
-                userService.save(accountDTO);
-                result.put("success", true);
-                result.put("message", "OTP đúng");
+                accountService.saveAccount(accountDTO);
+                result.put("status", true);
+                result.put("message", "Call Api Successfully");
             } else {
-                result.put("success", false);
-                result.put("message", "OTP sai");
+                result.put("status", true);
+                result.put("message", "Otp does not exist");
             }
         } catch (Exception e) {
             log.error("Call api thất bại: /register ", e);
             result.put("success", false);
-            result.put("message", "Call api thất bại");
+            result.put("message", "Call Api Failed");
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/resendOtp")
+    public ResponseEntity<?> resendOtp() {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            String Otp = OTPUtil.generateOTP();
+            httpSession.setAttribute("otp", Otp);
+            httpSession.setAttribute("otpTime", System.currentTimeMillis());
+            AccountDTO accountDTO = (AccountDTO) httpSession.getAttribute("account");
+            accountService.sendMailForUser(accountDTO.getEmail(), Otp,"Mã OTP cho đăng ký tài khoản");
+            result.put("status", true);
+            result.put("message", "Call Api Successfully");
+        } catch (Exception e) {
+            result.put("status", false);
+            result.put("message", "Call Api Failed");
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/forgotPW")
+    public ResponseEntity<?> forgotPW(@RequestBody AccountDTO accountDTO) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            if (accountService.findByEmail(accountDTO.getEmail()) == null) {
+                result.put("status", true);
+                result.put("message", "Email does not exist");
+                return ResponseEntity.ok(result);
+            }
+            String Otp = OTPUtil.generateOTP();
+            httpSession.setAttribute("otpForgotPW", Otp);
+            httpSession.setAttribute("otpTimeForgotPW", System.currentTimeMillis());
+            httpSession.setAttribute("accountForgotPW", accountDTO);
+            accountService.sendMailForUser(accountDTO.getEmail(), Otp,"Mã OTP cho thay đổi mật khẩu");
+            result.put("status", true);
+            result.put("message", "Call Api Successfully");
+        } catch (Exception e) {
+            result.put("status", false);
+            result.put("message", "Call Api Failed");
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/verify-otp-change-pw/{otp}")
+    public ResponseEntity<?> verifyOTPChangePW(@PathVariable("otp") String otp) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            String otpSession = (String) httpSession.getAttribute("otpForgotPW");
+            Long otpTime = (Long) httpSession.getAttribute("otpTimeForgotPW");
+            if (otpTime == null || (System.currentTimeMillis() - otpTime) > 1 * 60 * 1000) {
+                result.put("status", true);
+                result.put("message", "OTP đã hết hạn");
+            } else if (otp.equals(otpSession)) {
+                AccountDTO accountDTO = (AccountDTO) httpSession.getAttribute("accountForgotPW");
+                String password = AccountDTO.passwordEncoder.encode(accountDTO.getHashedPassword());
+                accountDTO.setHashedPassword(password);
+                accountService.updatePassAccountByEmail(accountDTO);
+                result.put("status", true);
+                result.put("message", "Call Api Successfully");
+            } else {
+                result.put("status", true);
+                result.put("message", "Otp does not exist");
+            }
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("message", "Call Api Failed");
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/resendOtpForgotPW")
+    public ResponseEntity<?> resendOtpForgotPW() {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            String Otp = OTPUtil.generateOTP();
+            httpSession.setAttribute("otpForgotPW", Otp);
+            httpSession.setAttribute("otpTimeForgotPW", System.currentTimeMillis());
+            AccountDTO accountDTO = (AccountDTO) httpSession.getAttribute("accountForgotPW");
+            accountService.sendMailForUser(accountDTO.getEmail(), Otp,"Mã OTP cho thay đổi mật khẩu");
+            result.put("status", true);
+            result.put("message", "Call Api Successfully");
+        } catch (Exception e) {
+            result.put("status", false);
+            result.put("message", "Call Api Failed");
         }
         return ResponseEntity.ok(result);
     }

@@ -21,9 +21,13 @@ public class LayoutController {
     }
 
     @GetMapping("/confirm-otp")
-    public String showConfirmOtp(Model model){
-        model.addAttribute("view", "confirmOtp");
-        return "user/index";
+    public String showConfirmOtp(){
+        return "user/confirmOtp";
+    }
+
+    @GetMapping("/confirm-otp-forgot-pw")
+    public String showConfirmOtpForgotPW(){
+        return "user/confirmOtpForgotPW";
     }
 
     @GetMapping("/forgot-password")

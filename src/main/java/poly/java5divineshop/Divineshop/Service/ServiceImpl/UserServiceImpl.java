@@ -24,15 +24,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepo userRepo;
 
-    @Autowired
-    AccountRepo accountRepo;
-
-    @Autowired
-    JavaMailSender emailSender;
-
-    @Autowired
-    HttpSession session;
-
     @Override
     public List<UserM> getAllUser() {
         return UserM.convertListUserEToListUserM(userRepo.getAllUser());
@@ -55,24 +46,5 @@ public class UserServiceImpl implements UserService {
                 userDto.getTenDangNhap());
     }
 
-    @Override
-    public AccountE save(AccountDTO accountDTO) {
-        return accountRepo.save(AccountDTO.convertAccountDTOToAccountE(accountDTO));
-    }
 
-    @Override
-    public void sendMailForUser(String email, String otp) {
-        try {
-            MimeMessage message = emailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setTo(email);
-            helper.setSubject("Mã OTP cho đăng ký tài khoản");
-            helper.setText("Mã OTP của bạn là: " + otp);
-            emailSender.send(message);
-            session.setAttribute("otp", otp);
-            session.setAttribute("email", email);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 }

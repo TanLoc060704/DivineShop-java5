@@ -143,4 +143,19 @@ public class ProductImpl implements ProductService {
         }
     }
 
+    @Override
+    public List<ProductM> getTop8ByCustomOrder() {
+        return ProductM.convertListProductEToListProductM(productRepository.findTop8ByCustomOrder());
+    }
+
+    @Override
+    public List<ProductM> getTop8ByOrderBySoLuongMuaDesc() {
+        return ProductM.convertListProductEToListProductM(productRepository.findTop8ByOrderBySoLuongMuaDesc());
+    }
+
+    @Override
+    public List<ProductM> getTop8ByOrderByPercentGiamGiaDesc() {
+        return ProductM.convertListProductEToListProductM(productRepository.findTop8ByOrderByPercentGiamGiaDesc());
+    }
+
 }
