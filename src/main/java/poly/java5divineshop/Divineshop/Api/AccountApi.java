@@ -76,7 +76,7 @@ public class AccountApi {
             httpSession.setAttribute("otp", Otp);
             httpSession.setAttribute("otpTime", System.currentTimeMillis());
             httpSession.setAttribute("account", accountDTO);
-            accountService.sendMailForUser(accountDTO.getEmail(), Otp);
+            accountService.sendMailForUser(accountDTO.getEmail(), Otp,"Mã OTP cho đăng ký tài khoản");
             result.put("status", true);
             result.put("message", "Call Api Successfully");
         } catch (Exception e) {
@@ -125,7 +125,7 @@ public class AccountApi {
             httpSession.setAttribute("otp", Otp);
             httpSession.setAttribute("otpTime", System.currentTimeMillis());
             AccountDTO accountDTO = (AccountDTO) httpSession.getAttribute("account");
-            accountService.sendMailForUser(accountDTO.getEmail(), Otp);
+            accountService.sendMailForUser(accountDTO.getEmail(), Otp,"Mã OTP cho đăng ký tài khoản");
             result.put("status", true);
             result.put("message", "Call Api Successfully");
         } catch (Exception e) {
@@ -148,7 +148,7 @@ public class AccountApi {
             httpSession.setAttribute("otpForgotPW", Otp);
             httpSession.setAttribute("otpTimeForgotPW", System.currentTimeMillis());
             httpSession.setAttribute("accountForgotPW", accountDTO);
-            accountService.sendMailForUserChangePW(accountDTO.getEmail(), Otp);
+            accountService.sendMailForUser(accountDTO.getEmail(), Otp,"Mã OTP cho thay đổi mật khẩu");
             result.put("status", true);
             result.put("message", "Call Api Successfully");
         } catch (Exception e) {
@@ -193,7 +193,7 @@ public class AccountApi {
             httpSession.setAttribute("otpForgotPW", Otp);
             httpSession.setAttribute("otpTimeForgotPW", System.currentTimeMillis());
             AccountDTO accountDTO = (AccountDTO) httpSession.getAttribute("accountForgotPW");
-            accountService.sendMailForUserChangePW(accountDTO.getEmail(), Otp);
+            accountService.sendMailForUser(accountDTO.getEmail(), Otp,"Mã OTP cho thay đổi mật khẩu");
             result.put("status", true);
             result.put("message", "Call Api Successfully");
         } catch (Exception e) {

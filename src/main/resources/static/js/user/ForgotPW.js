@@ -44,7 +44,7 @@ $(document).ready(function () {
                     Swal.fire({
                         icon: "success",
                         title: "Vui lòng xác nhận otp được gửi vào email để đổi mật khẩu\n" +
-                            "Lưu ý thời hạn của otp là 1 phút",
+                            "<p style=\"color: red; font-size: 0.9em; font-weight: bold;\">Lưu ý: thời hạn của otp là 1 phút</p>",
                         showConfirmButton: true,
                         timer: 7000
                     }).then((result) => {
