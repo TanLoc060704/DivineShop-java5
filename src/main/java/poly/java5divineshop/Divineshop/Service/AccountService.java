@@ -19,9 +19,7 @@ public interface AccountService {
 
     AccountE saveAccount(AccountDTO accountDTO) throws SQLException;
 
-    void sendMailForUser(String email, String otp);
-
-    void sendMailForUserChangePW(String email, String otp);
+    void sendMailForUser(String email, String otp,String subject);
 
     int updatePassAccountByEmail(AccountDTO accountDTO) throws SQLException;
 }
