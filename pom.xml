@@ -11,7 +11,7 @@
     <groupId>poly</groupId>
     <artifactId>Java5-DivineShop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>Java5-DivineShop</name>
     <description>Java5-DivineShop</description>
     <properties>
