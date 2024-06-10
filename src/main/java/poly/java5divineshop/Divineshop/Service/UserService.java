@@ -19,4 +19,6 @@ public interface UserService {
     int updateUserByTenDangNhap(UserDto userDto) throws SQLException;
 
     UserE findBytenDangNhap(String tenDangNhap);
+
+    int updateUserByTenDangNhap(String sotien , String tenDangNhap);
 }

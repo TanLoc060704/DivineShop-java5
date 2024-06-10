@@ -50,4 +50,9 @@ public class UserServiceImpl implements UserService {
     public UserE findBytenDangNhap(String tenDangNhap) {
         return userRepo.findBytenDangNhap(tenDangNhap);
     }
+
+    @Override
+    public int updateUserByTenDangNhap(String sotien, String tenDangNhap) {
+        return userRepo.updateUserByTenDangNhap(sotien, tenDangNhap);
+    }
 }

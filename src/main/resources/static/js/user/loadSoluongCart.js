@@ -65,11 +65,45 @@ $(document).ready(function() {
                     listProduct : objArray
                 }
 
-                 axios.post('/api/oder',donHang)
+                var objUser ;
+                var tienDaThanhToan;
+                axios.get('/api/public/getUserByUserName',{ // lấy info user đó với tenDangNhap
+                    params: {
+                        username: tenDangNhap
+                    }
+                })
                     .then(response => {
-                        objArray = [];
-                        localStorage.setItem(sessionStorage.getItem("user_name"), JSON.stringify(objArray));
-                        window.location.href = "/";
+                        objUser = response.data.data;
+                        objUser.soDu = (parseFloat(objUser.soDu) - parseFloat(tongTienThanhToan)); // thực hiện tính toán tiền
+                        tienDaThanhToan = objUser.soDu;
+
+                        axios.post('/api/public/updateUser', null, {
+                            params: {
+                                soTien: tienDaThanhToan+"",
+                                tenDangNhap: tenDangNhap
+                            }
+                        })
+                            .then(response => {
+
+                                axios.post('/api/oder',donHang) // lưu vào order
+                                    .then(response => {
+
+                                        //xử lý trừ tiền người dùng
+                                        objArray = [];
+                                        localStorage.setItem(sessionStorage.getItem("user_name"), JSON.stringify(objArray));
+                                        window.location.href = "/";
+                                    })
+                                    .catch(error => {
+                                        // Xử lý lỗi nếu có
+                                        console.error(error);
+                                    });
+
+                            })
+                            .catch(error => {
+                                // Xử lý lỗi nếu có
+                                console.error(error);
+                            });
+
                     })
                     .catch(error => {
                         // Xử lý lỗi nếu có
