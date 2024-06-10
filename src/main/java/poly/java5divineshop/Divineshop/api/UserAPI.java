@@ -82,7 +82,6 @@ public class UserAPI {
         }
         return ResponseEntity.ok(result);
     }
-
     @GetMapping("/getUserByUsername")
     public ResponseEntity<?> getUserByUsername(@RequestParam String username) {
         Map<String, Object> result = new HashMap<>();
