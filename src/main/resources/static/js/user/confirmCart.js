@@ -63,10 +63,16 @@ function loadCart (){
 function tongTienSanPham (){
     var objArray = JSON.parse(localStorage.getItem(sessionStorage.getItem("user_name")));
     var tongTienOBJ = 0;
-    let formattedtongtienPrice;
+    var formattedtongtienPrice;
     for(let i = 0 ; i < objArray.length ; i++){
         tongTienOBJ += parseFloat(objArray[i].soluong * objArray[i].giadagiam);
         formattedtongtienPrice = parseFloat(tongTienOBJ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+    }
+    if(sessionStorage.getItem("tiengiam") != ""){
+        console.log(sessionStorage.getItem("tiengiam"))
+        var formattedtongtienPrice1 = parseFloat(sessionStorage.getItem("tiengiam")).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        $('#tonggiatrisp1').text(formattedtongtienPrice1);
+        return;
     }
     $('#tonggiatrisp1').text(formattedtongtienPrice);
 }
