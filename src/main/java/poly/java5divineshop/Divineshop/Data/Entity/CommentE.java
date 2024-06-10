@@ -3,6 +3,8 @@ package poly.java5divineshop.Divineshop.Data.Entity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -37,4 +39,11 @@ public class CommentE {
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
     private List<ReplyE> replies;
+
+    public void addReplyList(ReplyE replyE) {
+        if (replies == null) {
+            replies = new ArrayList<>();
+        }
+        replies.add(replyE);
+    }
 }

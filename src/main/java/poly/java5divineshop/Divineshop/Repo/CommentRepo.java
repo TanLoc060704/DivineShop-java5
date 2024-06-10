@@ -13,15 +13,4 @@ import java.util.List;
 
 @Repository
 public interface CommentRepo extends JpaRepository<CommentE,Integer> {
-    List<CommentE> findAll();
-
-    @Query(value = "SELECT * from Comment", nativeQuery = true)
-    List<CommentE> findAllComment();
-
-    @Transactional
-    @Modifying
-    @Query(value = "UPDATE Comment SET replies = :replies WHERE Sys_id_comment = :commentId", nativeQuery = true)
-    void updateReplies(@Param("commentId") int commentId, @Param("replies") ReplyE repliesJson);
-
-    CommentE save(CommentE commentE);
 }

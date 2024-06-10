@@ -31,8 +31,15 @@ public class ReplyE {
     @JoinColumn(name = "Sys_id_user", nullable = false)
     private UserE user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "Sys_id_comment", nullable = false)
-//    @JsonIgnore
+    @ManyToOne()
+    @JoinColumn(name = "Sys_id_comment")
+    @JsonIgnore
     private CommentE comment;
+
+    public ReplyE(String noiDung, Date ngayTraLoi, UserE user, CommentE comment) {
+        this.noiDung = noiDung;
+        this.ngayTraLoi = ngayTraLoi;
+        this.user = user;
+        this.comment = comment;
+    }
 }
