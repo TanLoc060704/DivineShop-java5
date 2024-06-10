@@ -31,9 +31,9 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <form class="d-flex" style="width: 35%;" role="search">
-                    <input class="form-control rounded-end-0" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
-                    <button class="btn text-white rounded-start-0" style="background-color: #0a59cc;" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                <form class="d-flex" style="width: 35%;" role="search" action="/all-products" method="get" id="searchForm">
+                    <input id="searchInput" name="searchInput" class="form-control rounded-end-0" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
+                    <button class="btn text-white rounded-start-0" id="searchButton" style="background-color: #0a59cc;" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
                 </form>
                 <!--TanLoc-Begin-->
                 <div class="text-white" id="div-login-logout" sec:authorize="isAnonymous()">
