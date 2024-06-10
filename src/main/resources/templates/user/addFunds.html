@@ -22,20 +22,20 @@
               <div id="flush-collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
                 <div class="accordion-body">
                   <div class="row p-3 ps-5">
-                    <div class="col-4 ps-0"><input type="text" class="form-control px-3 py-2" placeholder="Nhập số tiền"></div>
-                    <div class="col ps-0"><button type="button" class="btn btn-primary">Nạp Dcoin</button></div>
+                    <div class="col-4 ps-0"><input id="tiennap" type="text" class="form-control px-3 py-2" placeholder="Nhập số tiền"></div>
+                    <div class="col ps-0"><button id="myButton" type="button" class="btn btn-primary">Nạp Dcoin</button></div>
                   </div>
                 </div>
               </div>
             </div>
             <div class="accordion-item">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
+                <button disabled class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseTwo" aria-expanded="false" aria-controls="flush-collapseTwo">
                   <div class="d-flex align-items-center gap-3">
                     <img src="https://cdn.divineshop.vn/image/catalog/icon/Image%202022-06-24-1656046250-88939.png?hash=1656046385" class="" alt="Nạp số dư  tự động bằng thẻ ngân hàng " width="42" height="42">
                     <div class="">
                       <h6 class="fw-bold">Thanh toán VNPAY-QR</h6>
-                      <p class="m-0" style="font-size: 0.85rem;">Quét mã QR PAY trên ứng dụng Mobile Banking, phí giao dịch 2%</p>
+                      <p class="m-0" style="font-size: 0.85rem;">Quét mã QR PAY trên ứng dụng Mobile Banking</p>
                     </div>
                   </div>
                 </button>
@@ -54,7 +54,7 @@
             </div>
             <div class="accordion-item rounded-bottom">
               <h2 class="accordion-header">
-                <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
+                <button disabled class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseThree" aria-expanded="false" aria-controls="flush-collapseThree">
                   <div class="d-flex align-items-center gap-3">
                     <img src="https://cdn.divineshop.vn/image/catalog/Logo-bank/Momo.png?hash=1604888771" class="" alt="Nạp số dư  tự động bằng thẻ ngân hàng " width="42" height="42">
                     <div class="">
@@ -82,3 +82,49 @@
     </div>
   </div>
 </section>
+<script>
+  $(document).ready(function() {
+    $('#myButton').click(function() {
+      var tienThanhToan =  $('#tiennap').val();
+      if(parseFloat(tienThanhToan) < 20000){
+        Swal.fire({
+          title: "Thông báo từ hệ thống!",
+          text: "Số tiền tối thiếu là 20 nghìn",
+          icon: "question"
+        });
+        return;
+      }else {
+
+        axios.get('/api/v1/payment/vn-pay?amount='+tienThanhToan+'&bankCode=NCB') // lưu vào order
+                .then(response => {
+                  let timerInterval;
+                  Swal.fire({
+                    title: "Thông báo từ hệ thống!",
+                    html: "Vui lòng đợi <b></b> s.",
+                    timer: 2000,
+                    timerProgressBar: true,
+                    didOpen: () => {
+                      Swal.showLoading();
+                      const timer = Swal.getPopup().querySelector("b");
+                      timerInterval = setInterval(() => {
+                        timer.textContent = `${Swal.getTimerLeft()}`;
+                      }, 100);
+                    },
+                    willClose: () => {
+                      clearInterval(timerInterval);
+                    }
+                  }).then((result) => {
+                    /* Read more about handling dismissals below */
+                    if (result.dismiss === Swal.DismissReason.timer) {
+                      window.location.href = response.data.data.paymentUrl;
+                    }
+                  });
+                })
+                .catch(error => {
+                  // Xử lý lỗi nếu có
+                  console.error(error);
+                });
+      }
+    })
+  })
+</script>
