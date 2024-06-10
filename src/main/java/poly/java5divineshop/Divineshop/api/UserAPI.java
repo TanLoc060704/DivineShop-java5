@@ -82,4 +82,18 @@ public class UserApi {
         }
         return ResponseEntity.ok(result);
     }
+    @GetMapping("/getUserByUsername")
+    public ResponseEntity<?> getUserByUsername(@RequestParam String username) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result.put("status", true);
+            result.put("message", "Call Api Successfully");
+            result.put("data", userService.getUserByTenDangNhap(username));
+        } catch (Exception e) {
+            result.put("status", false);
+            result.put("message", "Call Api Failed");
+            result.put("data", null);
+        }
+        return ResponseEntity.ok(result);
+    }
 }
