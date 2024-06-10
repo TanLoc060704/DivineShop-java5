@@ -6,6 +6,36 @@ $(document).ready(function() {
     loadCart(); // load giỏ hàng khi trang web được load
     tongTienSanPham(); //load tổng tiền sản phẩm
     getMonyForUser(); //lấy danh sách user
+    sessionStorage.setItem("tiengiam","")
+
+    $('#btnGiamGia').on('click', function() {
+        // Xử lý sự kiện onclick tại đây
+        var maGiamGia =  $('#maGiamGia').val()
+        axios.get('/api/vouchers/'+maGiamGia)
+            .then(response => {
+                console.log()
+                var voucherPercentage = response.data.data.voucherPercentage *100;
+                var tongGiaTriSanPham =  $('#tonggiatrisp1').text();
+                var giaTri = parseFloat(tongGiaTriSanPham.split(" ")[0].replace(".", "").replace(",", "."));
+                var tiengiam  = parseFloat(giaTri) / voucherPercentage ;
+
+                var tienDaTru = giaTri - tiengiam;
+
+                var formattedtongtienPrice = parseFloat(tienDaTru).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                $('#tonggiatrisp1').text(formattedtongtienPrice)
+                $('#tonggiatrisp2').text(formattedtongtienPrice)
+                $("#btnGiamGia").prop("disabled", true);
+
+                sessionStorage.setItem("tiengiam",tienDaTru)
+
+            }).catch(function (error) {
+            Swal.fire({
+                title: "Thông báo từ hệ thống",
+                text: "Có vẻ như mã giảm giá bị sai?",
+                icon: "question"
+            });
+        });
+    });
 })
 
 function loadCart (){
