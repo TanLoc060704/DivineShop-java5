@@ -131,6 +131,26 @@ $(document).ready(function () {
                 // sự kiện khi chọn hình ở input thì sẽ thay đổi img
                 document.getElementById('fileInput').addEventListener('change', function () {
                     var file = this.files[0];
+                    var fileType = file['type'];
+                    var validImageTypes = ['image/gif', 'image/jpeg', 'image/png'];
+                    if (!validImageTypes.includes(fileType)) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Lỗi",
+                            text: "Chỉ được chọn tệp hình ảnh (gif, jpeg, png)"
+                        });
+                        this.value = ""; // Reset input file
+                        return;
+                    }
+                    if (file.size > 5 * 1024 * 1024) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Lỗi",
+                            text: "Kích thước ảnh quá lớn, vui lòng chọn ảnh nhỏ hơn 5MB"
+                        });
+                        this.value = ""; // Reset input file
+                        return;
+                    }
                     nameImg = file.name;
                     if (file) {
                         var reader = new FileReader();
@@ -167,7 +187,7 @@ $(document).ready(function () {
             });
             return;
         }
-        if (hoVaTen !== nameUser || nameImg !== nameImgCurr) {
+        if (hoVaTen !== nameUser || nameImg !== nameImgCurr || avatar !== null) {
             await axios.post('/api/public/updateUserByTenDangNhap', {
                 hoVaTen: hoVaTen,
                 anhDaiDien: avatar,

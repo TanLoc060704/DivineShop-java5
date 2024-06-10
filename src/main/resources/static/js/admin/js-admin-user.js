@@ -32,9 +32,15 @@ $(document).ready(function () {
                     return true;
                 });
 
+                // Tính tổng số vai trò của tất cả người dùng
+                let totalRoles = 0;
+                responseData.forEach(user => {
+                    totalRoles += user.roles.length;
+                });
+                tongItem.text(totalRoles);
+
                 // Tính toán số lượng trang
                 let totalUsers = responseData.length;
-                tongItem.text(totalUsers);
                 let paginatedUsers = [];
                 let userCount = 0;
 
