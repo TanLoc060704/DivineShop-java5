@@ -75,7 +75,6 @@ public class UserApi {
             result.put("message", "Call Api Successfully");
             result.put("data", userService.updateUserByTenDangNhap(userDto));
         } catch (Exception e) {
-            e.printStackTrace();
             result.put("status", false);
             result.put("message", "Call Api Failed");
             result.put("data", null);
