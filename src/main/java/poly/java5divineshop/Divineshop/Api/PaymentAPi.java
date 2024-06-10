@@ -17,7 +17,7 @@ import java.io.IOException;
 @RestController
 @RequestMapping("${spring.application.api-prefix}/payment")
 @RequiredArgsConstructor
-public class PaymentAPI {
+public class PaymentAPi {
     private final Paymentservice paymentService;
 
 
