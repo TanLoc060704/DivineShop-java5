@@ -87,7 +87,6 @@ public class UserApi {
     public ResponseEntity<?> getUserByUsername(@RequestParam String username) {
         Map<String, Object> result = new HashMap<>();
         try {
-            System.out.println(1);
             result.put("status", true);
             result.put("message", "Call Api Successfully");
             result.put("data", userService.getUserByTenDangNhap(username));
