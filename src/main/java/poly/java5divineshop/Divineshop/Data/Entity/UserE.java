@@ -1,5 +1,7 @@
 package poly.java5divineshop.Divineshop.Data.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -38,6 +40,6 @@ public class UserE {
     @Column(name = "anh_dai_dien")
     private String anhDaiDien;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<RoleE> roles;
 }

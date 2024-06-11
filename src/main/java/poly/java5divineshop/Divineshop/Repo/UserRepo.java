@@ -27,4 +27,11 @@ public interface UserRepo extends JpaRepository<UserE, Integer> {
     @Transactional
     @Query(value = "update [User] set ho_va_ten = :hoVaTen, anh_dai_dien = :anhDaiDien where ten_dang_nhap = :tenDangNhap", nativeQuery = true)
     int updateUserByTenDangNhap(@Param("hoVaTen") String hoVaTen, @Param("anhDaiDien") String anhDaiDien, @Param("tenDangNhap") String tenDangNhap);
+
+    UserE findBytenDangNhap(String tenDangNhap);
+
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE [User] SET so_du = :SoTien WHERE ten_dang_nhap = :tenDangNhap", nativeQuery = true)
+    int updateUserByTenDangNhap(@Param("SoTien") String SoTien, @Param("tenDangNhap") String tenDangNhap);
 }

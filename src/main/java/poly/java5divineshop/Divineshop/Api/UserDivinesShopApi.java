@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import poly.java5divineshop.Divineshop.Data.Dto.UserDto;
+import poly.java5divineshop.Divineshop.Data.Entity.RoleE;
 import poly.java5divineshop.Divineshop.Data.Model.UserM;
 import poly.java5divineshop.Divineshop.Service.UserService;
 
@@ -34,6 +35,21 @@ public class UserDivinesShopApi {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/getUserByUserName")
+    public ResponseEntity<?> getUserByUserName(@RequestParam String username) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result.put("status", true);
+            result.put("message", "Call Api Successfully");
+            result.put("data", userService.findBytenDangNhap(username));
+        } catch (Exception e) {
+            result.put("status", false);
+            result.put("message", "Call Api Failed");
+            result.put("data", null);
+        }
+        return ResponseEntity.ok(result);
+    }
+
     @GetMapping("/getUserByUsernameAndRole")
     public ResponseEntity<?> getUserByUsernameAndRole(@RequestParam String username, @RequestParam String role) {
         Map<String, Object> result = new HashMap<>();
@@ -45,6 +61,22 @@ public class UserDivinesShopApi {
             result.put("status", false);
             result.put("message", "Call Api Failed");
             result.put("data", null);
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/updateUser")
+    public ResponseEntity<?> saveUser(@RequestParam String soTien, @RequestParam String tenDangNhap) {
+        Map<String, Object> result = new HashMap<>();
+        try {
+            result.put("status", true);
+            result.put("message", "Call Api Successfully");
+            result.put("data", userService.updateUserByTenDangNhap(soTien, tenDangNhap) == 1 ? "Cập nhật thành công" : "Cập nhật thất bại");
+        } catch (Exception e) {
+            result.put("status", false);
+            result.put("message", "Call Api Failed");
+            result.put("data", null);
+            e.printStackTrace();
         }
         return ResponseEntity.ok(result);
     }
@@ -82,7 +114,6 @@ public class UserDivinesShopApi {
         }
         return ResponseEntity.ok(result);
     }
-
     @GetMapping("/getUserByUsername")
     public ResponseEntity<?> getUserByUsername(@RequestParam String username) {
         Map<String, Object> result = new HashMap<>();
@@ -98,3 +129,4 @@ public class UserDivinesShopApi {
         return ResponseEntity.ok(result);
     }
 }
+
