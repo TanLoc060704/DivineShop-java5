@@ -158,7 +158,7 @@ function checkValidDate(start, end) {
 }
 
 $("#createVoucherForm").submit(async function (e) {
-    // e.preventDefault();
+    e.preventDefault();
     if(!checkValidDate("createVoucherSDate", "createVoucherEDate")){
         axios.get('/api/vouchers/generate')
             .then(function (response) {
