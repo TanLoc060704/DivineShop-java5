@@ -12,116 +12,18 @@
                     <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-link"></i> Giới thiệu bạn bè</a>
                     <div sec:authorize="hasRole('ADMIN')">
                         <!--  add a link to point to / systems ... this iss for the admin-->
-                        <a th:href="@{/admin/account-list}" class="py-3 px-4 text-secondary list-group-item list-group-item-action">IT Systems Meeting</a>
+                        <a th:href="@{/admin/account-list}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-briefcase"></i> Quản lý</a>
                     </div>
                 </div>
             </div>
-            <div class="col-9 bg-white rounded border">
-                <div class="px-3 py-4">
-                    <h4>Tổng quan</h4>
-                    <div class="row mt-3">
-                        <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Tên đăng nhập</p>
-                            <p style="font-size: 0.85rem;"  class="fw-bold">hieuchi1999</p>
-                        </div>
-                        <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Email</p>
-                            <p style="font-size: 0.85rem;"  class="fw-bold">nhoxcau1999@gmail.com</p>
-                        </div>
-                        <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Họ và tên</p>
-                            <p style="font-size: 0.85rem;"  class="fw-bold">Huy Phạm</p>
-                        </div>
-                        <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Nhóm khách hàng</p>
-                            <p style="font-size: 0.85rem;"  class="fw-bold"><i class="fa-solid fa-gem"></i> Vip Bạc</p>
-                        </div>
-                        <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Số dư</p>
-                            <p style="font-size: 0.85rem;"  class="fw-bold">4.910đ</p>
-                        </div>
-                        <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Đã tích lũy</p>
-                            <p style="font-size: 0.85rem;"  class="fw-bold">4.857.000đ</p>
-                        </div>
-                        <div class="col-3">
-                            <p style="font-size: 0.85rem;" class="fw-light mb-2">Ngày tham gia</p>
-                            <p style="font-size: 0.85rem;"  class="fw-bold">2017-07-22 17:46:37</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-5">
-                            <div class="d-flex align-items-center gap-3">
-                                <img src="https://cdn.divineshop.vn/image/catalog/icon/avatar-khach-hang-2-52544.png?hash=1649933269" width="154px" height="154px" alt="">
-                                <button type="button" class="btn btn-outline-primary">Sửa ảnh đại diện</button>
-                            </div>
-                        </div>
-                        <div class="col-1"><div class="vr h-100"></div></div>
-                        <div class="col-6">
-                            <div class="d-flex align-items-center h-100">
-                                <div>
-                                    <p style="font-size: 0.87rem;">Vui lòng chọn ảnh nhỏ hơn 5MB</p>
-                                    <p class="m-0" style="font-size: 0.87rem;">Chọn hình ảnh phù hợp, không phản cảm</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-5">
-                            <h4>Cá nhân</h4>
-                            <form action="">
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" placeholder="Họ và tên">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="tel" class="form-control" placeholder="Số điện thoại">
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" placeholder="CMND">
-                                </div>
-                                <div class="mb-3">
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <select class="form-select" aria-label="Default select example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="Địa chỉ">
-                                </div>
-                                <button class="btn btn-primary" type="">Lưu thay đổi</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
+            <div class="col-9 bg-white rounded border" id="userInfoContainer">
+
             </div>
         </div>
     </div>
 </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script th:src="@{/js/user/UserInfo.js}"></script>
