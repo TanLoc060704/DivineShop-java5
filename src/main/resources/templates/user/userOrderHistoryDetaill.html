@@ -1,0 +1,68 @@
+<section>
+  <div class="container my-4">
+    <div class="row">
+      <div class="col-3">
+        <div class="list-group">
+          <a th:href="@{/user-info}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-user"></i> Tài khoản</a>
+          <a th:href="@{/order-history}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid me-2 fa-cart-shopping"></i> Lịch sử đơn hàng</a>
+          <a th:href="@{/transaction}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-credit-card"></i> Lịch sử giao dịch</a>
+          <a th:href="@{/security}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-user-lock"></i> Mật khẩu và bảo mật</a>
+          <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-comment"></i> Bình luận của tôi</a>
+          <a th:href="@{/favorite}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-heart"></i> Sản phẩm yêu thích</a>
+          <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-link"></i> Giới thiệu bạn bè</a>
+        </div>
+      </div>
+      <div class="col-9 bg-white rounded border">
+        <div class="px-3 py-4">
+          <div class="d-flex align-items-center justify-content-between">
+            <div>
+              <h4>Chi tiết đơn hàng #5572459</h4>
+              <p>Hiển thị thông tin các sản phẩm bạn đã mua tại Divine Shop</p>
+            </div>
+            <div><button type="button" class="btn btn-outline-primary"><i class="fa-solid fa-cart-plus"></i> Mua lại đơn hàng</button></div>
+          </div>
+          <hr>
+          <div class="d-flex gap-5">
+            <div class="col-4">
+              <h6 class="fw-bold my-3">Thông tin đơn hàng</h6>
+              <p class="mb-1" style="font-size: 0.88rem;">Mã đơn hàng: #5572459</p>
+              <p class="mb-1" style="font-size: 0.88rem;">Ngày tạo: 2022-06-26 20:16:14</p>
+              <p class="mb-1" style="font-size: 0.88rem;">Trạng thái đơn hàng: <span class="text-success">Đã xử lý</span></p>
+              <p class="mb-1" style="font-size: 0.88rem;">Người nhận: nhoxcau1999@gmail.com</p>
+            </div>
+            <div class="col-4">
+              <h6 class="fw-bold my-3">Giá trị đơn hàng</h6>
+              <div class="d-flex align-items-center justify-content-between">
+                <p class="mb-1" style="font-size: 0.88rem;">Tổng giá trị sản phẩm</p>
+                <p class="mb-1" style="font-size: 0.88rem;">48.000đ</p>
+              </div>
+              <div class="d-flex align-items-center justify-content-between">
+                <p class="mb-1" style="font-size: 0.88rem;">Thưởng tiền khách Vip Bạc (1%)</p>
+                <p class="mb-1" style="font-size: 0.88rem;">480đ</p>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-3">
+              <img class="img-fluid rounded" src="https://cdn.divineshop.vn/image/catalog/Anh-SP/Kh%C3%A1c/Divine-Shop-Elden-Ring-82335.jpg?hash=1658742026" alt="">
+            </div>
+            <div class="col-5">
+              <h6>Elden Ring (CD Key Steam)</h6>
+              <p style="font-size: 0.85rem;">Elden Ring (CD Key Steam)</p>
+              <div>
+                <p class="text-success">Đã xử lý</p>
+              </div>
+            </div>
+            <div class="col-2">
+              <h6>Số lượng: 1</h6>
+            </div>
+            <div class="col-2 text-end">
+              <p style="font-size: 0.9rem;" class="m-0 fw-bold">249000đ</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

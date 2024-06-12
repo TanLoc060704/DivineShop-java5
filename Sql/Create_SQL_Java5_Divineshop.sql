@@ -25,7 +25,7 @@ Create table [User](
     ten_dang_nhap nvarchar(255) NOT NULL UNIQUE,
     email nvarchar(255) NOT NULL UNIQUE,
     ho_va_ten nvarchar(255),
-    so_du nvarchar(255),
+    so_du nvarchar(255) DEFAULT 0,
     ngay_tham_gia date,
     anh_dai_dien nvarchar(max)
 )
@@ -109,6 +109,16 @@ CREATE TABLE [Order] (
     FOREIGN KEY (Sys_id_product) REFERENCES [Product] (Sys_id_product),
     FOREIGN KEY (Sys_id_user) REFERENCES [User] (Sys_id_user)
 );
+Go
+Create table [Payment](
+    Sys_id_payment int IDENTITY (1,1) PRIMARY KEY ,
+    thoi_gian DATE,
+    mota nvarchar(255),
+    sotien float,
+    trangthai bit default 0,
+    tenuser nvarchar(255) not null ,
+    FOREIGN KEY (tenuser) REFERENCES [User] (ten_dang_nhap)
+)
 GO
 
 -- Tạo trigger trg_InsertUserAfterAccountInsert

@@ -11,10 +11,11 @@
               <h2 class="accordion-header">
                 <button class="accordion-button collapsed rounded" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
                   <div class="d-flex align-items-center gap-3">
-                    <img src="https://cdn.divineshop.vn/image/catalog/Logo-bank/Atm.png?hash=1604888771" class="" alt="Nạp số dư  tự động bằng thẻ ngân hàng " width="42" height="42">
+                    <img src="https://cdn.divineshop.vn/image/catalog/Logo-bank/Atm.png?hash=1604888771" class="" alt="Nạp số dư tự động bằng thẻ ngân hàng " width="42" height="42">
                     <div class="">
-                      <h6 class="fw-bold">Nạp số dư  tự động bằng thẻ ngân hàng </h6>
-                      <p class="m-0" style="font-size: 0.85rem;">Phí 0.9% + 900đ</p>
+                      <h6 class="fw-bold">Nạp số dư  tự động bằng thẻ ngân hàng</h6>
+                      <p class="m-0" style="font-size: 0.85rem; display: none" id="checknaptien" th:text="${flag}"></p>
+                      <p class="m-0" style="font-size: 0.85rem; display: none" id="checkhuynaptien" th:text="${flag1}"></p>
                     </div>
                   </div>
                 </button>
@@ -82,49 +83,4 @@
     </div>
   </div>
 </section>
-<script>
-  $(document).ready(function() {
-    $('#myButton').click(function() {
-      var tienThanhToan =  $('#tiennap').val();
-      if(parseFloat(tienThanhToan) < 20000){
-        Swal.fire({
-          title: "Thông báo từ hệ thống!",
-          text: "Số tiền tối thiếu là 20 nghìn",
-          icon: "question"
-        });
-        return;
-      }else {
-
-        axios.get('/api/v1/payment/vn-pay?amount='+tienThanhToan+'&bankCode=NCB') // lưu vào order
-                .then(response => {
-                  let timerInterval;
-                  Swal.fire({
-                    title: "Thông báo từ hệ thống!",
-                    html: "Vui lòng đợi <b></b> s.",
-                    timer: 2000,
-                    timerProgressBar: true,
-                    didOpen: () => {
-                      Swal.showLoading();
-                      const timer = Swal.getPopup().querySelector("b");
-                      timerInterval = setInterval(() => {
-                        timer.textContent = `${Swal.getTimerLeft()}`;
-                      }, 100);
-                    },
-                    willClose: () => {
-                      clearInterval(timerInterval);
-                    }
-                  }).then((result) => {
-                    /* Read more about handling dismissals below */
-                    if (result.dismiss === Swal.DismissReason.timer) {
-                      window.location.href = response.data.data.paymentUrl;
-                    }
-                  });
-                })
-                .catch(error => {
-                  // Xử lý lỗi nếu có
-                  console.error(error);
-                });
-      }
-    })
-  })
-</script>
+<script src="/js/user/payment.js"></script>

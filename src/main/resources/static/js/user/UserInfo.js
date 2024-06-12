@@ -190,4 +190,14 @@ $(document).ready(function () {
         getUserByUsername();
     });
 
+
+    callbackURL();
 })
+
+function callbackURL(){ // hàm để trả về trang khi usẻ hủy đơn hàng
+    if (sessionStorage.getItem("url") == ""){
+
+    }else {
+        window.location.href = sessionStorage.getItem("url");
+    }
+}

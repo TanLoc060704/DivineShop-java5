@@ -2,9 +2,12 @@ package poly.java5divineshop.Divineshop.Service.ServiceImpl;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import poly.java5divineshop.Divineshop.ConfigVnPay.VNPAYConfig;
 import poly.java5divineshop.Divineshop.Data.Dto.PaymentDTO;
+import poly.java5divineshop.Divineshop.Data.Entity.PaymentE;
+import poly.java5divineshop.Divineshop.Repo.PaymentRepo;
 import poly.java5divineshop.Divineshop.Utils.VNPayUtil;
 
 import java.util.Map;
@@ -13,7 +16,11 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class Paymentservice {
     private final VNPAYConfig vnPayConfig;
-    public PaymentDTO.VNPayResponse createVnPayPayment(HttpServletRequest request) {
+
+    @Autowired
+    PaymentRepo repo;
+
+    public PaymentDTO.VNPayResponse createVnPayPayment(HttpServletRequest request, String name) {
         long amount = Integer.parseInt(request.getParameter("amount")) * 100L;
         String bankCode = request.getParameter("bankCode");
         Map<String, String> vnpParamsMap = vnPayConfig.getVNPayConfig();
@@ -22,6 +29,7 @@ public class Paymentservice {
             vnpParamsMap.put("vnp_BankCode", bankCode);
         }
         vnpParamsMap.put("vnp_IpAddr", VNPayUtil.getIpAddress(request));
+        vnpParamsMap.put("vnp_OrderInfo", "Thanh toan don hang-" +  name);
         //build query url
         String queryUrl = VNPayUtil.getPaymentURL(vnpParamsMap, true);
         String hashData = VNPayUtil.getPaymentURL(vnpParamsMap, false);
@@ -32,5 +40,13 @@ public class Paymentservice {
                 .code("ok")
                 .message("success")
                 .paymentUrl(paymentUrl).build();
+    }
+
+    public void save (PaymentE paymentE){
+        repo.save(paymentE);
+    }
+
+    public void updatepaymentbyuser (String name){
+        repo.UpdatePaymentByuser(true,name);
     }
 }
