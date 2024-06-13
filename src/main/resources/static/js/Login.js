@@ -24,6 +24,7 @@ class Login {
                 icon: "success",
                 confirmButtonText: "OK"
             })
+            sessionStorage.setItem("url","")
             sessionStorage.setItem("user_name",userName.text());//bắt tên người dùng cho mỗi lần đẳng nhập
             document.cookie = "loginSuccess=false ; max-age=" + (60) + ";path=/";
         }

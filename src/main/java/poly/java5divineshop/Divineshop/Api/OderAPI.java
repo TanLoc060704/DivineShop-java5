@@ -18,6 +18,7 @@ import poly.java5divineshop.Divineshop.Data.Model.UserM;
 import poly.java5divineshop.Divineshop.Service.OderService;
 import poly.java5divineshop.Divineshop.Service.UserService;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +77,54 @@ public class OderAPI {
             result.put("message", "lưu order thất bại");
             result.put("data", null);
             return ResponseEntity.internalServerError().body(result);
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/getOderByUser")
+    public ResponseEntity<?> getOderByUser(@RequestParam String name) throws SQLException {
+        Map<String, Object> result = new HashMap<>();
+        try{
+            UserE userE = userService.findBytenDangNhap(name);
+            List<OderM> list = oderService.findAllByiduserE(userE);
+
+            if(list.isEmpty()){
+                result.put("success", true);
+                result.put("message", "Lấy danh sách thành công!");
+                result.put("data", null);
+            }else {
+                result.put("success", true);
+                result.put("message", "Lấy danh sách thành công!");
+                result.put("data", list);
+            }
+        }catch (Exception e){
+            log.error("Lỗi khi save order", e);
+            result.put("success", false);
+            result.put("message", "Lấy danh sách thất bại!");
+            result.put("data", null);
+        }
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/getOderByMaDonHang")
+    public ResponseEntity<?> getOderByMaDonHang(@RequestParam String madonhang){
+        Map<String, Object> result = new HashMap<>();
+        try{
+            List<OderM> list = oderService.findAllByMaDonHang(madonhang);
+            if(list.isEmpty()){
+                result.put("success", true);
+                result.put("message", "Lấy danh sách thành công!");
+                result.put("data", null);
+            }else {
+                result.put("success", true);
+                result.put("message", "Lấy danh sách thành công!");
+                result.put("data", list);
+            }
+        }catch (Exception e){
+            log.error("Lỗi khi save order", e);
+            result.put("success", false);
+            result.put("message", "Lấy danh sách thất bại!");
+            result.put("data", null);
         }
         return ResponseEntity.ok(result);
     }

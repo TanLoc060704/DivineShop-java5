@@ -23,4 +23,5 @@ public interface PaymentRepo extends JpaRepository<PaymentE, Integer> {
     @Query(value = "UPDATE [Payment] SET trangthai = :trangthai WHERE mota = :maDonHang", nativeQuery = true)
     int UpdatePaymentByuser(@Param("trangthai") Boolean trangthai, @Param("maDonHang") String maDonHang);
 
+
 }

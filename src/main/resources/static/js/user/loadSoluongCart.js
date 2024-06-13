@@ -37,7 +37,7 @@ $(document).ready(function() {
                 const day = String(currentDate.getDate()).padStart(2, '0'); // Thêm số 0 phía trước nếu cần
 
 
-                var maDonHang = sessionStorage.getItem("user_name") + "-" + randomNumber + "";
+                var maDonHang = randomNumber+"";
                 const ngayLapDon = `${year}-${month}-${day}`;
                 var tongTienThanhToan = 0;
                 var soLuongMua = 0;
@@ -45,8 +45,13 @@ $(document).ready(function() {
 
                 var objArray = JSON.parse(localStorage.getItem(sessionStorage.getItem("user_name")));
                 for (var i = 0; i < objArray.length; i++) {
-                    tongTienThanhToan += parseFloat(objArray[i].giadagiam) * parseFloat(objArray[i].soluong);
-                    soLuongMua += parseInt(objArray[i].soluong);
+                    if(objArray[i].giadagiam == null){
+                        tongTienThanhToan += parseFloat(objArray[i].giasanphamgoc) * parseFloat(objArray[i].soluong);
+                        soLuongMua += parseInt(objArray[i].soluong);
+                    }else {
+                        tongTienThanhToan += parseFloat(objArray[i].giadagiam) * parseFloat(objArray[i].soluong);
+                        soLuongMua += parseInt(objArray[i].soluong);
+                    }
                 }
 
                 var donHang = {
@@ -54,7 +59,7 @@ $(document).ready(function() {
                     ngayLapDon: ngayLapDon,
                     trangThaiThanhToan: true,
                     tongTienThanhToan: parseFloat(tongTienThanhToan),
-                    tienThanhToan: parseFloat(tongTienThanhToan),
+                    tienThanhToan: (sessionStorage.getItem("tiengiam") == "" ? parseFloat(tongTienThanhToan) : parseFloat(sessionStorage.getItem("tiengiam"))),
                     soLuongMua: parseInt(soLuongMua),
                     productE: {
                         id: null

@@ -4,12 +4,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import poly.java5divineshop.Divineshop.Data.Dto.PaymentDTO;
 import poly.java5divineshop.Divineshop.Data.Entity.PaymentE;
+import poly.java5divineshop.Divineshop.Data.Model.PaymentM;
 import poly.java5divineshop.Divineshop.Service.ServiceImpl.Paymentservice;
 import poly.java5divineshop.Divineshop.Service.UserService;
 import poly.java5divineshop.Divineshop.Utils.ResponseObject;
@@ -22,11 +25,13 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("${spring.application.api-prefix}/payment")
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentAPi {
 
     @Autowired
@@ -118,4 +123,27 @@ public class PaymentAPi {
         }
     }
 
+    @GetMapping("/lichSuDonHangAll")
+    public ResponseEntity<?> getAllLichSuByUser(@RequestParam String user){
+        Map<String, Object> result = new HashMap<>();
+        try{
+            List<PaymentM> paymentM = PaymentM.convertListPaymentEToListPaymentM(paymentservice.findAllByTenuser(user));
+
+            if (paymentM.isEmpty()){
+                result.put("success", true);
+                result.put("message", "Gọi danh sách thành công");
+                result.put("data", null);
+            }else {
+                result.put("success", true);
+                result.put("message", "Gọi danh sách thành công");
+                result.put("data", paymentM);
+            }
+        }catch (Exception e){
+            log.error("Thêm sản phẩm thất bại!!!", e);
+            result.put("success", false);
+            result.put("message", "Gọi danh sách thất bại!");
+            result.put("data", null);
+        }
+        return ResponseEntity.ok(result);
+    }
 }

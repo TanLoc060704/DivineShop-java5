@@ -235,7 +235,7 @@ $(document).ready(function () {
                     :
                     `
                         <div class="d-flex align-items-center gap-3">
-                            <h4 class="m-0">${formattedOriginalPrice}</h4>
+                            <h4 class="m-0" id="giaGoc">${formattedOriginalPrice}</h4>
                             <button type="button" class="btn text-body-secondary fs-4"><i class="fa-solid fa-bell"></i></button>
                             <button type="button" class="btn text-body-secondary fs-4"><i class="fa-solid fa-heart"></i></button>
                         </div>
@@ -281,7 +281,7 @@ $(document).ready(function () {
 
                 //cho các biến thành đối tượng để lưu vào obj
                 objSanPham = {
-                    id: parseInt(idSP.split("-")[1]), // cắt chuổi để lấy mã sản phẩm
+                    id: parseInt((idSP.slice(-2).includes('-')) ? idSP.slice(-1) : idSP.slice(-2)), // cắt chuổi để lấy mã sản phẩm
                     date: formattedDate,
                     soluong: 1,
                     anhSp: anh,
@@ -289,8 +289,8 @@ $(document).ready(function () {
                     theloai: theLoai,
                     trangThai: (trangThai === "Còn Hàng" ? 1 : 0), //1 là còn hàng và 0 là hết hàng
                     giasanphamgoc: giaSPGoc * 1000,
-                    phantramgiam: phanTramGiam,
-                    giadagiam: giaDaGiam * 1000
+                    phantramgiam: (phanTramGiam == null ? 0 : phanTramGiam) ,
+                    giadagiam: (giaDaGiam * 1000)
                 }
                 $("#gioi-thieu-san-pham").append(
                     `

@@ -10,6 +10,7 @@ import poly.java5divineshop.Divineshop.Data.Entity.PaymentE;
 import poly.java5divineshop.Divineshop.Repo.PaymentRepo;
 import poly.java5divineshop.Divineshop.Utils.VNPayUtil;
 
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -48,5 +49,13 @@ public class Paymentservice {
 
     public void updatepaymentbyuser (String name){
         repo.UpdatePaymentByuser(true,name);
+    }
+
+    public PaymentE findByTenuser (String tenuser){
+        return repo.findByTenuser(tenuser);
+    }
+
+    public List<PaymentE> findAllByTenuser (String tenuser){
+        return repo.findAllByTenuser(tenuser);
     }
 }

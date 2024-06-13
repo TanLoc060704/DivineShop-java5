@@ -24,4 +24,6 @@ public interface OderRepo extends JpaRepository<OderE, Integer> {
 
     OderE save(OderE oderE);
 
+    List<OderE> findAllByMaDonHang(String maDonHang);
+
 }

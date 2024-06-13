@@ -6,10 +6,10 @@
                     <a th:href="@{/user-info}" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid me-2 fa-user"></i> Tài khoản</a>
                     <a th:href="@{/order-history}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-cart-shopping"></i> Lịch sử đơn hàng</a>
                     <a th:href="@{/transaction}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-credit-card"></i> Lịch sử giao dịch</a>
-                    <a th:href="@{/security}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-user-lock"></i> Mật khẩu và bảo mật</a>
-                    <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-comment"></i> Bình luận của tôi</a>
+                    <a th:href="@{/security}" aria-disabled="true" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action disabled"><i class="fa-solid me-2 fa-user-lock"></i> Mật khẩu và bảo mật</a>
+                    <a th:href="@{/user-info}" aria-disabled="true" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action disabled"><i class="fa-solid me-2 fa-comment"></i> Bình luận của tôi</a>
                     <a th:href="@{/favorite}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-heart"></i> Sản phẩm yêu thích</a>
-                    <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-link"></i> Giới thiệu bạn bè</a>
+                    <a th:href="@{/user-info}" aria-disabled="true" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action disabled"><i class="fa-solid me-2 fa-link"></i> Giới thiệu bạn bè</a>
                     <div sec:authorize="hasRole('ADMIN')">
                         <!--  add a link to point to / systems ... this iss for the admin-->
                         <a th:href="@{/admin/account-list}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-briefcase"></i> Quản lý</a>

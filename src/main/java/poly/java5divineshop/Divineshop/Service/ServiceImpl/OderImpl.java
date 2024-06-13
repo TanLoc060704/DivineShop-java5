@@ -47,4 +47,9 @@ public class OderImpl implements OderService {
     public void save(OderE oderE) {
         repo.save(oderE);
     }
+
+    @Override
+    public List<OderM> findAllByMaDonHang(String maDonHang) {
+        return OderM.convertListOderEToListOderM(repo.findAllByMaDonHang(maDonHang));
+    }
 }

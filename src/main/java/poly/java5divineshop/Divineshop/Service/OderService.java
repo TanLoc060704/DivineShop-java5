@@ -21,4 +21,6 @@ public interface OderService {
     OderM findByiduserE(UserE e);
 
     void save(OderE oderE);
+
+    List<OderM> findAllByMaDonHang(String maDonHang);
 }

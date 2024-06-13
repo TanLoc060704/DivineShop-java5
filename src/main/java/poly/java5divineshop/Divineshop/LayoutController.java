@@ -102,7 +102,7 @@ public class LayoutController {
         model.addAttribute("view", "payCart");
         return "user/index";
     }
-    @GetMapping("/order-history/{}")
+    @GetMapping("/order-history-detaill/{}")
     public String orderhistorydetaill(Model model) {
         model.addAttribute("view", "userOrderHistoryDetaill");
         return "user/index";
