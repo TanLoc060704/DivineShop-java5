@@ -34,10 +34,13 @@
                 <form class="d-flex" style="width: 35%;" role="search" action="/all-products" method="get" id="searchForm">
                     <input id="searchInput" name="searchInput" class="form-control rounded-end-0" type="search" placeholder="Tìm kiếm sản phẩm" aria-label="Search">
                     <button class="btn text-white rounded-start-0" id="searchButton" style="background-color: #0a59cc;" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <div style="position: absolute; top: 60px">
+                        <div class="dropdown-menu p-0 custom" aria-labelledby="searchInput" id="searchSuggestions" style="display: none; left: 0; min-width: 515px">
+                            <!-- Các gợi ý tìm kiếm sẽ được thêm vào đây -->
+                        </div>
+                    </div>
                 </form>
-                <div class="dropdown-menu" aria-labelledby="searchInput" id="searchSuggestions" style="display: none;">
-                    <!-- Các gợi ý tìm kiếm sẽ được thêm vào đây -->
-                </div>
+
 
                 <!--TanLoc-Begin-->
                 <div class="text-white" id="div-login-logout" sec:authorize="isAnonymous()">

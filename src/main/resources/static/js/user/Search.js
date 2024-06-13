@@ -29,18 +29,18 @@ $(document).ready(function () {
         suggestionList.empty();
 
         if (products.length === 0) {
-            suggestionList.append('<p class="dropdown-item disabled">Không có gợi ý tìm kiếm.</p>');
+            suggestionList.append('<a href="#" class="dropdown-item disabled">Không có gợi ý tìm kiếm.</a>');
         } else {
             // Giới hạn hiển thị tối đa 10 sản phẩm
             products.slice(0, 10).forEach(product => {
                 let suggestionItem =
-                    `<a href="detail/${product.slug}" class="dropdown-item">${product.tenSanPham}</a>`;
+                    `<a href="detail/${product.slug}" class="dropdown-item pt-1 pb-1 ">${product.tenSanPham}</a>`;
                 suggestionList.append(suggestionItem);
             });
 
             // Hiển thị thông báo nếu có nhiều hơn 10 sản phẩm
             if (products.length > 10) {
-                suggestionList.append('<p class="dropdown-item">Và còn nhiều kết quả khác...</p>');
+                suggestionList.append('<a href="#" class="dropdown-item pt-1 pb-1">Và còn nhiều kết quả khác...</a>');
             }
         }
 
