@@ -4,6 +4,7 @@ $(document).ready(function (){
 var commentsPerPage = 5;
 let currentCommentIndex = 0;
 let Comments = [];
+let isLoadMoreButtonShown = false;
 function getComment(commentsPerPage) {
     let slug = window.location.pathname.split("/")[2]
     axios.get("/api/comments/getCommentByProduct_Slug/"+slug)
@@ -12,6 +13,9 @@ function getComment(commentsPerPage) {
             console.log(Comments)
             if(Comments.length <= 5){
                 $("#btn-load-more-comments").hide();
+            } else if(Comments.length > 5 && !isLoadMoreButtonShown){
+                $("#btn-load-more-comments").show();
+                isLoadMoreButtonShown = true;
             }
             let html = $("#html-comment");
             html.empty();
