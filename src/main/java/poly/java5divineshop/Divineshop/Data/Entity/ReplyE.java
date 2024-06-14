@@ -22,8 +22,6 @@ public class ReplyE {
     @Column(name = "noi_dung", columnDefinition = "nvarchar(MAX)", nullable = false)
     private String noiDung;
 
-    @Temporal(TemporalType.DATE)
-    @JsonFormat(pattern = "dd/MM/yyyy")
     @Column(name = "ngay_tra_loi", nullable = false)
     private Date ngayTraLoi = new Date();
 

@@ -17,4 +17,5 @@ public interface CommentService {
 
     boolean deleteComment(Integer id);
 
+    List<CommentDTO> getCommentByProduct_Slug(String slug);
 }

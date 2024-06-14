@@ -24,8 +24,7 @@ public class CommentE {
     @Column(name = "noi_dung", columnDefinition = "nvarchar(255)", nullable = false)
     private String noiDung;
 
-    @Temporal(TemporalType.DATE)
-    @JsonFormat(pattern = "dd/MM/yyyy")
+
     @Column(name = "ngay_binh_luan", nullable = false)
     private Date ngayBinhLuan = new Date();
 

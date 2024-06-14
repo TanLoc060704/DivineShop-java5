@@ -78,4 +78,8 @@ public class CommentAPI {
         }
         return ResponseEntity.ok(result);
     }
+    @GetMapping("/getCommentByProduct_Slug/{slug}")
+    public ResponseEntity<?> getCommentByProduct_Slug(@PathVariable String slug) {
+        return ResponseEntity.ok(commentService.getCommentByProduct_Slug(slug));
+    }
 }

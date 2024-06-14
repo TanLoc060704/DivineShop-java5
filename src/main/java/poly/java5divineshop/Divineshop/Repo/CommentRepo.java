@@ -13,4 +13,5 @@ import java.util.List;
 
 @Repository
 public interface CommentRepo extends JpaRepository<CommentE,Integer> {
+    List<CommentE> findByProduct_SlugOrderBySysIdCommentDesc(String slug);
 }

@@ -78,4 +78,12 @@ public class CommentImpl implements CommentService {
     public boolean deleteComment(Integer id) {
         return false;
     }
+
+    @Override
+    public List<CommentDTO> getCommentByProduct_Slug(String slug) {
+        List<CommentE> comments = commentRepo.findByProduct_SlugOrderBySysIdCommentDesc(slug);
+        return comments.stream()
+                .map(CommentM::convertCommentEToCommentDTO)
+                .collect(Collectors.toList());
+    }
 }

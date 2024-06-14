@@ -1,3 +1,4 @@
+let product;
 $(document).ready(function () {
     var idSP = ''
     var dataMua = new Date();//lấy ngày hiện tại
@@ -196,7 +197,7 @@ $(document).ready(function () {
         }
         axios.get("/api/products/" + slug)
             .then(function (response) {
-                let product = response.data.data;
+                product = response.data.data;
                 console.log(product)
                 let productHtml = $("#productHtml");
                 productHtml.empty();
