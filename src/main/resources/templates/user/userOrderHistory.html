@@ -6,10 +6,10 @@
           <a th:href="@{/user-info}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-user"></i> Tài khoản</a>
           <a th:href="@{/order-history}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid me-2 fa-cart-shopping"></i> Lịch sử đơn hàng</a>
           <a th:href="@{/transaction}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-credit-card"></i> Lịch sử giao dịch</a>
-          <a th:href="@{/security}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-user-lock"></i> Mật khẩu và bảo mật</a>
-          <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-comment"></i> Bình luận của tôi</a>
-          <a th:href="@{/favorite}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-heart"></i> Sản phẩm yêu thích</a>
-          <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-link"></i> Giới thiệu bạn bè</a>
+            <a th:href="@{/security}" aria-disabled="true" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action disabled"><i class="fa-solid me-2 fa-user-lock"></i> Mật khẩu và bảo mật</a>
+            <a th:href="@{/user-info}" aria-disabled="true" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action disabled"><i class="fa-solid me-2 fa-comment"></i> Bình luận của tôi</a>
+            <a th:href="@{/favorite}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-heart"></i> Sản phẩm yêu thích</a>
+            <a th:href="@{/user-info}" aria-disabled="true" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action disabled"><i class="fa-solid me-2 fa-link"></i> Giới thiệu bạn bè</a>
         </div>
       </div>
       <div class="col-9 bg-white rounded border">
@@ -19,25 +19,25 @@
           <hr>
           <div class="row">
             <div class="col-3">
-              <input type="text" class="form-control" placeholder="Mã đơn hàng">
+<!--              <input type="text" class="form-control" placeholder="Mã đơn hàng">-->
             </div>
             <div class="col-2 ps-0">
-              <input type="number" class="form-control" placeholder="Số tiền từ">
+              <input type="number" id="startMoney" class="form-control" placeholder="Số tiền từ">
             </div>
             <div class="col-2 ps-0">
-              <input type="number" class="form-control" placeholder="Số tiền đến">
+              <input type="number" id="endMoney" class="form-control" placeholder="Số tiền đến">
             </div>
             <div class="col-2 ps-0">
-              <input type="date" class="form-control" placeholder="Từ ngày">
+              <input type="date" id="startDate" class="form-control" placeholder="Từ ngày">
             </div>
             <div class="col-2 ps-0">
-              <input type="date" class="form-control" placeholder="Đến ngày">
+              <input type="date" id="endDate" class="form-control" placeholder="Đến ngày">
             </div>
             <div class="col ps-0">
-              <button style="font-size: 0.85rem;" type="button" class="btn btn-primary float-end w-100 h-100 p-0"><i class="fa-solid fa-filter"></i> Lọc</button>
+              <button style="font-size: 0.85rem;" type="button" id="filterButton" class="btn btn-primary float-end w-100 h-100 p-0"><i class="fa-solid fa-filter"></i> Lọc</button>
             </div>
           </div>
-          <div class="mt-4">
+          <div class="mt-4" style="max-height: 320px; overflow-y: auto; overflow-x: hidden">
             <table class="table table-bordered rounded" style="font-size: 0.85rem;" >
               <thead>
               <tr>
@@ -49,15 +49,8 @@
                 <th scope="col"></th>
               </tr>
               </thead>
-              <tbody>
-              <tr>
-                <td>2022-08-16 22:09:01</td>
-                <td>5675166</td>
-                <td>Gói nâng cấp Office 365 1 năm (1TB)</td>
-                <td>249.000đ</td>
-                <td>Đã xử lý</td>
-                <td><a href="#" class="nav-link text-primary">Chi tiết</a></td>
-              </tr>
+              <tbody id="lichsudonhang">
+
               </tbody>
             </table>
           </div>
@@ -66,3 +59,4 @@
     </div>
   </div>
 </section>
+<script src="/js/user/lichsuOrder.js"></script>

@@ -1,21 +1,27 @@
+let product;
 $(document).ready(function () {
-    var idSP =''
+    var idSP = ''
     var dataMua = new Date();//lấy ngày hiện tại
-    var formattedDate ='';
-    var trangThai ='';
+    var formattedDate = '';
+    var trangThai = '';
     var anh;
     var tensp;
-    var theLoai= '';
-    var giaSPGoc ='';
-    var phanTramGiam ='';
-    var giaDaGiam ='';
+    var theLoai = '';
+    var giaSPGoc = '';
+    var phanTramGiam = '';
+    var giaDaGiam = '';
     var objSanPham = {};
-    var ObjArray= [];
+    var ObjArray = [];
     var categories = []
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
-    const dmValue = params.get('p');
+    const searchValue = params.get('searchInput');
     const catValue = params.get('cat');
+    const dmValue = params.get('dm');
+    const minPrice = params.get('minPrice');
+    const maxPrice = params.get('maxPrice');
+    // Biến để lưu danh sách sản phẩm
+    var allProducts = [];
 
     const getAllCategory = async () => {
         let listCategoryContainer = $('#listCategoryContainer');
@@ -50,18 +56,19 @@ $(document).ready(function () {
                 $('#listCategoryContainer, #listDanhMucContainer').click();
             });
     };
-
     getAllCategory();
     getAllDanhMuc();
 
-    async function loadProducts(category = "", danhMuc = "", minPrice = "", maxPrice = "") {
+    async function loadProducts(category = "", danhMuc = "", minPrice = "", maxPrice = "", searchValue = "") {
         await axios.get("/api/products")
             .then(function (response) {
                 let products = response.data;
+                allProducts = response.data;
                 let filteredProducts = products.filter(product => {
                     let categoryMatch = category ? product.theLoai.includes(category) : true;
                     let danhMucMatch = danhMuc ? product.danhMuc.includes(danhMuc) : true;
                     let priceMatch = true;
+                    let searchMatch = searchValue ? product.tenSanPham.toLowerCase().includes(searchValue.toLowerCase()) : true;
 
                     if (minPrice && !isNaN(minPrice)) {
                         let originalPrice = product.giaSanPham;
@@ -77,7 +84,7 @@ $(document).ready(function () {
                         priceMatch = priceMatch && discountedPrice <= parseInt(maxPrice);
                     }
 
-                    return categoryMatch && danhMucMatch && priceMatch;
+                    return categoryMatch && danhMucMatch && priceMatch && searchMatch;
                 });
                 filteredProducts.sort((a, b) => {
                     // Sắp xếp theo giá giảm giá
@@ -88,9 +95,9 @@ $(document).ready(function () {
 
 
                 let productsList = $("#product-all-from-user");
-                if(localStorage.getItem(sessionStorage.getItem("user_name")) == null){
+                if (localStorage.getItem(sessionStorage.getItem("user_name")) == null) {
                     $('#soluong').text(0);
-                }else {
+                } else {
                     var arrayAlredyInWeb = JSON.parse(localStorage.getItem(sessionStorage.getItem("user_name")));
                     $('#soluong').text(arrayAlredyInWeb.length)
                 }
@@ -144,37 +151,51 @@ $(document).ready(function () {
     }
 
     if (window.location.pathname === "/all-products") {
-        // Load products initially
-        loadProducts();
+        $('#searchInput').val(searchValue);
+        $('#listCategoryContainer').val(catValue);
+        $('#listDanhMucContainer').val(dmValue);
+        $('#minPrice').val(minPrice);
+        $('#maxPrice').val(maxPrice);
+        loadProducts(catValue, dmValue, minPrice, maxPrice, searchValue);
     }
 
-    $('#listCategoryContainer, #listDanhMucContainer').on('change click', function () {
+    $('#listCategoryContainer, #listDanhMucContainer').on('click', function () {
         let selectedCategory = $('#listCategoryContainer').val();
         let selectedDanhMuc = $('#listDanhMucContainer').val();
         let minPrice = $('#minPrice').val();
         let maxPrice = $('#maxPrice').val();
-        loadProducts(selectedCategory, selectedDanhMuc, minPrice, maxPrice);
+        loadProducts(selectedCategory, selectedDanhMuc, minPrice, maxPrice, searchValue);
     });
     $('#filterButton').on('click', function () {
         let selectedCategory = $('#listCategoryContainer').val();
         let selectedDanhMuc = $('#listDanhMucContainer').val();
         let minPrice = $('#minPrice').val();
         let maxPrice = $('#maxPrice').val();
-        loadProducts(selectedCategory, selectedDanhMuc, minPrice, maxPrice);
+        loadProducts(selectedCategory, selectedDanhMuc, minPrice, maxPrice, searchValue);
+    });
+
+    $(document).on('click', '#searchButton', function (event) {
+        event.preventDefault();
+        let newSearchValue = $('#searchInput').val();
+        let selectedCategory = $('#listCategoryContainer').val();
+        let selectedDanhMuc = $('#listDanhMucContainer').val();
+        let minPrice = $('#minPrice').val();
+        let maxPrice = $('#maxPrice').val();
+        window.location.href = `/all-products?searchInput=${newSearchValue}&cat=${selectedCategory}&dm=${selectedDanhMuc}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
     });
 
     // loadProduct details
     function loadProductDetails() {
         let slug = window.location.pathname.split("/")[2];
-        if(localStorage.getItem(sessionStorage.getItem("user_name")) == null){
+        if (localStorage.getItem(sessionStorage.getItem("user_name")) == null) {
             $('#soluong').text(0);
-        }else {
+        } else {
             var arrayAlredyInWeb = JSON.parse(localStorage.getItem(sessionStorage.getItem("user_name")));
             $('#soluong').text(arrayAlredyInWeb.length)
         }
         axios.get("/api/products/" + slug)
             .then(function (response) {
-                let product = response.data.data;
+                product = response.data.data;
                 console.log(product)
                 let productHtml = $("#productHtml");
                 productHtml.empty();
@@ -213,7 +234,7 @@ $(document).ready(function () {
                     :
                     `
                         <div class="d-flex align-items-center gap-3">
-                            <h4 class="m-0">${formattedOriginalPrice}</h4>
+                            <h4 class="m-0" id="giaGoc">${formattedOriginalPrice}</h4>
                             <button type="button" class="btn text-body-secondary fs-4"><i class="fa-solid fa-bell"></i></button>
                             <button type="button" class="btn text-body-secondary fs-4"><i class="fa-solid fa-heart"></i></button>
                         </div>
@@ -259,16 +280,16 @@ $(document).ready(function () {
 
                 //cho các biến thành đối tượng để lưu vào obj
                 objSanPham = {
-                    id :  parseInt(idSP.split("-")[1]), // cắt chuổi để lấy mã sản phẩm
-                    date : formattedDate,
-                    soluong : 1,
-                    anhSp : anh,
-                    tensp : tensp,
-                    theloai : theLoai,
-                    trangThai : (trangThai === "Còn Hàng" ? 1 : 0), //1 là còn hàng và 0 là hết hàng
-                    giasanphamgoc : giaSPGoc * 1000,
-                    phantramgiam : phanTramGiam,
-                    giadagiam : giaDaGiam * 1000
+                    id: parseInt((idSP.slice(-2).includes('-')) ? idSP.slice(-1) : idSP.slice(-2)), // cắt chuổi để lấy mã sản phẩm
+                    date: formattedDate,
+                    soluong: 1,
+                    anhSp: anh,
+                    tensp: tensp,
+                    theloai: theLoai,
+                    trangThai: (trangThai === "Còn Hàng" ? 1 : 0), //1 là còn hàng và 0 là hết hàng
+                    giasanphamgoc: giaSPGoc * 1000,
+                    phantramgiam: (phanTramGiam == null ? 0 : phanTramGiam) ,
+                    giadagiam: (giaDaGiam * 1000)
                 }
                 $("#gioi-thieu-san-pham").append(
                     `
@@ -289,19 +310,19 @@ $(document).ready(function () {
         loadProductDetails();
     }
 
-    $(document).on('click', '#buyNow', function() {
-        if (sessionStorage.getItem("user_name") == null || !sessionStorage.getItem("user_name")){
+    $(document).on('click', '#buyNow', function () {
+        if (sessionStorage.getItem("user_name") == null || !sessionStorage.getItem("user_name")) {
             window.location.href = "/log-in";
-        }else {
-            if (localStorage.getItem(sessionStorage.getItem("user_name")) == null){ // kiểm tra xem localStorage đã có key đó chưa
+        } else {
+            if (localStorage.getItem(sessionStorage.getItem("user_name")) == null) { // kiểm tra xem localStorage đã có key đó chưa
                 ObjArray.push(objSanPham);
-                localStorage.setItem(sessionStorage.getItem("user_name"),JSON.stringify(ObjArray));
-                window.location.href="/cart";
-            }else { //nếu có rồi thì
+                localStorage.setItem(sessionStorage.getItem("user_name"), JSON.stringify(ObjArray));
+                window.location.href = "/cart";
+            } else { //nếu có rồi thì
                 var arraylocalStorage = JSON.parse(localStorage.getItem(sessionStorage.getItem("user_name"))); //lấy value của localStorage đó ra
                 var flag = false;
-                arraylocalStorage.forEach(function (obj, index){ // duyệt mảng của nó
-                    if(obj.id === objSanPham.id){ //nếu id trong mảng trùng với id obj thì
+                arraylocalStorage.forEach(function (obj, index) { // duyệt mảng của nó
+                    if (obj.id === objSanPham.id) { //nếu id trong mảng trùng với id obj thì
                         obj.soluong++; //cộng số lượng obj lên
                         localStorage.setItem(sessionStorage.getItem("user_name"), JSON.stringify(arraylocalStorage)); //đẩy vào localStorage đó
                         flag = true;
@@ -310,28 +331,28 @@ $(document).ready(function () {
                     }
                 })
 
-                if (!flag){ //nếu đó là sản phẩm mới thì sẽ được vào đây
+                if (!flag) { //nếu đó là sản phẩm mới thì sẽ được vào đây
                     var arrayAlredyInWeb = JSON.parse(localStorage.getItem(sessionStorage.getItem("user_name")));
                     arrayAlredyInWeb.push(objSanPham)
-                    localStorage.setItem(sessionStorage.getItem("user_name"),JSON.stringify(arrayAlredyInWeb));
-                    window.location.href="/cart";
+                    localStorage.setItem(sessionStorage.getItem("user_name"), JSON.stringify(arrayAlredyInWeb));
+                    window.location.href = "/cart";
                 }
             }
         }
     });
 
-    $(document).on('click', '#addCart', function() {
-        if (sessionStorage.getItem("user_name") == null || !sessionStorage.getItem("user_name")){
+    $(document).on('click', '#addCart', function () {
+        if (sessionStorage.getItem("user_name") == null || !sessionStorage.getItem("user_name")) {
             window.location.href = "/log-in";
-        }else {
-            if (localStorage.getItem(sessionStorage.getItem("user_name")) == null){ // kiểm tra xem localStorage đã có key đó chưa
+        } else {
+            if (localStorage.getItem(sessionStorage.getItem("user_name")) == null) { // kiểm tra xem localStorage đã có key đó chưa
                 ObjArray.push(objSanPham);
-                localStorage.setItem(sessionStorage.getItem("user_name"),JSON.stringify(ObjArray));
-            }else { //nếu có rồi thì
+                localStorage.setItem(sessionStorage.getItem("user_name"), JSON.stringify(ObjArray));
+            } else { //nếu có rồi thì
                 var arraylocalStorage = JSON.parse(localStorage.getItem(sessionStorage.getItem("user_name"))); //lấy value của localStorage đó ra
                 var flag = false;
-                arraylocalStorage.forEach(function (obj, index){ // duyệt mảng của nó
-                    if(obj.id === objSanPham.id){ //nếu id trong mảng trùng với id obj thì
+                arraylocalStorage.forEach(function (obj, index) { // duyệt mảng của nó
+                    if (obj.id === objSanPham.id) { //nếu id trong mảng trùng với id obj thì
                         $('#soluong').text("1")
                         obj.soluong++; //cộng số lượng obj lên
                         localStorage.setItem(sessionStorage.getItem("user_name"), JSON.stringify(arraylocalStorage)); //đẩy vào localStorage đó
@@ -340,10 +361,10 @@ $(document).ready(function () {
                     }
                 })
 
-                if (!flag){ //nếu đó là sản phẩm mới thì sẽ được vào đây
+                if (!flag) { //nếu đó là sản phẩm mới thì sẽ được vào đây
                     var arrayAlredyInWeb = JSON.parse(localStorage.getItem(sessionStorage.getItem("user_name")));
                     arrayAlredyInWeb.push(objSanPham)
-                    localStorage.setItem(sessionStorage.getItem("user_name"),JSON.stringify(arrayAlredyInWeb));
+                    localStorage.setItem(sessionStorage.getItem("user_name"), JSON.stringify(arrayAlredyInWeb));
                     $('#soluong').text(arrayAlredyInWeb.length)
                 }
             }

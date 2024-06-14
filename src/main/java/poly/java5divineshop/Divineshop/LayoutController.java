@@ -1,8 +1,11 @@
 package poly.java5divineshop.Divineshop;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class LayoutController {
@@ -45,7 +48,9 @@ public class LayoutController {
         return "user/index";
     }
     @GetMapping("/user-info")
-    public String userInfo(Model model) {
+    public String userInfo(Model model, HttpSession session) {
+        session.removeAttribute("flag");
+        session.removeAttribute("flag1");
         model.addAttribute("view", "userInfo");
         return "user/index";
     }
@@ -70,7 +75,10 @@ public class LayoutController {
         return "user/index";
     }
     @GetMapping("/add-funds")
-    public String addFunds(Model model) {
+    public String addFunds(Model model, HttpSession session) {
+        Boolean flag = (Boolean) session.getAttribute("flag");
+        model.addAttribute("flag", flag);
+        model.addAttribute("flag1",session.getAttribute("flag1") != null ? true : false);
         model.addAttribute("view", "addFunds");
         return "user/index";
     }
@@ -92,6 +100,11 @@ public class LayoutController {
     @GetMapping("/pay-cart")
     public String payCart(Model model) {
         model.addAttribute("view", "payCart");
+        return "user/index";
+    }
+    @GetMapping("/order-history-detaill/{}")
+    public String orderhistorydetaill(Model model) {
+        model.addAttribute("view", "userOrderHistoryDetaill");
         return "user/index";
     }
 }

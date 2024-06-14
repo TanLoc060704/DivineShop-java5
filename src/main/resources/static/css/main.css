@@ -13,3 +13,8 @@
 .accordion-button:focus {
     border-color: unset !important;
 }
+
+.custom a:hover{
+    background-color: #2679f2;
+    color: white;
+}

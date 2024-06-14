@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import poly.java5divineshop.Divineshop.Data.Dto.RoleDto;
+import poly.java5divineshop.Divineshop.Data.Model.RoleM;
 import poly.java5divineshop.Divineshop.Service.RoleService;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,21 +20,23 @@ public class RoleApi {
     @Autowired
     RoleService roleService;
 
-    @PostMapping("/updateRoleByIdRole")
-    public ResponseEntity<?> updateRoleByUsername(@RequestBody RoleDto roleDto) {
+    @PostMapping("/updateRole")
+    public ResponseEntity<?> updateRoleByUsername(@RequestBody List<RoleDto> list) {
         Map<String, Object> result = new HashMap<>();
         try {
-            if (roleService.getRoleByUsernameAndRole(roleDto.getUsername(), roleDto.getRole()) != null) {
-                result.put("status", true);
-                result.put("message", "Username already has this role");
-                result.put("data", null);
-                return ResponseEntity.ok(result);
+            for (RoleDto roleDto : list) {
+                RoleM existingRole = roleService.getRoleByUsernameAndRole(roleDto.getUsername(), roleDto.getRole());
+                if (existingRole != null) {
+                    roleService.deleteRoleByUsername(roleDto);
+                } else {
+                    roleService.saveRole(roleDto);
+                }
             }
             result.put("status", true);
             result.put("message", "Call Api Successfully");
-            result.put("data", roleService.updateRoleByIdRole(roleDto));
+            result.put("data", null);
+
         } catch (Exception e) {
-            e.printStackTrace();
             result.put("status", false);
             result.put("message", "Call Api Failed");
             result.put("data", null);
@@ -40,3 +44,4 @@ public class RoleApi {
         return ResponseEntity.ok(result);
     }
 }
+

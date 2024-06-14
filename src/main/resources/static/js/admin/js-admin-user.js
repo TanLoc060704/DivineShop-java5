@@ -17,8 +17,6 @@ $(document).ready(function () {
                 // Lưu thông tin người dùng đầu tiên vào sessionStorage
                 if (responseData.length > 0) {
                     sessionStorage.setItem('username', responseData[0].tenDangNhap);
-                    sessionStorage.setItem('role', responseData[0].roles[0].role);
-                    sessionStorage.setItem('idRole', responseData[0].roles[0].idRole);
                 }
 
                 // Lọc dữ liệu theo vai trò và từ khóa tìm kiếm nếu có
@@ -32,40 +30,24 @@ $(document).ready(function () {
                     return true;
                 });
 
-                // Tính toán số lượng trang
+                // Tính tổng số người dùng sau khi lọc
                 let totalUsers = responseData.length;
                 tongItem.text(totalUsers);
-                let paginatedUsers = [];
-                let userCount = 0;
 
-                for (let i = 0; i < totalUsers; i++) {
-                    let user = responseData[i];
-                    let roles = user.roles;
-
-                    for (let j = 0; j < roles.length; j++) {
-                        if (userCount < page * pageSize && userCount >= (page - 1) * pageSize) {
-                            paginatedUsers.push({
-                                user,
-                                role: roles[j]
-                            });
-                        }
-                        userCount++;
-                    }
-                }
-
-                let totalPages = Math.ceil(userCount / pageSize);
+                // Tính toán số lượng trang
+                let totalPages = Math.ceil(totalUsers / pageSize);
+                let paginatedUsers = responseData.slice((page - 1) * pageSize, page * pageSize);
                 soluongItem.text(paginatedUsers.length);
 
                 if (paginatedUsers.length === 0) {
                     listUserContainer.html('<tr><td colspan="5" class="text-center">No users found</td></tr>');
                 } else {
-                    $.each(paginatedUsers, function (index, data) {
-                        let user = data.user;
-                        let role = data.role;
+                    $.each(paginatedUsers, function (index, user) {
                         let formattedDate = moment(user.ngayThamGia).format('DD-MM-YYYY');
+                        let roles = user.roles.map(role => role.role).join(', ');
                         let html = `
                             <tr>
-                                <th scope="row">${user.sysIdUser}</th>
+                                <th scope="row">${(page - 1) * pageSize + index + 1}</th>
                                 <td>
                                     <div class="d-flex align-items-center gap-2">
                                         <div class="">
@@ -73,7 +55,7 @@ $(document).ready(function () {
                                         </div>
                                         <div class="">
                                             <p class="m-0 fw-semibold">${user.tenDangNhap}</p>
-                                            <p class="m-0 text-secondary">${role.role}</p>
+                                            <p class="m-0 text-secondary">${roles}</p>
                                         </div>
                                     </div>
                                 </td>
@@ -85,7 +67,7 @@ $(document).ready(function () {
                                             <i class="fa-solid fa-ellipsis"></i>
                                         </a>
                                         <ul class="dropdown-menu">
-                                            <li><a class="btn dropdown-item viewAndEdit" data-username="${user.tenDangNhap}" data-role="${role.role}" data-idrole="${role.idRole}"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
+                                            <li><a class="btn dropdown-item viewAndEdit" data-username="${user.tenDangNhap}" data-role="${roles}" data-idrole="${user.roles.map(role => role.idRole).join(', ')}"><i class="fa-solid fa-eye"></i> View & Edit</a></li>
                                         </ul>
                                     </div>
                                 </td>
@@ -188,8 +170,6 @@ $(document).ready(function () {
         let idRole = $(this).data('idrole');
         console.log(username, role);
         sessionStorage.setItem('username', username);
-        sessionStorage.setItem('role', role);
-        sessionStorage.setItem('idRole', idRole);
         window.location.href = '/admin/account-view';
     });
 

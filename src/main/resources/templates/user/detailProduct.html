@@ -151,22 +151,19 @@
                 <h5>Bình luận</h5>
                 <p>Thời gian phản hồi trung bình: 5 phút!</p>
                 <div class="mb-3">
-                    <textarea class="form-control" id="exampleFormControlTextarea1" rows="5"></textarea>
+                    <textarea class="form-control"  rows="5" id="comment-content"></textarea>
                 </div>
-                <div class="d-flex justify-content-end"><button type="button" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Gửi bình luận</button></div>
-                <div class="row">
-                    <div class="col-2">
-                        <img class="img-fluid rounded-circle" src="https://cdn.divineshop.vn/image/avatar/452043.jpg?hash=1711526851" alt="">
-                    </div>
-                    <div class="col-10">
-                        <h6>Chương Võ Hoàng</h6>
-                        <p>Bình luận vào 2024-03-27 15:10:55</p>
-                        <p>tài khoản đã từng mua gói 1 năm bây giờ tiếp tục mua thêm có được ko vậy shop?</p>
-                    </div>
+                <div class="d-flex justify-content-end"><button type="button" class="btn btn-primary" id="btn-submit-comment" onclick="saveComment()"><i class="fa-solid fa-paper-plane"></i> Gửi bình luận</button></div>
+                <div class="row" id="html-comment">
+
+                </div>
+                <div class="row btn" id="btn-load-more-comments">
+                    <h5>Xem thêm bình luận</h5>
                 </div>
             </div>
         </div>
     </div>
 </section>
 <script th:src="@{/js/user/product_user.js}"></script>
-<script th:src="@{/js/user/Cart_user.js.js}"></script>
+<script th:src="@{/js/user/Cart_user.js}"></script>
+<script th:src="@{/js/user/Comment.js}"></script>

@@ -15,7 +15,13 @@ function loadCart (){
 
             let formattedOriginalPrice = parseFloat(obj.giasanphamgoc).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
             let formattedDiscountedPrice = parseFloat(obj.giadagiam).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-            let tongtienFormatted = parseFloat(obj.giadagiam * obj.soluong).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+            let tongtienFormatted;
+
+            if (obj.phantramgiam == null){
+                tongtienFormatted = parseFloat(obj.giasanphamgoc).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+            }else {
+                tongtienFormatted = parseFloat(obj.giadagiam * obj.soluong).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+            }
 
             let row = `
               <div class="row mt-3">
@@ -40,8 +46,8 @@ function loadCart (){
                   <div class="col-4 text-end">
                     <h5 class="" id="giaGoc">${tongtienFormatted}</h5>
                     <div class="d-flex align-items-center justify-content-end gap-3">
-                      <p style="font-size: 0.7rem;" class="m-0 text-bg-danger fw-bold rounded p-1">-${obj.phantramgiam}%</p>
-                      <p style="font-size: 0.9rem;" class="m-0 text-decoration-line-through text-secondary">${formattedOriginalPrice}</p>
+                      ${obj.phantramgiam == null ? `` : `<p style="font-size: 0.7rem;" class="m-0 text-bg-danger fw-bold rounded p-1">-${obj.phantramgiam}%</p>`}
+                        ${obj.phantramgiam == null ? `` : `<p style="font-size: 0.9rem;" class="m-0 text-decoration-line-through text-secondary">${formattedOriginalPrice}</p>`}
                     </div>
                   </div>
                 </div>
@@ -63,10 +69,21 @@ function loadCart (){
 function tongTienSanPham (){
     var objArray = JSON.parse(localStorage.getItem(sessionStorage.getItem("user_name")));
     var tongTienOBJ = 0;
-    let formattedtongtienPrice;
+    var formattedtongtienPrice;
     for(let i = 0 ; i < objArray.length ; i++){
-        tongTienOBJ += parseFloat(objArray[i].soluong * objArray[i].giadagiam);
-        formattedtongtienPrice = parseFloat(tongTienOBJ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        if (objArray[i].giadagiam == null){
+            tongTienOBJ += parseFloat(objArray[i].soluong * objArray[i].giasanphamgoc);
+            formattedtongtienPrice = parseFloat(tongTienOBJ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }else {
+            tongTienOBJ += parseFloat(objArray[i].soluong * objArray[i].giadagiam);
+            formattedtongtienPrice = parseFloat(tongTienOBJ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }
+    }
+    if(sessionStorage.getItem("tiengiam") != ""){
+        console.log(sessionStorage.getItem("tiengiam"))
+        var formattedtongtienPrice1 = parseFloat(sessionStorage.getItem("tiengiam")).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        $('#tonggiatrisp1').text(formattedtongtienPrice1);
+        return;
     }
     $('#tonggiatrisp1').text(formattedtongtienPrice);
 }

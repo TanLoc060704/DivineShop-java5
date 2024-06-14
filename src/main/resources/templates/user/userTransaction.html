@@ -6,10 +6,10 @@
           <a th:href="@{/user-info}" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-user"></i> Tài khoản</a>
           <a th:href="@{/order-history}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-cart-shopping"></i> Lịch sử đơn hàng</a>
           <a th:href="@{/transaction}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action active"><i class="fa-solid me-2 fa-credit-card"></i> Lịch sử giao dịch</a>
-          <a th:href="@{/security}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-user-lock"></i> Mật khẩu và bảo mật</a>
-          <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-comment"></i> Bình luận của tôi</a>
+          <a th:href="@{/security}" aria-disabled="true" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action disabled"><i class="fa-solid me-2 fa-user-lock"></i> Mật khẩu và bảo mật</a>
+          <a th:href="@{/user-info}" aria-disabled="true" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action disabled"><i class="fa-solid me-2 fa-comment"></i> Bình luận của tôi</a>
           <a th:href="@{/favorite}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-heart"></i> Sản phẩm yêu thích</a>
-          <a th:href="@{/user-info}" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action"><i class="fa-solid me-2 fa-link"></i> Giới thiệu bạn bè</a>
+          <a th:href="@{/user-info}" aria-disabled="true" type="button" class="py-3 px-4 text-secondary list-group-item list-group-item-action disabled"><i class="fa-solid me-2 fa-link"></i> Giới thiệu bạn bè</a>
         </div>
       </div>
       <div class="col-9 bg-white rounded border">
@@ -19,41 +19,36 @@
           <hr>
           <div class="row">
             <div class="col-3">
-              <input type="text" class="form-control" placeholder="Mô tả">
+              <input type="text" id="mota" class="form-control" placeholder="Mô tả">
             </div>
             <div class="col-2 ps-0">
-              <input type="number" class="form-control" placeholder="Số tiền từ">
+              <input type="number" id="startMoney" class="form-control" placeholder="Số tiền từ">
             </div>
             <div class="col-2 ps-0">
-              <input type="number" class="form-control" placeholder="Số tiền đến">
+              <input type="number" id="endMoney" class="form-control" placeholder="Số tiền đến">
             </div>
             <div class="col-2 ps-0">
-              <input type="date" class="form-control" placeholder="Từ ngày">
+              <input type="date" id="startDate" class="form-control" placeholder="Từ ngày">
             </div>
             <div class="col-2 ps-0">
-              <input type="date" class="form-control" placeholder="Đến ngày">
+              <input type="date" id="endDate" class="form-control" placeholder="Đến ngày">
             </div>
             <div class="col ps-0">
-              <button style="font-size: 0.85rem;" type="button" class="btn btn-primary float-end w-100 h-100 p-0"><i class="fa-solid fa-filter"></i> Lọc</button>
+              <button style="font-size: 0.85rem;" type="button" id="filterButton" class="btn btn-primary float-end w-100 h-100 p-0"><i class="fa-solid fa-filter"></i>Lọc</button>
             </div>
           </div>
-          <div class="mt-4">
+          <div class="mt-4" style="max-height: 320px; overflow-y: auto; overflow-x: hidden">
             <table class="table table-bordered rounded" style="font-size: 0.85rem;" >
               <thead>
               <tr>
                 <th scope="col">Thời gian	</th>
                 <th scope="col" class="w-50">Mô tả</th>
                 <th scope="col" style="width: 15%;">Số tiền</th>
-                <th scope="col" style="width: 15%;">Số dư</th>
+                <th scope="col" style="width: 15%;">Trạng thái</th>
               </tr>
               </thead>
-              <tbody>
-              <tr>
-                <td>2022-11-16 18:50:57</td>
-                <td>Số ID đơn hàng: #5841931</td>
-                <td>-490.000đ</td>
-                <td>14.910đ</td>
-              </tr>
+              <tbody id="lichsugiaodich">
+
               </tbody>
             </table>
           </div>
@@ -62,3 +57,4 @@
     </div>
   </div>
 </section>
+<script src="/js/user/lichSuDonHang.js"></script>

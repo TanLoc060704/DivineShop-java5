@@ -1,5 +1,6 @@
 package poly.java5divineshop.Divineshop.Data.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -69,7 +70,6 @@ public class ProductE {
             joinColumns = @JoinColumn(name = "Sys_id_product"),
             inverseJoinColumns = @JoinColumn(name = "Sys_id_category"))
     private List<CategoryE> categories;
-
 
     public void addCateList(CategoryE categoryE) {
         if (categories == null) {

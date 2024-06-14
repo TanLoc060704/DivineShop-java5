@@ -1,11 +1,42 @@
 var tongGiaTriThanhToan;
 var soDuHienTai = null;
 var soTienCanNapThem ;
+var giohang = false
 
 $(document).ready(function() {
     loadCart(); // load giỏ hàng khi trang web được load
     tongTienSanPham(); //load tổng tiền sản phẩm
     getMonyForUser(); //lấy danh sách user
+    sessionStorage.setItem("tiengiam","")
+
+    $('#btnGiamGia').on('click', function() {
+        // Xử lý sự kiện onclick tại đây
+        var maGiamGia =  $('#maGiamGia').val()
+        axios.get('/api/vouchers/'+maGiamGia)
+            .then(response => {
+                console.log()
+                var voucherPercentage = response.data.data.voucherPercentage *100;
+                var tongGiaTriSanPham =  $('#tonggiatrisp1').text();
+                var giaTri = parseFloat(tongGiaTriSanPham.split(" ")[0].replace(".", "").replace(",", "."));
+                var tiengiam  = parseFloat(giaTri) / voucherPercentage ;
+
+                var tienDaTru = giaTri - tiengiam;
+
+                var formattedtongtienPrice = parseFloat(tienDaTru).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+                $('#tonggiatrisp1').text(formattedtongtienPrice)
+                $('#tonggiatrisp2').text(formattedtongtienPrice)
+                $("#btnGiamGia").prop("disabled", true);
+
+                sessionStorage.setItem("tiengiam",tienDaTru)
+
+            }).catch(function (error) {
+            Swal.fire({
+                title: "Thông báo từ hệ thống",
+                text: "Có vẻ như mã giảm giá bị sai?",
+                icon: "question"
+            });
+        });
+    });
 })
 
 function loadCart (){
@@ -16,11 +47,25 @@ function loadCart (){
         let productsList = $("#list_sp_cart");
         productsList.empty();
 
+        if(objArray.length == 0){
+            $('#tonggiatrisp1').text(0);
+            $('#tonggiatrisp2').text(0);
+            giohang = true;
+        }else {
+            giohang = false;
+        }
+
         objArray.forEach(function (obj,index){
 
             let formattedOriginalPrice = parseFloat(obj.giasanphamgoc).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
             let formattedDiscountedPrice = parseFloat(obj.giadagiam).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-            let tongtienFormatted = parseFloat(obj.giadagiam * obj.soluong).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+            let tongtienFormatted;
+
+            if (obj.phantramgiam == null){
+                tongtienFormatted = parseFloat(obj.giasanphamgoc).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+            }else {
+                tongtienFormatted = parseFloat(obj.giadagiam * obj.soluong).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+            }
 
             let row = `
               <div class="row mt-3">
@@ -45,8 +90,8 @@ function loadCart (){
                   <div class="col-4 text-end">
                     <h5 class="" id="giaGoc">${tongtienFormatted}</h5>
                     <div class="d-flex align-items-center justify-content-end gap-3">
-                      <p style="font-size: 0.7rem;" class="m-0 text-bg-danger fw-bold rounded p-1">-${obj.phantramgiam}%</p>
-                      <p style="font-size: 0.9rem;" class="m-0 text-decoration-line-through text-secondary">${formattedOriginalPrice}</p>
+                        ${obj.phantramgiam == null ? `` : `<p style="font-size: 0.7rem;" class="m-0 text-bg-danger fw-bold rounded p-1">-${obj.phantramgiam}%</p>`}
+                        ${obj.phantramgiam == null ? `` : `<p style="font-size: 0.9rem;" class="m-0 text-decoration-line-through text-secondary">${formattedOriginalPrice}</p>`}
                     </div>
                   </div>
                 </div>
@@ -75,6 +120,8 @@ function deleteByIdCart(id){
             return;
         }
     })
+    $('#tonggiatrisp1').text(0);
+    $('#tonggiatrisp2').text(0);
     loadCart();
     tongTienSanPham();
 }
@@ -87,6 +134,8 @@ function truSoLuongCart(id){
             if (obj.soluong <= 1){
                 objArray.splice(index,1);
                 localStorage.setItem(sessionStorage.getItem("user_name"), JSON.stringify(objArray)); //đẩy vào localStorage đó
+                $('#tonggiatrisp1').text(0);
+                $('#tonggiatrisp2').text(0);
                 return;
             }
 
@@ -120,8 +169,13 @@ function tongTienSanPham (){
     var tongTienOBJ = 0;
     let formattedtongtienPrice;
     for(let i = 0 ; i < objArray.length ; i++){
-        tongTienOBJ += parseFloat(objArray[i].soluong * objArray[i].giadagiam);
-        formattedtongtienPrice = parseFloat(tongTienOBJ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        if (objArray[i].giadagiam == null){
+            tongTienOBJ += parseFloat(objArray[i].soluong * objArray[i].giasanphamgoc);
+            formattedtongtienPrice = parseFloat(tongTienOBJ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }else {
+            tongTienOBJ += parseFloat(objArray[i].soluong * objArray[i].giadagiam);
+            formattedtongtienPrice = parseFloat(tongTienOBJ).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
+        }
     }
     $('#tonggiatrisp1').text(formattedtongtienPrice);
     $('#tonggiatrisp2').text(formattedtongtienPrice);
@@ -156,7 +210,7 @@ function soTienCanNap(){
     var dutien = $('#dutien');
     checktien.empty();
     dutien.empty();
-    if (soTienCanNapThem < 0){
+    if (soTienCanNapThem < 0 ){
         let tienThieu = Math.abs(soTienCanNapThem);
         let formattedtienThieu = parseFloat(tienThieu).toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
         let row = `
@@ -175,7 +229,7 @@ function soTienCanNap(){
     }else {
         let row = `
         <div class="mb-2 mt-4">
-            <a href="/confirm-cart" class="btn text-white py-2 w-100 fw-semibold"  style="font-size: 0.85rem; background-color: #005baa;">
+            <a href="/confirm-cart"   class="btn text-white py-2 w-100 fw-semibold ${giohang == true ? `disabled` : ``}" aria-disabled="true"  style="font-size: 0.85rem; background-color: #005baa;">
               <img src="https://cdn.divineshop.vn/static/ed4044413ba8489903d4f27bac88aa02.svg" alt="" class="" width="7%">
               Xác nhận mua hàng
             </a>
