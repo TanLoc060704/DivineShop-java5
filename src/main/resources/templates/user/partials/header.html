@@ -48,7 +48,7 @@
                     <ul class="navbar-nav">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white fw-bold" style="font-size: 0.85rem;" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <img src="https://cdn.divineshop.vn/image/catalog/icon/avatar-khach-hang-2-52544.png?hash=1649933269" class="rounded-circle" alt="" width="42px" height="42px">
+                                <img src="#" id="userAvatar" class="rounded-circle" alt="" width="42px" height="42px">
                                 Hi <span sec:authentication="name" id="user_name"></span>
                             </a>
                             <ul class="dropdown-menu">
@@ -98,6 +98,31 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function(){
+            getUser()
+        })
+        let userAuth ;
+        let urlImg;
+        function getUser(){
+            let username = $("#user_name").text();
+            console.log(username)
+            axios.get("/api/public/getUserByUsername", {
+                params: {
+                    username: username
+                }
+            })
+                .then(function(resphone){
+                    userAuth = resphone.data.data;
+                    urlImg = userAuth.anhDaiDien;
+                    $("#userAvatar").attr("src", `/img-user/${urlImg}`);
+                    console.log(urlImg)
+                })
+                .catch(function(error){
+                    console.error("Có lỗi xảy ra khi gọi API: ", error);
+                });
+        }
+    </script>
 </header>
 
 <header th:fragment="hello"></header>

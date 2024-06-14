@@ -139,3 +139,46 @@ BEGIN
         inserted;
 END;
 GO
+
+
+-- Tạo bảng Comment
+CREATE TABLE [Comment] (
+    Sys_id_comment INT IDENTITY(1,1) PRIMARY KEY,
+    noi_dung NVARCHAR(255) NOT NULL,
+    ngay_binh_luan DATE NOT NULL DEFAULT GETDATE(),
+    Sys_id_user INT NOT NULL,
+    Sys_id_product INT NOT NULL,
+    FOREIGN KEY (Sys_id_user) REFERENCES [User](Sys_id_user),
+    FOREIGN KEY (Sys_id_product) REFERENCES [Product](Sys_id_product)
+);
+
+-- Tạo bảng Reply
+CREATE TABLE [Reply] (
+    Sys_id_reply INT IDENTITY(1,1) PRIMARY KEY,
+    noi_dung NVARCHAR(MAX) NOT NULL,
+    ngay_tra_loi DATE NOT NULL DEFAULT GETDATE(),
+    Sys_id_user INT NOT NULL,
+    Sys_id_comment INT NOT NULL,
+    FOREIGN KEY (Sys_id_user) REFERENCES [User](Sys_id_user),
+    FOREIGN KEY (Sys_id_comment) REFERENCES [Comment](Sys_id_comment)
+);
+
+
+
+INSERT INTO [Comment] (noi_dung, ngay_binh_luan, Sys_id_user, Sys_id_product) VALUES
+(N'Bình luận về sản phẩm 1', GETDATE(), 1, 1),
+(N'Bình luận về sản phẩm 2', GETDATE(), 2, 2);
+
+INSERT INTO [Reply] (noi_dung, ngay_tra_loi, Sys_id_user, Sys_id_comment) VALUES
+(N'Trả lời bình luận 1 bởi user3', GETDATE(), 1, 1),
+(N'Trả lời bình luận 1 bởi user4', GETDATE(), 2, 1),
+(N'Trả lời bình luận 1 bởi user5', GETDATE(), 3, 1),
+(N'Trả lời bình luận 1 bởi user6', GETDATE(), 4, 1),
+(N'Trả lời bình luận 1 bởi user10', GETDATE(), 1, 1),
+(N'Trả lời bình luận 1 bởi user11', GETDATE(), 3, 1),
+(N'Trả lời bình luận 1 bởi user12', GETDATE(), 2, 1),
+(N'Trả lời bình luận 2 bởi user13', GETDATE(), 4, 2),
+(N'Trả lời bình luận 2 bởi user14', GETDATE(), 4, 2),
+(N'Trả lời bình luận 2 bởi user19', GETDATE(), 2, 2),
+(N'Trả lời bình luận 2 bởi user20', GETDATE(), 2, 2),
+(N'Trả lời bình luận 2 bởi user21', GETDATE(), 4, 2);
