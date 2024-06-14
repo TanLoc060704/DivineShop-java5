@@ -34,7 +34,7 @@ $(document).ready(function () {
             // Giới hạn hiển thị tối đa 10 sản phẩm
             products.slice(0, 10).forEach(product => {
                 let suggestionItem =
-                    `<a href="detail/${product.slug}" class="dropdown-item pt-1 pb-1 ">${product.tenSanPham}</a>`;
+                    `<a href="/detail/${product.slug}" class="dropdown-item pt-1 pb-1 ">${product.tenSanPham}</a>`;
                 suggestionList.append(suggestionItem);
             });
 
