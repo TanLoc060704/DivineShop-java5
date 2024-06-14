@@ -16,8 +16,13 @@ public class RoleServiceImpl implements RoleService {
     RoleRepo roleRepo;
 
     @Override
-    public int updateRoleByIdRole(RoleDto roleDto) {
-        return roleRepo.updateRoleByIdRole(roleDto.getRole(), roleDto.getIdRole());
+    public int saveRole(RoleDto roleDto) throws SQLException {
+        return roleRepo.saveRole(roleDto.getUsername(), roleDto.getUsername(), roleDto.getRole());
+    }
+
+    @Override
+    public int deleteRoleByUsername(RoleDto roleDto) throws SQLException {
+        return roleRepo.deleteRoleByUsername(roleDto.getUsername());
     }
 
     @Override

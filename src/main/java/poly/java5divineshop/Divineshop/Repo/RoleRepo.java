@@ -10,10 +10,19 @@ import poly.java5divineshop.Divineshop.Data.Entity.RoleE;
 
 @Repository
 public interface RoleRepo extends JpaRepository<RoleE, Integer> {
+
     @Modifying
     @Transactional
-    @Query(value = "update Roles set role = :role where id_role = :id_role ", nativeQuery = true)
-    int updateRoleByIdRole(@Param("role") String role, @Param("id_role") Integer id_role);
+    @Query(value = "insert into Roles (username,username_user,role) " +
+            "values (:username, :usernameUser, :role)", nativeQuery = true)
+    int saveRole(@Param("username") String username,
+                 @Param("usernameUser") String usernameUser,
+                 @Param("role") String role);
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from Roles where username = :username", nativeQuery = true)
+    int deleteRoleByUsername(@Param("username") String username);
 
     @Query(value = "select * from Roles r where r.username = :username and r.role = :role", nativeQuery = true)
     RoleE getRoleByUsernameAndRole(@Param("username") String username, @Param("role") String role);

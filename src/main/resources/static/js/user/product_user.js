@@ -15,9 +15,11 @@ $(document).ready(function () {
     var categories = []
     const url = new URL(window.location.href);
     const params = new URLSearchParams(url.search);
-    const dmValue = params.get('p');
-    const catValue = params.get('cat');
     const searchValue = params.get('searchInput');
+    const catValue = params.get('cat');
+    const dmValue = params.get('dm');
+    const minPrice = params.get('minPrice');
+    const maxPrice = params.get('maxPrice');
     // Biến để lưu danh sách sản phẩm
     var allProducts = [];
 
@@ -54,7 +56,6 @@ $(document).ready(function () {
                 $('#listCategoryContainer, #listDanhMucContainer').click();
             });
     };
-
     getAllCategory();
     getAllDanhMuc();
 
@@ -150,15 +151,15 @@ $(document).ready(function () {
     }
 
     if (window.location.pathname === "/all-products") {
-        let selectedCategory = $('#listCategoryContainer').val();
-        let selectedDanhMuc = $('#listDanhMucContainer').val();
-        let minPrice = $('#minPrice').val();
-        let maxPrice = $('#maxPrice').val();
         $('#searchInput').val(searchValue);
-        loadProducts(selectedCategory, selectedDanhMuc, minPrice, maxPrice, searchValue);
+        $('#listCategoryContainer').val(catValue);
+        $('#listDanhMucContainer').val(dmValue);
+        $('#minPrice').val(minPrice);
+        $('#maxPrice').val(maxPrice);
+        loadProducts(catValue, dmValue, minPrice, maxPrice, searchValue);
     }
 
-    $('#listCategoryContainer, #listDanhMucContainer').on('change click', function () {
+    $('#listCategoryContainer, #listDanhMucContainer').on('click', function () {
         let selectedCategory = $('#listCategoryContainer').val();
         let selectedDanhMuc = $('#listDanhMucContainer').val();
         let minPrice = $('#minPrice').val();
@@ -173,18 +174,15 @@ $(document).ready(function () {
         loadProducts(selectedCategory, selectedDanhMuc, minPrice, maxPrice, searchValue);
     });
 
-    // Thay thế sự kiện submit trên form bằng sự kiện click trên nút tìm kiếm
-    $(document).on('click', '#searchButton', function () {
+    $(document).on('click', '#searchButton', function (event) {
+        event.preventDefault();
         let newSearchValue = $('#searchInput').val();
         let selectedCategory = $('#listCategoryContainer').val();
         let selectedDanhMuc = $('#listDanhMucContainer').val();
         let minPrice = $('#minPrice').val();
         let maxPrice = $('#maxPrice').val();
-
-        let searchValue = window.location.pathname + '?searchInput=' + encodeURIComponent(newSearchValue);
-        loadProducts(selectedCategory, selectedDanhMuc, minPrice, maxPrice, searchValue);
+        window.location.href = `/all-products?searchInput=${newSearchValue}&cat=${selectedCategory}&dm=${selectedDanhMuc}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
     });
-
 
     // loadProduct details
     function loadProductDetails() {
