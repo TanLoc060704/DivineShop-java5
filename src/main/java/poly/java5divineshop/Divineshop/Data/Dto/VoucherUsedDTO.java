@@ -2,6 +2,7 @@ package poly.java5divineshop.Divineshop.Data.Dto;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -13,5 +14,5 @@ public class VoucherUsedDTO {
     private Integer sysIdVoucherUsed;
     private Integer sysIdUser;
     private Integer sysIdVoucher;
-    private Date ngaySuDung;
+    private LocalDate ngaySuDung = LocalDate.now();
 }

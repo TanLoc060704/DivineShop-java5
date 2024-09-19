@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import poly.java5divineshop.Divineshop.Data.Dto.AccountDTO;
 import poly.java5divineshop.Divineshop.Data.Entity.AccountE;
 
 import java.util.List;
@@ -32,8 +31,9 @@ public class AccountM {
                 .isEnabled(accountE.isEnabled())
                 .build();
     }
+
     public static List<AccountM> convertListAccountEToListAccountM(List<AccountE> accountEList) {
-        return  accountEList.stream()
+        return accountEList.stream()
                 .map(e -> convertAccountEToAccountM(e))
                 .collect(Collectors.toList());
     }

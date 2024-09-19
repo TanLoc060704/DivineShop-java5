@@ -4,6 +4,7 @@ import lombok.*;
 import poly.java5divineshop.Divineshop.Data.Dto.VoucherUsedDTO;
 import poly.java5divineshop.Divineshop.Data.Entity.VoucherUsedE;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -15,7 +16,7 @@ public class VoucherUsedM {
     private Integer sysIdVoucherUsed;
     private Integer sysIdUser;
     private Integer sysIdVoucher;
-    private Date ngaySuDung;
+    private LocalDate ngaySuDung = LocalDate.now();
 
 
     public static VoucherUsedM convertVoucherUsedEToVoucherUsedM(VoucherUsedE voucherUsedE) {

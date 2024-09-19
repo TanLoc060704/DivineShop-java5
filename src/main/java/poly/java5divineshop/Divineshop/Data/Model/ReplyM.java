@@ -1,13 +1,12 @@
 package poly.java5divineshop.Divineshop.Data.Model;
 
 import lombok.*;
-import poly.java5divineshop.Divineshop.Data.Dto.CommentDTO;
 import poly.java5divineshop.Divineshop.Data.Dto.ReplyDTO;
 import poly.java5divineshop.Divineshop.Data.Entity.CommentE;
 import poly.java5divineshop.Divineshop.Data.Entity.ReplyE;
 import poly.java5divineshop.Divineshop.Data.Entity.UserE;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -17,7 +16,7 @@ import java.util.Date;
 public class ReplyM {
     private Integer sysIdReply;
     private String noiDung;
-    private Date ngayTraLoi = new Date();
+    private LocalDate ngayTraLoi = LocalDate.now();
     private UserE user;
     private CommentE comment;
 

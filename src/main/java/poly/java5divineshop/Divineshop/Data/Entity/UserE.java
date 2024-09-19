@@ -1,45 +1,46 @@
 package poly.java5divineshop.Divineshop.Data.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Builder
-@Table(name = "[User]")
+@Entity
+@Table(name = "user")
 public class UserE {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "sys_id_user")
     private Integer sysIdUser;
 
-    @Column(name = "ten_dang_nhap", nullable = false, unique = true)
+    @Column(name = "ten_dang_nhap", nullable = false, unique = true, length = 50)
     private String tenDangNhap;
 
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true, length = 255)
     private String email;
 
-    @Column(name = "ho_va_ten")
+    @Column(name = "ho_va_ten", length = 255)
     private String hoVaTen;
 
-    @Column(name = "so_du")
+    @Column(name = "so_du", length = 255)
     private String soDu;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "ngay_tham_gia")
-    private Date ngayThamGia;
+    private LocalDate ngayThamGia;
 
-    @Column(name = "anh_dai_dien")
+    @Column(name = "anh_dai_dien", length = 255)
     private String anhDaiDien;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
     private List<RoleE> roles;
 }

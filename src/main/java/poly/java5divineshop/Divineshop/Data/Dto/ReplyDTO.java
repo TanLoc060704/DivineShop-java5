@@ -1,12 +1,10 @@
 package poly.java5divineshop.Divineshop.Data.Dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.*;
 import lombok.*;
 import poly.java5divineshop.Divineshop.Data.Entity.CommentE;
 import poly.java5divineshop.Divineshop.Data.Entity.UserE;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -16,7 +14,7 @@ import java.util.Date;
 public class ReplyDTO {
     private Integer sysIdReply;
     private String noiDung;
-    private Date ngayTraLoi = new Date();
+    private LocalDate ngayTraLoi = LocalDate.now();
     private UserE user;
     private CommentE comment;
 }

@@ -7,6 +7,7 @@ import lombok.Setter;
 import poly.java5divineshop.Divineshop.Data.Entity.RoleE;
 import poly.java5divineshop.Divineshop.Data.Entity.UserE;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class UserDto {
     private String email;
     private String hoVaTen;
     private String soDu;
-    private Date ngayThamGia;
+    private LocalDate ngayThamGia;
     private String anhDaiDien;
     private List<RoleE> roles;
 
@@ -41,7 +42,7 @@ public class UserDto {
 
     public static List<UserE> convertListUserDtoToListUserE(List<UserDto> userDtos) {
         return userDtos.stream()
-                .map(e -> convertUserDtoToUserE(e))
+                .map(UserDto::convertUserDtoToUserE)
                 .collect(Collectors.toList());
     }
 

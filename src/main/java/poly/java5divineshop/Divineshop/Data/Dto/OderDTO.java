@@ -1,17 +1,14 @@
 package poly.java5divineshop.Divineshop.Data.Dto;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
-import lombok.*;
-import org.springframework.validation.annotation.Validated;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import poly.java5divineshop.Divineshop.Data.Entity.OderE;
 import poly.java5divineshop.Divineshop.Data.Entity.ProductE;
 import poly.java5divineshop.Divineshop.Data.Entity.UserE;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +19,7 @@ import java.util.stream.Collectors;
 public class OderDTO {
     private Integer id;
     private String maDonHang;
-    private Date ngayLapDon;
+    private LocalDate ngayLapDon;
     private Boolean trangThaiThanhToan;
     private Double tongTienThanhToan;
     private Double tienThanhToan;

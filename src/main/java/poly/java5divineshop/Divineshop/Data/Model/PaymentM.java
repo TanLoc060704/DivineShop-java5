@@ -1,13 +1,9 @@
 package poly.java5divineshop.Divineshop.Data.Model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
 import lombok.*;
-import poly.java5divineshop.Divineshop.Data.Entity.OderE;
 import poly.java5divineshop.Divineshop.Data.Entity.PaymentE;
 
-import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,20 +14,20 @@ import java.util.stream.Collectors;
 @Builder
 public class PaymentM {
     private Integer id;
-    private Date thoigian;
+    private LocalDate thoigian;
     private String mota;
     private Float sotien;
     private Boolean trangthai;
-    private String tenuser;
+    private String tenUser;
 
     public static PaymentM convertPaymentEToPaymentM(PaymentE paymentE) {
         return PaymentM.builder()
                 .id(paymentE.getId())
-                .thoigian(paymentE.getThoigian())
+                .thoigian(paymentE.getThoiGian())
                 .mota(paymentE.getMota())
-                .sotien(paymentE.getSotien())
-                .trangthai(paymentE.getTrangthai())
-                .tenuser(paymentE.getTenuser())
+                .sotien(paymentE.getSoTien())
+                .trangthai(paymentE.getTrangThai())
+                .tenUser(paymentE.getTenUser())
                 .build();
     }
 
