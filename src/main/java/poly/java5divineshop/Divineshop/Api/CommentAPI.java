@@ -5,13 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import poly.java5divineshop.Divineshop.Data.Dto.CategoryDTO;
 import poly.java5divineshop.Divineshop.Data.Dto.CommentDTO;
-import poly.java5divineshop.Divineshop.Data.Dto.ProductDTO;
-import poly.java5divineshop.Divineshop.Data.Entity.CommentE;
-import poly.java5divineshop.Divineshop.Data.Model.CategoryM;
-import poly.java5divineshop.Divineshop.Data.Model.ProductM;
-import poly.java5divineshop.Divineshop.Repo.CommentRepo;
 import poly.java5divineshop.Divineshop.Service.CommentService;
 
 import java.util.HashMap;
@@ -69,15 +63,16 @@ public class CommentAPI {
                 result.put("data", null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
             }
-        }catch (Exception e){
-            log.error("Call api thất bại!!!",e);
-            result.put("success",false);
-            result.put("message","Call api thất bại");
-            result.put("data",null);
+        } catch (Exception e) {
+            log.error("Call api thất bại!!!", e);
+            result.put("success", false);
+            result.put("message", "Call api thất bại");
+            result.put("data", null);
             return ResponseEntity.internalServerError().body(result);
         }
         return ResponseEntity.ok(result);
     }
+
     @GetMapping("/getCommentByProduct_Slug/{slug}")
     public ResponseEntity<?> getCommentByProduct_Slug(@PathVariable String slug) {
         return ResponseEntity.ok(commentService.getCommentByProduct_Slug(slug));

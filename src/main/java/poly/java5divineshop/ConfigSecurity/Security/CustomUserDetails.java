@@ -1,6 +1,8 @@
 package poly.java5divineshop.ConfigSecurity.Security;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +11,8 @@ import poly.java5divineshop.Divineshop.Data.Entity.AccountE;
 import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
+@Getter
 public class CustomUserDetails implements UserDetails {
 
     private AccountE accountE;

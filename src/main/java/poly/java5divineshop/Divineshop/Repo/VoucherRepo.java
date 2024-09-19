@@ -16,7 +16,7 @@ import java.util.Optional;
 public interface VoucherRepo extends JpaRepository<VoucherE, Integer> {
     Optional<VoucherE> findByCodeVoucher(String codeVoucher);
     @Query("SELECT v FROM VoucherE v WHERE " +
-            "(LOWER(v.VoucherName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR :searchTerm IS NULL) " +
+            "(LOWER(v.voucherName) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR :searchTerm IS NULL) " +
             "AND (:startDate IS NULL OR v.startDate >= :startDate) " +
             "AND (:endDate IS NULL OR v.endDate <= :endDate)")
     Page<VoucherE> findAllByFilter(@Param("searchTerm") String searchTerm,

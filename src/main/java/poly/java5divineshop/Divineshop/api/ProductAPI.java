@@ -1,11 +1,8 @@
 package poly.java5divineshop.Divineshop.Api;
 
-import jakarta.servlet.annotation.MultipartConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +12,10 @@ import poly.java5divineshop.Divineshop.Data.Model.ProductM;
 import poly.java5divineshop.Divineshop.Service.ImageService;
 import poly.java5divineshop.Divineshop.Service.ProductService;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/products")
@@ -44,7 +44,7 @@ public class ProductAPI {
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String searchTerm,
             @RequestParam(required = false) String category) {
-        Page<ProductM> products = productService.getAllProductsByPage(searchTerm, category,page, size);
+        Page<ProductM> products = productService.getAllProductsByPage(searchTerm, category, page, size);
         return ResponseEntity.ok(products);
     }
 
@@ -63,11 +63,11 @@ public class ProductAPI {
                 result.put("data", null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
             }
-        }catch (Exception e){
-            log.error("Call api thất bại!!!",e);
-            result.put("success",false);
-            result.put("message","Call api thất bại");
-            result.put("data",null);
+        } catch (Exception e) {
+            log.error("Call api thất bại!!!", e);
+            result.put("success", false);
+            result.put("message", "Call api thất bại");
+            result.put("data", null);
             return ResponseEntity.internalServerError().body(result);
         }
         return ResponseEntity.ok(result);
@@ -114,11 +114,11 @@ public class ProductAPI {
                 result.put("data", null);
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(result);
             }
-        }catch (Exception e){
-            log.error("Call api thất bại!!!",e);
-            result.put("success",false);
-            result.put("message","Call api thất bại");
-            result.put("data",null);
+        } catch (Exception e) {
+            log.error("Call api thất bại!!!", e);
+            result.put("success", false);
+            result.put("message", "Call api thất bại");
+            result.put("data", null);
             return ResponseEntity.internalServerError().body(result);
         }
         return ResponseEntity.ok(result);
@@ -153,7 +153,7 @@ public class ProductAPI {
             List<ProductM> list = productService.getTop8ByCustomOrder();
             result.put("status", true);
             result.put("message", "Call Api Successfully");
-            result.put("data", list );
+            result.put("data", list);
         } catch (Exception e) {
             e.printStackTrace();
             result.put("status", false);
@@ -170,7 +170,7 @@ public class ProductAPI {
             List<ProductM> list = productService.getTop8ByOrderBySoLuongMuaDesc();
             result.put("status", true);
             result.put("message", "Call Api Successfully");
-            result.put("data", list );
+            result.put("data", list);
         } catch (Exception e) {
             e.printStackTrace();
             result.put("status", false);
@@ -187,7 +187,7 @@ public class ProductAPI {
             List<ProductM> list = productService.getTop8ByOrderByPercentGiamGiaDesc();
             result.put("status", true);
             result.put("message", "Call Api Successfully");
-            result.put("data", list );
+            result.put("data", list);
         } catch (Exception e) {
             e.printStackTrace();
             result.put("status", false);

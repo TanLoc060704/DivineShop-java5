@@ -51,11 +51,11 @@ public class Paymentservice {
         repo.UpdatePaymentByuser(true,name);
     }
 
-    public PaymentE findByTenuser (String tenuser){
-        return repo.findByTenuser(tenuser);
+    public PaymentE findByTenUser (String tenUser){
+        return repo.findByTenUser(tenUser);
     }
 
-    public List<PaymentE> findAllByTenuser (String tenuser){
-        return repo.findAllByTenuser(tenuser);
+    public List<PaymentE> findAllByTenUser (String tenUser){
+        return repo.findAllByTenUser(tenUser);
     }
 }

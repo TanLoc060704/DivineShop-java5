@@ -1,4 +1,4 @@
-package poly.java5divineshop.Divineshop.api;
+package poly.java5divineshop.Divineshop.Api;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -6,21 +6,20 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import poly.java5divineshop.Divineshop.Data.Dto.PaymentDTO;
 import poly.java5divineshop.Divineshop.Data.Entity.PaymentE;
 import poly.java5divineshop.Divineshop.Data.Model.PaymentM;
 import poly.java5divineshop.Divineshop.Service.ServiceImpl.Paymentservice;
 import poly.java5divineshop.Divineshop.Service.UserService;
-import poly.java5divineshop.Divineshop.Utils.ResponseObject;
 
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLDecoder;
-import java.sql.Date;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -43,7 +42,7 @@ public class PaymentAPi {
     @GetMapping("/vn-pay")
     public String pay(HttpServletRequest request, @RequestParam String name) {
         String url = paymentservice.createVnPayPayment(request, name).paymentUrl;
-        try{
+        try {
             URL urlquery = new URL(url);
             String query = urlquery.getQuery();
             Map<String, String> parameters = getQueryParameters(query);
@@ -53,19 +52,19 @@ public class PaymentAPi {
             String vnp_OrderInfo = parameters.get("vnp_OrderInfo"); //người lập hóa đơn
             int viTriDauGach = vnp_OrderInfo.indexOf("-"); //người lập hóa đơn
 
-            String vnp_CreateDate = parameters.get("vnp_CreateDate").substring(0,8); // ngày lập hóa đơn
+            String vnp_CreateDate = parameters.get("vnp_CreateDate").substring(0, 8); // ngày lập hóa đơn
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
             LocalDate date = LocalDate.parse(vnp_CreateDate, formatter);
 
             PaymentE payment = new PaymentE();
             payment.setMota(vnp_TxnRef);
-            payment.setThoigian(Date.valueOf(date));
-            payment.setSotien(Float.valueOf(vnpAmount)/100);
-            payment.setTenuser(vnp_OrderInfo.substring(viTriDauGach + 1));
-            payment.setTrangthai(false);
+            payment.setThoiGian(date);
+            payment.setSoTien(Float.valueOf(vnpAmount) / 100);
+            payment.setTenUser(vnp_OrderInfo.substring(viTriDauGach + 1));
+            payment.setTrangThai(false);
 
             paymentservice.save(payment);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return url;
@@ -100,7 +99,7 @@ public class PaymentAPi {
         int viTriDauGach = vnp_OrderInfo.indexOf("-"); //người lập hóa đơn
         String name = vnp_OrderInfo.substring(viTriDauGach + 1);
         String tien = request.getParameter("vnp_Amount"); // tiền
-        Double tienvalue = Double.valueOf(tien)/100;
+        Double tienvalue = Double.valueOf(tien) / 100;
 
         String maDonHang = request.getParameter("vnp_TxnRef");
 
@@ -110,7 +109,7 @@ public class PaymentAPi {
             Double tienhienco = Double.valueOf(userService.getUserByTenDangNhap(name).getSoDu());
             tienhienco += tienvalue;
 
-            userService.updateUserByTenDangNhap(tienhienco+"",name);
+            userService.updateUserByTenDangNhap(tienhienco + "", name);
             // Thay đổi giá trị của flag thành true
             session.setAttribute("flag", true);
             redirectAttributes.addAttribute("flag", false);
@@ -124,21 +123,21 @@ public class PaymentAPi {
     }
 
     @GetMapping("/lichSuDonHangAll")
-    public ResponseEntity<?> getAllLichSuByUser(@RequestParam String user){
+    public ResponseEntity<?> getAllLichSuByUser(@RequestParam String user) {
         Map<String, Object> result = new HashMap<>();
-        try{
-            List<PaymentM> paymentM = PaymentM.convertListPaymentEToListPaymentM(paymentservice.findAllByTenuser(user));
+        try {
+            List<PaymentM> paymentM = PaymentM.convertListPaymentEToListPaymentM(paymentservice.findAllByTenUser(user));
 
-            if (paymentM.isEmpty()){
+            if (paymentM.isEmpty()) {
                 result.put("success", true);
                 result.put("message", "Gọi danh sách thành công");
                 result.put("data", null);
-            }else {
+            } else {
                 result.put("success", true);
                 result.put("message", "Gọi danh sách thành công");
                 result.put("data", paymentM);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Thêm sản phẩm thất bại!!!", e);
             result.put("success", false);
             result.put("message", "Gọi danh sách thất bại!");

@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import poly.java5divineshop.Divineshop.Data.Dto.UserDto;
-import poly.java5divineshop.Divineshop.Data.Entity.RoleE;
 import poly.java5divineshop.Divineshop.Data.Model.UserM;
 import poly.java5divineshop.Divineshop.Service.UserService;
 
@@ -114,6 +113,7 @@ public class UserDivinesShopApi {
         }
         return ResponseEntity.ok(result);
     }
+
     @GetMapping("/getUserByUsername")
     public ResponseEntity<?> getUserByUsername(@RequestParam String username) {
         Map<String, Object> result = new HashMap<>();

@@ -55,8 +55,8 @@ public class CategoryAPI {
         Map<String, Object> result = new HashMap<>();
         try {
             String tenTheLoai = categoryDTO.getTenTheLoai();
-            var checkTenTheLoai  = categoryService.getCategoryByTenTheLoai(tenTheLoai);
-            if(!checkTenTheLoai.isEmpty()){
+            var checkTenTheLoai = categoryService.getCategoryByTenTheLoai(tenTheLoai);
+            if (!checkTenTheLoai.isEmpty()) {
                 result.put("success", true);
                 result.put("message", "Tên thể loại đã tồn tại");
                 result.put("data", false);
@@ -81,8 +81,8 @@ public class CategoryAPI {
         Map<String, Object> result = new HashMap<>();
         try {
             String tenTheLoai = categoryDTO.getTenTheLoai();
-            var checkTenTheLoai  = categoryService.getCategoryByTenTheLoai(tenTheLoai);
-            if(!checkTenTheLoai.isEmpty()){
+            var checkTenTheLoai = categoryService.getCategoryByTenTheLoai(tenTheLoai);
+            if (!checkTenTheLoai.isEmpty()) {
                 result.put("success", true);
                 result.put("message", "Tên thể loại đã tồn tại");
                 result.put("data", false);

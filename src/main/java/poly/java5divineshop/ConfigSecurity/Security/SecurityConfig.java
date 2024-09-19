@@ -4,7 +4,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -12,21 +12,40 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import poly.java5divineshop.ConfigSecurity.Security.jwt.JwtRequestFilter;
 
 import java.io.IOException;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
-
-    @Autowired
-    CustomUserDetailsService customUserDetailsService;
+    private final CustomUserDetailsService customUserDetailsService;
+    private final JwtRequestFilter jwtRequestFilter;
+    private final String[] allowedOrigins = {
+            "http://127.0.0.1:5500",
+            "http://localhost:3000",
+            "http://103.15.222.65"
+    };
+    public final static String[] nonAuthenticatedUrls = {
+            "/api/auth/login",
+            "/api/public/**",
+            "/api/files/images/*",
+            "/api/files/images/*/v2",
+            "/api/bac-hoc/*/image"
+    };
 
     /**
      * <h1>
@@ -34,44 +53,64 @@ public class SecurityConfig {
      * </h1>
      */
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws  Exception{
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
-            .authorizeHttpRequests(configurer -> configurer
-                .requestMatchers("/").permitAll()
-                .requestMatchers("/cart","/user-info","/order-history","/transaction","/security","/favorite","/add-funds").authenticated()
-                .requestMatchers("/userinfo").hasRole("EMPLOYEE")
-                .requestMatchers("/leaders").hasRole("MANAGER")
-                .requestMatchers("/admin/**").hasRole("ADMIN")
-//                .anyRequest().authenticated()
-                .anyRequest().permitAll()
-            )
-            .formLogin(form ->
-                form
-                    .loginPage("/log-in")
-                    .loginProcessingUrl("/authenticateTheUser")
-                    .usernameParameter("username")
-                    .passwordParameter("password")
-//                    .defaultSuccessUrl("/",true)
-                    .successHandler(authenticationSuccessHandler())
-                    .permitAll()
-            )
-            .logout(logout -> logout.permitAll()
-            )
-            .exceptionHandling(configurer ->
-                    configurer.accessDeniedPage("/access-denied")
-            );
+                .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors
+                        .configurationSource(corsConfigurationSource()))
+                .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests(configurer -> configurer
+                                .requestMatchers(nonAuthenticatedUrls).permitAll()
+                                .requestMatchers("/cart", "/user-info", "/order-history", "/transaction", "/security", "/favorite", "/add-funds").authenticated()
+                                .requestMatchers("/userinfo").hasRole("EMPLOYEE")
+                                .requestMatchers("/leaders").hasRole("MANAGER")
+                                .requestMatchers("/admin/**").hasRole("ADMIN")
+                                .anyRequest().authenticated()
+                        //                        .anyRequest().permitAll()
+                )
+//                .formLogin(form ->
+//                                form
+//                                        .loginPage("/log-in")
+//                                        .loginProcessingUrl("/authenticateTheUser")
+//                                        .usernameParameter("username")
+//                                        .passwordParameter("password")
+////                    .defaultSuccessUrl("/",true)
+//                                        .successHandler(authenticationSuccessHandler())
+//                                        .permitAll()
+//                )
+//                .logout(logout -> logout.permitAll()
+//                )
+//                .exceptionHandling(configurer ->
+//                        configurer.accessDeniedPage("/access-denied")
+//                )
+        ;
 
         return http.build();
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(List.of("*"));
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
+    }
+
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         var builder = http.getSharedObject(AuthenticationManagerBuilder.class);
         builder
-            .userDetailsService(customUserDetailsService)
-            .passwordEncoder(passwordEncoder());
+                .userDetailsService(customUserDetailsService)
+                .passwordEncoder(passwordEncoder());
         return builder.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

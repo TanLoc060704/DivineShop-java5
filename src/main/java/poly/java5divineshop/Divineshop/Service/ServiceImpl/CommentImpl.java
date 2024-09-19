@@ -58,11 +58,11 @@ public class CommentImpl implements CommentService {
             Optional<ReplyDTO> tempReply = replyService.getReplyById(replyE.getSysIdReply());
 
             if (tempReply.isPresent()) {
-                commentE.addReplyList(ReplyM.convertReplyDTOToReplyE(tempReply.get()));
+                commentE.addReply(ReplyM.convertReplyDTOToReplyE(tempReply.get()));
             }else {
                 ReplyE tempE = new ReplyE(replyE.getNoiDung(), replyE.getNgayTraLoi(), replyE.getUser(), tempCME.get());
                 ReplyE tempRep = ReplyM.convertReplyDTOToReplyE(replyService.createReply(ReplyM.convertReplyEToReplyDTO(tempE)));
-                commentE.addReplyList(tempRep);
+                commentE.addReply(tempRep);
             }
         }
         return commentRepo.findById(id)

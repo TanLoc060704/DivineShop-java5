@@ -8,6 +8,7 @@ import poly.java5divineshop.Divineshop.Data.Model.VoucherUsedM;
 import poly.java5divineshop.Divineshop.Repo.VoucherUsedRepo;
 import poly.java5divineshop.Divineshop.Service.VoucherUsedService;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Optional;
 
@@ -26,7 +27,7 @@ public class VoucherUsedImpl implements VoucherUsedService {
     @Override
     public VoucherUsedDTO createVoucherUsed(VoucherUsedDTO voucherUsedDTO) {
         VoucherUsedE voucherUsedE = VoucherUsedM.convertVoucherUsedDTOToVoucherUsedE(voucherUsedDTO);
-        voucherUsedE.setNgaySuDung(new Date());
+        voucherUsedE.setNgaySuDung(LocalDate.now());
         VoucherUsedE savedVoucherUsedE = voucherUsedRepository.save(voucherUsedE);
         return VoucherUsedM.convertVoucherUsedEToVoucherUsedDTO(savedVoucherUsedE);
     }

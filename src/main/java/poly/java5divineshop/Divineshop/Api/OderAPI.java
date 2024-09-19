@@ -1,20 +1,13 @@
-package poly.java5divineshop.Divineshop.api;
+package poly.java5divineshop.Divineshop.Api;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import poly.java5divineshop.Divineshop.Data.Dto.OderDTO;
-import poly.java5divineshop.Divineshop.Data.Dto.ProductDTO;
-import poly.java5divineshop.Divineshop.Data.Dto.UserDto;
 import poly.java5divineshop.Divineshop.Data.Entity.OderE;
-import poly.java5divineshop.Divineshop.Data.Entity.ProductE;
 import poly.java5divineshop.Divineshop.Data.Entity.UserE;
-import poly.java5divineshop.Divineshop.Data.Model.CategoryM;
 import poly.java5divineshop.Divineshop.Data.Model.OderM;
-import poly.java5divineshop.Divineshop.Data.Model.ProductM;
-import poly.java5divineshop.Divineshop.Data.Model.UserM;
 import poly.java5divineshop.Divineshop.Service.OderService;
 import poly.java5divineshop.Divineshop.Service.UserService;
 
@@ -22,7 +15,6 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/oder")
@@ -37,7 +29,7 @@ public class OderAPI {
 
     //lấy full thông tin ở bảng order
     @GetMapping
-    public ResponseEntity<?> findAllOder(){
+    public ResponseEntity<?> findAllOder() {
         Map<String, Object> result = new HashMap<>();
         try {
             List<OderM> list = oderService.findAll();
@@ -55,13 +47,13 @@ public class OderAPI {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveOder(@RequestBody OderDTO oderDTO){
+    public ResponseEntity<?> saveOder(@RequestBody OderDTO oderDTO) {
         Map<String, Object> result = new HashMap<>();
-        try{
+        try {
             result.put("success", true);
             result.put("message", "Lưu order thành công");
             result.put("data", oderDTO);
-            for(int i  = 0; i < oderDTO.getListProduct().size() ; i++){
+            for (int i = 0; i < oderDTO.getListProduct().size(); i++) {
 //                System.out.println("id-product "+ oderDTO.getListProduct().get(i).getId());
                 oderDTO.setProductE(oderDTO.getListProduct().get(i));//set từng idproduct vào order
                 oderDTO.setUserE(userService.findBytenDangNhap(oderDTO.getUserE().getTenDangNhap())); //lấy tên user để tìm id user đó
@@ -71,7 +63,7 @@ public class OderAPI {
                 //lưu vào database
                 oderService.save(oderE);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Lỗi khi save order", e);
             result.put("success", false);
             result.put("message", "lưu order thất bại");
@@ -84,20 +76,20 @@ public class OderAPI {
     @GetMapping("/getOderByUser")
     public ResponseEntity<?> getOderByUser(@RequestParam String name) throws SQLException {
         Map<String, Object> result = new HashMap<>();
-        try{
+        try {
             UserE userE = userService.findBytenDangNhap(name);
             List<OderM> list = oderService.findAllByiduserE(userE);
 
-            if(list.isEmpty()){
+            if (list.isEmpty()) {
                 result.put("success", true);
                 result.put("message", "Lấy danh sách thành công!");
                 result.put("data", null);
-            }else {
+            } else {
                 result.put("success", true);
                 result.put("message", "Lấy danh sách thành công!");
                 result.put("data", list);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Lỗi khi save order", e);
             result.put("success", false);
             result.put("message", "Lấy danh sách thất bại!");
@@ -107,20 +99,20 @@ public class OderAPI {
     }
 
     @GetMapping("/getOderByMaDonHang")
-    public ResponseEntity<?> getOderByMaDonHang(@RequestParam String madonhang){
+    public ResponseEntity<?> getOderByMaDonHang(@RequestParam String madonhang) {
         Map<String, Object> result = new HashMap<>();
-        try{
+        try {
             List<OderM> list = oderService.findAllByMaDonHang(madonhang);
-            if(list.isEmpty()){
+            if (list.isEmpty()) {
                 result.put("success", true);
                 result.put("message", "Lấy danh sách thành công!");
                 result.put("data", null);
-            }else {
+            } else {
                 result.put("success", true);
                 result.put("message", "Lấy danh sách thành công!");
                 result.put("data", list);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             log.error("Lỗi khi save order", e);
             result.put("success", false);
             result.put("message", "Lấy danh sách thất bại!");

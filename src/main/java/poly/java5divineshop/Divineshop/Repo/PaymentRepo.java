@@ -12,9 +12,9 @@ import java.util.List;
 
 @Repository
 public interface PaymentRepo extends JpaRepository<PaymentE, Integer> {
-    PaymentE findByTenuser(String tenuser);
+    PaymentE findByTenUser(String tenUser);
 
-    List<PaymentE> findAllByTenuser(String tenuser);
+    List<PaymentE> findAllByTenUser(String tenUser);
 
     PaymentE save(PaymentE paymentE);
 

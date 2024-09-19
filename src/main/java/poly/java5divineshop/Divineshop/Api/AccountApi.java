@@ -1,22 +1,16 @@
 package poly.java5divineshop.Divineshop.Api;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import jakarta.servlet.http.HttpSession;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import jakarta.servlet.http.HttpSession;
-import lombok.extern.slf4j.Slf4j;
-import poly.java5divineshop.Divineshop.Utils.OTPUtil;
 import poly.java5divineshop.Divineshop.Data.Dto.AccountDTO;
 import poly.java5divineshop.Divineshop.Service.AccountService;
-import poly.java5divineshop.Divineshop.Service.UserService;
+import poly.java5divineshop.Divineshop.Utils.OTPUtil;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @Slf4j
@@ -76,7 +70,7 @@ public class AccountApi {
             httpSession.setAttribute("otp", Otp);
             httpSession.setAttribute("otpTime", System.currentTimeMillis());
             httpSession.setAttribute("account", accountDTO);
-            accountService.sendMailForUser(accountDTO.getEmail(), Otp,"Mã OTP cho đăng ký tài khoản");
+            accountService.sendMailForUser(accountDTO.getEmail(), Otp, "Mã OTP cho đăng ký tài khoản");
             result.put("status", true);
             result.put("message", "Call Api Successfully");
         } catch (Exception e) {
@@ -125,7 +119,7 @@ public class AccountApi {
             httpSession.setAttribute("otp", Otp);
             httpSession.setAttribute("otpTime", System.currentTimeMillis());
             AccountDTO accountDTO = (AccountDTO) httpSession.getAttribute("account");
-            accountService.sendMailForUser(accountDTO.getEmail(), Otp,"Mã OTP cho đăng ký tài khoản");
+            accountService.sendMailForUser(accountDTO.getEmail(), Otp, "Mã OTP cho đăng ký tài khoản");
             result.put("status", true);
             result.put("message", "Call Api Successfully");
         } catch (Exception e) {
@@ -148,7 +142,7 @@ public class AccountApi {
             httpSession.setAttribute("otpForgotPW", Otp);
             httpSession.setAttribute("otpTimeForgotPW", System.currentTimeMillis());
             httpSession.setAttribute("accountForgotPW", accountDTO);
-            accountService.sendMailForUser(accountDTO.getEmail(), Otp,"Mã OTP cho thay đổi mật khẩu");
+            accountService.sendMailForUser(accountDTO.getEmail(), Otp, "Mã OTP cho thay đổi mật khẩu");
             result.put("status", true);
             result.put("message", "Call Api Successfully");
         } catch (Exception e) {
@@ -193,7 +187,7 @@ public class AccountApi {
             httpSession.setAttribute("otpForgotPW", Otp);
             httpSession.setAttribute("otpTimeForgotPW", System.currentTimeMillis());
             AccountDTO accountDTO = (AccountDTO) httpSession.getAttribute("accountForgotPW");
-            accountService.sendMailForUser(accountDTO.getEmail(), Otp,"Mã OTP cho thay đổi mật khẩu");
+            accountService.sendMailForUser(accountDTO.getEmail(), Otp, "Mã OTP cho thay đổi mật khẩu");
             result.put("status", true);
             result.put("message", "Call Api Successfully");
         } catch (Exception e) {
