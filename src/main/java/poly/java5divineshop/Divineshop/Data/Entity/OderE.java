@@ -1,34 +1,29 @@
 package poly.java5divineshop.Divineshop.Data.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-import java.sql.Date;
-import java.util.List;
+import java.time.LocalDate;
 
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "[Order]")
+@Table(name = "order")
 public class OderE {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Sys_id_cart_payment")
     private Integer id;
 
-    @Column(name = "ma_don_hang")
+    @Column(name = "ma_don_hang", length = 255, nullable = false, unique = true)
     private String maDonHang;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "ngay_lap_don")
-    private Date ngayLapDon;
+    private LocalDate ngayLapDon;
 
     @Column(name = "trang_thai_thanh_toan")
     private Boolean trangThaiThanhToan;
@@ -42,11 +37,12 @@ public class OderE {
     @Column(name = "so_luong_mua")
     private Integer soLuongMua;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "Sys_id_product", referencedColumnName = "Sys_id_product")
     private ProductE productE;
 
-    @ManyToOne
-    @JoinColumn(name = "Sys_id_user", referencedColumnName = "Sys_id_user")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Sys_id_user", referencedColumnName = "sys_id_user")
     private UserE userE;
+
 }

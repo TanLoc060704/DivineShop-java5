@@ -12,6 +12,7 @@ import lombok.*;
 @Entity
 @Table(name = "roles")
 public class RoleE {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_role")
@@ -27,13 +28,12 @@ public class RoleE {
     @JsonIgnore
     private UserE user;
 
-    @Column(name = "username", insertable = false, updatable = false, nullable = false)
+    @Column(name = "username", insertable = false, updatable = false, nullable = false, length = 50)
     private String username;
 
-    @Column(name = "username_user", insertable = false, updatable = false, nullable = false)
+    @Column(name = "username_user", insertable = false, updatable = false, nullable = false, length = 50)
     private String usernameUser;
 
-    @Column(name = "role", nullable = false)
+    @Column(name = "role", nullable = false, length = 50)
     private String role;
-
 }

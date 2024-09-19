@@ -8,39 +8,45 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "Category")
+@Table(name = "category")
 public class CategoryE {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Sys_id_category")
     private int id;
 
-    @Column(name = "ten_the_loai", columnDefinition = "nvarchar(max)")
+    @Column(name = "ten_the_loai", length = 255)  // Adjust length based on your schema
     private String tenTheLoai;
 
-//    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.LAZY)
-//    @JoinTable(name = "CategoryDetail",
-//            joinColumns = @JoinColumn(name = "Sys_id_category"),
-//            inverseJoinColumns = @JoinColumn(name = "Sys_id_product"))
-//    private List<ProductE> products;
-//
-//
-//    public void addProductList(ProductE productE) {
-//        if (products == null) {
-//            products = new ArrayList<>();
-//        }
-//        products.add(productE);
-//    }
-
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH}, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "category_detail",
+            joinColumns = @JoinColumn(name = "Sys_id_category"),
+            inverseJoinColumns = @JoinColumn(name = "Sys_id_product")
+    )
+    private List<ProductE> products = new ArrayList<>();
 
     public CategoryE(String tenTheLoai) {
         this.tenTheLoai = tenTheLoai;
+    }
+
+    public void addProduct(ProductE productE) {
+        if (products == null) {
+            products = new ArrayList<>();
+        }
+        products.add(productE);
+    }
+
+    public void removeProduct(ProductE productE) {
+        if (products != null) {
+            products.remove(productE);
+        }
     }
 }

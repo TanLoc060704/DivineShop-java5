@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -12,7 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "Voucher")
+@Table(name = "voucher")
 public class VoucherE {
 
     @Id
@@ -20,14 +19,14 @@ public class VoucherE {
     @Column(name = "Sys_id_Voucher")
     private Integer sysIdVoucher;
 
-    @Column(name = "code_Voucher", unique = true, nullable = false)
+    @Column(name = "code_Voucher", unique = true, nullable = false, length = 8)
     private String codeVoucher;
 
-    @Column(name = "ten_giam_gia", columnDefinition = "nvarchar(255)")
-    private String VoucherName;
+    @Column(name = "ten_giam_gia", length = 255)
+    private String voucherName;
 
     @Column(name = "percent_giam_gia")
-    private Float VoucherPercentage;
+    private Float voucherPercentage;
 
     @Column(name = "ngay_bat_dau")
     private LocalDate startDate;
@@ -35,6 +34,6 @@ public class VoucherE {
     @Column(name = "ngay_ket_thuc")
     private LocalDate endDate;
 
-    @Column(name = "mota", columnDefinition = "nvarchar(255)")
+    @Column(name = "mota", length = 255)
     private String description;
 }

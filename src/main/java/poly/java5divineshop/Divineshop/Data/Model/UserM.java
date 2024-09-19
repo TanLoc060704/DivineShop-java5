@@ -6,6 +6,7 @@ import poly.java5divineshop.Divineshop.Data.Entity.AccountE;
 import poly.java5divineshop.Divineshop.Data.Entity.RoleE;
 import poly.java5divineshop.Divineshop.Data.Entity.UserE;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class UserM {
     private String email;
     private String hoVaTen;
     private String soDu;
-    private Date ngayThamGia;
+    private LocalDate ngayThamGia;
     private String anhDaiDien;
     private List<RoleE> roles;
 
@@ -41,7 +42,7 @@ public class UserM {
 
     public static List<UserM> convertListUserEToListUserM(List<UserE> userEList) {
         return userEList.stream()
-                .map(e -> convertUserEToUserM(e))
+                .map(UserM::convertUserEToUserM)
                 .collect(Collectors.toList());
     }
 }

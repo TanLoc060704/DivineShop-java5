@@ -6,33 +6,33 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "[Payment]")
+@Table(name = "payment")
 public class PaymentE {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Sys_id_payment")
     private Integer id;
 
     @Column(name = "thoi_gian")
-    @Temporal(TemporalType.DATE)
-    private Date thoigian;
+    private LocalDate thoiGian;
 
-    @Column(name = "mota")
+    @Column(name = "mota", columnDefinition = "nvarchar(255)")
     private String mota;
 
     @Column(name = "sotien")
-    private Float sotien;
+    private Float soTien;
 
     @Column(name = "trangthai")
-    private Boolean trangthai;
+    private Boolean trangThai;
 
     @Column(name = "tenuser", nullable = false)
-    private String tenuser;
+    private String tenUser;
 }

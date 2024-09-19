@@ -1,11 +1,10 @@
 package poly.java5divineshop.Divineshop.Data.Entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -14,19 +13,19 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "[Comment]")
+@Table(name = "comment")
 public class CommentE {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Sys_id_comment")
-    private int sysIdComment;
+    private Integer sysIdComment;
 
     @Column(name = "noi_dung", columnDefinition = "nvarchar(255)", nullable = false)
     private String noiDung;
 
-
     @Column(name = "ngay_binh_luan", nullable = false)
-    private Date ngayBinhLuan = new Date();
+    private LocalDate ngayBinhLuan = LocalDate.now();
 
     @ManyToOne
     @JoinColumn(name = "Sys_id_user", nullable = false)
@@ -36,13 +35,11 @@ public class CommentE {
     @JoinColumn(name = "Sys_id_product", nullable = false)
     private ProductE product;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
-    private List<ReplyE> replies;
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<ReplyE> replies = new ArrayList<>();
 
-    public void addReplyList(ReplyE replyE) {
-        if (replies == null) {
-            replies = new ArrayList<>();
-        }
+    public void addReply(ReplyE replyE) {
         replies.add(replyE);
+        replyE.setComment(this); // Set the back-reference in the ReplyE entity
     }
 }
