@@ -1,5 +1,6 @@
 package poly.java5divineshop.ConfigSecurity.Security;
 
+import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -7,10 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import poly.java5divineshop.Divineshop.Service.AccountService;
 import poly.java5divineshop.Divineshop.Data.Entity.AccountE;
 import poly.java5divineshop.Divineshop.Data.Entity.RoleE;
-
+import poly.java5divineshop.Divineshop.Service.AccountService;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -35,5 +35,13 @@ public class CustomUserDetailsService implements UserDetailsService {
             getAuthoritySet.add(new SimpleGrantedAuthority(role.getRole()));
         }
         return new CustomUserDetails(accountE, getAuthoritySet);
+    }
+
+    public CustomUserDetails jwtToCustomUserDetails(DecodedJWT decodedJWT) {
+        return CustomUserDetails.builder()
+                .accountE(accountService.findByUsernameSecurity(decodedJWT.getSubject()))
+//                        .findByUsernameAndSessionIdAndIsActiveTrue(decodedJWT.getSubject(), decodedJWT.getClaim("session_id").asString())
+//                        .orElse(null))
+                .build();
     }
 }
